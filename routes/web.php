@@ -26,8 +26,9 @@ Route::get('/pembinaEkskul', function () {
 
 // end Dashboard Master
 
-
-
+Route::get('/detailEkskul', function () {
+    return view('detailEkskul');
+});
 
 Route::get('/dataPembina', function () {
     return view('dataPembina');
