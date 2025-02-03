@@ -13,9 +13,21 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+// Dashboard Master
 Route::get('/', function () {
-    return view('masterDashboard');
+    return view('master/masterDashboard');
 });
+Route::get('/daftarEkskul', function () {
+    return view('master/daftarEkskul');
+});
+Route::get('/pembinaEkskul', function () {
+    return view('master/pembinaEkskul');
+});
+
+// end Dashboard Master
+
+
+
 
 Route::get('/dataPembina', function () {
     return view('dataPembina');
