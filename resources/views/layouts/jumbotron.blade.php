@@ -15,5 +15,39 @@
             </a>
         </div>
     </div>
-    <div class="bg-gradient-to-b from-blue-50 to-transparent dark:from-blue-900 absolute inset-0"></div>
+    <div class="bg-gradient-to-b from-blue-50 to-transparent dark:from-blue-900 absolute inset-0">
+    </div>
 </section>
+<div class="w-full flex justify-center gap-6 mt-6 text-white">
+    <div class=" rounded-xl shadow-xl min-h-[13rem] max-h-[13rem] min-w-[13rem] max-w-[13rem] dark:bg-red   -900/80 flex justify-center items-center">
+        <a class="flex flex-col" href="">
+            <i class="fa-solid fa-newspaper min-h-10 min-w-10"></i>
+            <h1 class="text-3xl">Kejuaraan</h1>
+
+        </a>
+
+    </div>
+    <div class=" rounded-xl shadow-xl min-h-[13rem] max-h-[13rem] min-w-[13rem] max-w-[13rem] dark:bg-blue-900/80 flex justify-center items-center">
+        <a class="flex flex-col" href="">
+
+            <h1 class="text-3xl">Berita</h1>
+
+        </a>
+    </div>
+    <div class=" rounded-xl shadow-xl min-h-[13rem] max-h-[13rem] min-w-[13rem] max-w-[13rem] dark:bg-blue-900/80 flex justify-center items-center">
+        <a href="">
+            <h1 class="text-3xl">Agenda</h1>
+
+        </a>
+    </div>
+    <div class=" rounded-xl shadow-xl min-h-[13rem] max-h-[13rem] min-w-[13rem] max-w-[13rem] dark:bg-blue-900/80 flex justify-center items-center">
+        <a href="">
+            <h1 class="text-3xl">Ekstrakurikuler</h1>
+
+        </a>
+    </div>
+</div>
+
+<div class="mb-96">
+
+</div>
