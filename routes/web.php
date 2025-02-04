@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\authController;
+use App\Http\Controllers\masterController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -13,17 +15,19 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+// Auth Route
+Route::get('/login', [authController::class, 'index'])->name('login');
+Route::post('/loginn', [authController::class, 'login']);
+//logout
+Route::get('/logout', [authController::class, 'logout']);
+// end Auth Route
+
 // Dashboard Master
-Route::get('/', function () {
-    return view('master/masterDashboard');
-});
+Route::get('/masterDashboard', [masterController::class, 'index']);
+Route::get('/masterDataPembina', [masterController::class, 'dataPembina']);
 Route::get('/daftarEkskul', function () {
     return view('master/daftarEkskul');
 });
-Route::get('/pembinaEkskul', function () {
-    return view('master/pembinaEkskul');
-});
-
 // end Dashboard Master
 
 // Dashboard Users
@@ -40,11 +44,9 @@ Route::get('/tentangWebsite', function () {
 })->name('tentangWebsite');
 
 // end Dashboard Users
-
 Route::get('/dataPembina', function () {
     return view('dataPembina');
 });
-
 Route::get('/dataEkskul', function () {
     return view('dataEkskul');
 });
