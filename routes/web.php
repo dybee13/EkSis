@@ -35,6 +35,10 @@ Route::get('/daftarEkskul', function () {
     return view('users/daftarEkskul');
 })->name('daftarEkskul');
 
+Route::get('/tentangWebsite', function () {
+    return view('users/tentangWebsite');
+})->name('tentangWebsite');
+
 // end Dashboard Users
 
 Route::get('/dataPembina', function () {

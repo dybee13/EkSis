@@ -7,11 +7,11 @@
             Sistem Pencatatan Eskul Siswa Digital
         </p>
         <div class="flex flex-col sm:flex-row justify-center gap-4">
-            <a href="#" class="inline-flex justify-center items-center py-3 px-6 text-base font-medium text-white rounded-lg bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 dark:focus:ring-blue-900">
+            <a href="/daftarEkskul" class="inline-flex justify-center items-center py-3 px-6 text-base font-medium text-white rounded-lg bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 dark:focus:ring-blue-900">
                 Daftar Ekstrakurikuler
             </a>
-            <a href="#" class="inline-flex justify-center items-center py-3 px-6 text-base font-medium text-white rounded-lg bg-gray-700 hover:bg-gray-500 focus:ring-4 focus:ring-gray-300 dark:focus:ring-gray-900">
-                Tentang Aplikasi
+            <a href="/tentangWebsite" class="inline-flex justify-center items-center py-3 px-6 text-base font-medium text-white rounded-lg bg-gray-700 hover:bg-gray-500 focus:ring-4 focus:ring-gray-300 dark:focus:ring-gray-900">
+                Tentang Website
             </a>
         </div>
     </div>
