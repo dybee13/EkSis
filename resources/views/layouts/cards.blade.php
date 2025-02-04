@@ -39,5 +39,3 @@
         </div>
     </a>
 </div>
-
-<div class="mb-[50rem]"></div>
