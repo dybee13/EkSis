@@ -25,8 +25,8 @@ Route::get('/logout', [authController::class, 'logout']);
 // Dashboard Master
 Route::get('/masterDashboard', [masterController::class, 'index']);
 Route::get('/masterDataPembina', [masterController::class, 'dataPembina']);
-Route::get('/daftarEkskul', function () {
-    return view('master/daftarEkskul');
+Route::get('/listEkskul', function () {
+    return view('master/listEkskul');
 });
 // end Dashboard Master
 
