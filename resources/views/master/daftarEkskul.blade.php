@@ -11,7 +11,7 @@
                     <option value="all">Semua</option>
                     <option value="Basket">Basket</option>
                     <option value="Futsal">Futsal</option>
-                    <option value="Rohis">Rohis</option>
+                    <option value="Nemo">Nemo</option>
                 </select>
             </div>
             <button id="btnTambahEskul" class="px-4 py-2 bg-green-500 text-white rounded-md hover:bg-green-600">+ Tambah Ekskul</button>
@@ -29,7 +29,7 @@
                 </thead>
                 <tbody id="table-body">
                     <tr class="border-b" data-eskul="Rohis">
-                        <td class="py-2 px-4 text-center">Rohis</td>
+                        <td class="py-2 px-4 text-center">Nemo</td>
                         <td class="py-2 px-4 text-center text-green-600 font-semibold">Aktif</td>
                         <td class="py-2 px-4 text-center">
                             <button class="px-3 py-1 bg-blue-500 text-white rounded-md hover:bg-blue-600">Detail</button>
