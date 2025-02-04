@@ -16,10 +16,12 @@ return new class extends Migration
             $table->string('name');
             $table->string('email')->unique();
             $table->string('no_hp')->unique();
-            $table->string('nip')->unique();
-            $table->string('nis')->unique();
-            $table->string('kelas');
-            $table->string('role');
+            $table->string('nip')->nullable()->unique();
+            $table->string('nis')->nullable()->unique();
+            $table->string('kelas')->nullable();
+            $table->string('jurusan')->nullable();
+            $table->string('pp');
+            $table->enum('role', ['master', 'pembina', 'pengurus']);
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
             $table->rememberToken();
