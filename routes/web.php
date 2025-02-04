@@ -30,9 +30,20 @@ Route::get('/daftarEkskul', function () {
 });
 // end Dashboard Master
 
+// Dashboard Users
 Route::get('/detailEkskul', function () {
-    return view('detailEkskul');
-});
+    return view('users/detailEkskul');
+})->name('detailEkskul');
+
+Route::get('/daftarEkskul', function () {
+    return view('users/daftarEkskul');
+})->name('daftarEkskul');
+
+Route::get('/tentangWebsite', function () {
+    return view('users/tentangWebsite');
+})->name('tentangWebsite');
+
+// end Dashboard Users
 Route::get('/dataPembina', function () {
     return view('dataPembina');
 });
