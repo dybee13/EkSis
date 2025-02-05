@@ -16,7 +16,7 @@ use Illuminate\Support\Facades\Route;
 */
 
 // Auth Route
-Route::get('/login', [authController::class, 'index'])->name('login');
+Route::get('/', [authController::class, 'index'])->name('login');
 Route::post('/loginn', [authController::class, 'login']);
 //logout
 Route::get('/logout', [authController::class, 'logout']);
@@ -25,9 +25,8 @@ Route::get('/logout', [authController::class, 'logout']);
 // Dashboard Master
 Route::get('/masterDashboard', [masterController::class, 'index']);
 Route::get('/masterDataPembina', [masterController::class, 'dataPembina']);
-Route::get('/daftarEkskul', function () {
-    return view('master/daftarEkskul');
-});
+Route::post('/savePembina', [masterController::class, 'savePembina']);
+Route::get('/masterDataEkskul', [masterController::class, 'dataEkskul']);
 // end Dashboard Master
 
 // Dashboard Users

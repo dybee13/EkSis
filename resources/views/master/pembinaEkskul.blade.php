@@ -1,7 +1,7 @@
-@extends('layouts.sidebar')
+@extends('layouts.main')
 @section('container')
 
-<div class="w-full min-h-screen flex justify-center items-start mt-10 ml-32 px-6">
+<div class="w-full min-h-screen flex justify-center items-start mt-32 ml-32 px-6">
     <div class="w-full max-w-screen-lg bg-white p-6 rounded-lg shadow">
         <!-- Dropdown Ekskul & Tombol Tambah -->
         <div class="mb-4 flex justify-between items-center">
@@ -29,24 +29,18 @@
                     </tr>
                 </thead>
                 <tbody id="table-body">
+                    @foreach ($datas as $pembina)
                     <tr class="border-b" data-eskul="Rohis">
-                        <td class="py-2 px-4 text-center">Roni S.pd.i</td>
-                        <td class="py-2 px-4 text-center">3008213013</td>
-                        <td class="py-2 px-4 text-center">Rohis</td>
+                        <td class="py-2 px-4 text-center">{{ $pembina->name }}</td>
+                        <td class="py-2 px-4 text-center">{{ $pembina->nip }}</td>
+                        <td>
+                            @foreach ($pembina->ekskuls as $ekskulUser)
+                                {{ $ekskulUser->ekskul->nama_ekskul }}<br>
+                            @endforeach
+                        </td>
                         <td class="py-2 px-4 text-center text-green-600 font-semibold">Aktif</td>
                     </tr>
-                    <tr class="border-b" data-eskul="Basket">
-                        <td class="py-2 px-4 text-center">Maman S.pd.i</td>
-                        <td class="py-2 px-4 text-center">30102391203</td>
-                        <td class="py-2 px-4 text-center">Basket</td>
-                        <td class="py-2 px-4 text-center text-green-600 font-semibold">Aktif</td>
-                    </tr>
-                    <tr class="border-b" data-eskul="Futsal">
-                        <td class="py-2 px-4 text-center">Asep S.pd.i</td>
-                        <td class="py-2 px-4 text-center">3290921302</td>
-                        <td class="py-2 px-4 text-center">Futsal</td>
-                        <td class="py-2 px-4 text-center text-green-600 font-semibold">Aktif</td>
-                    </tr>
+                    @endforeach
                 </tbody>
             </table>
         </div>
@@ -55,20 +49,36 @@
 
 <!-- Modal Tambah Guru Pembina -->
 <div id="modalTambahGuru" class="fixed inset-0 bg-black bg-opacity-50 hidden flex justify-center items-center">
+    <form method="POST" action="savePembina">
     <div class="bg-white p-6 rounded-lg shadow-lg w-1/3">
         <h2 class="text-lg font-semibold mb-4">Tambah Guru Pembina</h2>
 
         <label class="block text-sm font-medium text-gray-700">Nama Guru</label>
-        <input type="text" id="namaGuru" class="w-full mt-1 mb-4 p-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500">
+        <input type="text" id="namaGuru" name="name" class="w-full mt-1 mb-4 p-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500">
 
         <label class="block text-sm font-medium text-gray-700">NIP</label>
-        <input type="text" id="nipGuru" class="w-full mt-1 mb-4 p-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500">
+        <input type="text" id="nipGuru" name="nip" class="w-full mt-1 mb-4 p-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500">
+        
+        <label class="block text-sm font-medium text-gray-700">No. Handphone</label>
+        <input type="text" id="noHp" name="noHp" class="w-full mt-1 mb-4 p-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500">
+
+        <label class="block text-sm font-medium text-gray-700">Email</label>
+        <input type="text" id="email" name="email" class="w-full mt-1 mb-4 p-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500">
+
+        <label class="block text-sm font-medium text-gray-700">Password</label>
+        <input type="password" id="pw" name="pw" class="w-full mt-1 mb-4 p-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500">
+
+        <label class="block text-sm font-medium text-gray-700">Konfirmasi Password</label>
+        <input type="password" id="konfPw" name="konfPw" class="w-full mt-1 mb-4 p-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500">
+
+        <input type="hidden" id="role" name="role" value="pembina" class="w-full mt-1 mb-4 p-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500">
 
         <div class="flex justify-end space-x-2">
             <button id="btnBatal" class="px-4 py-2 bg-red-600 text-white rounded-md hover:bg-red-700">Batal</button>
             <button id="btnSimpan" class="px-4 py-2 bg-green-600 text-white rounded-md hover:bg-green-700">Simpan</button>
         </div>
     </div>
+    </form>
 </div>
 
 <script>

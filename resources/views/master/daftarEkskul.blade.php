@@ -1,17 +1,17 @@
-@extends('layouts.sidebar')
+@extends('layouts.main')
 @section('container')
 
-<div class="w-screen min-w-screen flex justify-center items-start mt-10 ml-32 px-6">
+<div class="w-screen min-w-screen flex justify-center items-start mt-28 ml-28 px-6">
     <div class="w-screen max-w-screen-lg bg-white p-6 rounded-lg shadow">
         <!-- Dropdown Ekskul & Tombol Tambah -->
         <div class="mb-4 flex justify-between items-center">
             <div class="w-1/2">
-                <label for="eskul" class="block text-sm font-medium text-gray-700">Pilih Ekskul</label>
+                <label for="eskul" class="block text-sm font-medium text-gray-700">Pilih Kategori Ekskul</label>
                 <select id="eskul" class="w-full mt-1 block py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm">
                     <option value="all">Semua</option>
-                    <option value="Basket">Basket</option>
-                    <option value="Futsal">Futsal</option>
-                    <option value="Nemo">Nemo</option>
+                    <option value="Olahraga">Olahraga</option>
+                    <option value="Akademik">Seni</option>
+                    <option value="Akademik">Akademik</option>
                 </select>
             </div>
             <button id="btnTambahEskul" class="px-4 py-2 bg-green-500 text-white rounded-md hover:bg-green-600">+ Tambah Ekskul</button>
@@ -23,32 +23,24 @@
                 <thead>
                     <tr class="bg-gray-100 border-b">
                         <th class="py-2 px-4 w-1/3 text-center text-gray-700">Ekskul</th>
+                        <th class="py-2 px-4 w-1/3 text-center text-gray-700">Pembina</th>
                         <th class="py-2 px-4 w-1/3 text-center text-gray-700">Status</th>
                         <th class="py-2 px-4 w-1/3 text-center text-gray-700">Aksi</th>
                     </tr>
                 </thead>
                 <tbody id="table-body">
-                    <tr class="border-b" data-eskul="Rohis">
-                        <td class="py-2 px-4 text-center">Nemo</td>
+                    @foreach ($datas as $ekskul)
+                    <tr class="border-b" data-eskul="NeMo">
+                        <td class="py-2 px-4 text-center">{{ $ekskul->nama_ekskul }}</td>
+                        <td>
+                            {{ $ekskul->pembina ? $ekskul->pembina->name : 'Belum ada pembina' }}
+                        </td>
                         <td class="py-2 px-4 text-center text-green-600 font-semibold">Aktif</td>
                         <td class="py-2 px-4 text-center">
                             <button class="px-3 py-1 bg-blue-500 text-white rounded-md hover:bg-blue-600">Detail</button>
                         </td>
                     </tr>
-                    <tr class="border-b" data-eskul="Basket">
-                        <td class="py-2 px-4 text-center">Basket</td>
-                        <td class="py-2 px-4 text-center text-green-600 font-semibold">Aktif</td>
-                        <td class="py-2 px-4 text-center">
-                            <button class="px-3 py-1 bg-blue-500 text-white rounded-md hover:bg-blue-600">Detail</button>
-                        </td>
-                    </tr>
-                    <tr class="border-b" data-eskul="Futsal">
-                        <td class="py-2 px-4 text-center">Futsal</td>
-                        <td class="py-2 px-4 text-center text-red-600 font-semibold">NonAktif</td>
-                        <td class="py-2 px-4 text-center">
-                            <button class="px-3 py-1 bg-blue-500 text-white rounded-md hover:bg-blue-600">Detail</button>
-                        </td>
-                    </tr>
+                    @endforeach
                 </tbody>
             </table>
         </div>
@@ -57,20 +49,22 @@
 
 <!-- Modal Tambah Ekskul -->
 <div id="modalTambahEskul" class="fixed inset-0 bg-black bg-opacity-50 hidden flex justify-center items-center">
+    <form method="POST" action="/saveEkskul">
     <div class="bg-white p-6 rounded-lg shadow-lg w-1/3">
         <h2 class="text-lg font-semibold mb-4">Tambah Ekskul</h2>
 
         <label class="block text-sm font-medium text-gray-700">Nama Ekskul</label>
-        <input type="text" id="namaEskul" class="w-full mt-1 mb-4 p-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500">
+        <input type="text" id="namaEskul" name="nama_ekskul" class="w-full mt-1 mb-4 p-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500">
 
         <label class="block text-sm font-medium text-gray-700">Guru Pembina</label>
-        <input type="text" id="guruPembina" class="w-full mt-1 mb-4 p-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500">
+        <input type="text" id="guruPembina" name="pembina" class="w-full mt-1 mb-4 p-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500">
 
         <div class="flex justify-end space-x-2">
             <button id="btnBatal" class="px-4 py-2 bg-red-600 text-white rounded-md hover:bg-red-700">Batal</button>
             <button id="btnSimpan" class="px-4 py-2 bg-green-600 text-white rounded-md hover:bg-green-700">Simpan</button>
         </div>
     </div>
+    </form>
 </div>
 
 <script>

@@ -1,10 +1,4 @@
- <script src="https://cdn.tailwindcss.com"></script>
- <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
- <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
- </head>
-
- <body>
-     <nav class="fixed top-0 z-50 w-screen bg-white border-b border-gray-200 dark:bg-gray-800 dark:border-gray-700">
+<nav class="fixed top-0 z-50 w-screen bg-white border-b border-gray-200 dark:bg-gray-800 dark:border-gray-700">
          <div class="px-3 py-3 lg:px-5 lg:pl-3">
              <div class="flex items-center justify-between">
                  <div class="flex items-center justify-start rtl:justify-end">
@@ -75,9 +69,3 @@
              </ul>
          </div>
      </aside>
-     <div class="container">
-         @yield('container')
-     </div>
-
- </body>
- <script src="https://cdn.jsdelivr.net/npm/flowbite@3.1.1/dist/flowbite.min.js"></script>
