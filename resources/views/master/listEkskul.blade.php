@@ -37,7 +37,8 @@
                         </td>
                         <td class="py-2 px-4 text-center text-green-600 font-semibold">Aktif</td>
                         <td class="py-2 px-4 text-center">
-                            <button class="px-3 py-1 bg-blue-500 text-white rounded-md hover:bg-blue-600">Detail</button>
+                            <!-- <a href="/edit" class="px-3 py-1 bg-blue-500 text-white rounded-md hover:bg-blue-600">edit</> -->
+                            <a href="/hapusEkskul/{{ $ekskul->id }}" class="px-3 py-1 bg-red-500 text-white rounded-md hover:bg-red-600">Hapus</a>
                         </td>
                     </tr>
                     @endforeach
@@ -50,14 +51,20 @@
 <!-- Modal Tambah Ekskul -->
 <div id="modalTambahEskul" class="fixed inset-0 bg-black bg-opacity-50 hidden flex justify-center items-center">
     <form method="POST" action="/saveEkskul">
-    <div class="bg-white p-6 rounded-lg shadow-lg w-1/3">
+        @csrf
+    <div class="bg-white p-6 rounded-lg shadow-lg w-96">
         <h2 class="text-lg font-semibold mb-4">Tambah Ekskul</h2>
 
         <label class="block text-sm font-medium text-gray-700">Nama Ekskul</label>
         <input type="text" id="namaEskul" name="nama_ekskul" class="w-full mt-1 mb-4 p-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500">
 
         <label class="block text-sm font-medium text-gray-700">Guru Pembina</label>
-        <input type="text" id="guruPembina" name="pembina" class="w-full mt-1 mb-4 p-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500">
+        <select name="users[]" multiple class="form-select" aria-label="Default select example">
+            <option selected>Open this select menu</option>
+            @foreach ($pembinas as $pembina)
+                <option value={{ $pembina->id }}>{{ $pembina->name }}</option>
+            @endforeach
+        </select>
 
         <div class="flex justify-end space-x-2">
             <button id="btnBatal" class="px-4 py-2 bg-red-600 text-white rounded-md hover:bg-red-700">Batal</button>

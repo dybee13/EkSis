@@ -37,6 +37,11 @@ class User extends Authenticatable
         return $this->hasMany(EkskulUsers::class, 'id_user');
     }
 
+    public function ekskul()
+    {
+        return $this->belongsToMany(Ekskuls::class, 'ekskul_users', 'id_user', 'id_ekskul');
+    }
+
     /**
      * The attributes that should be hidden for serialization.
      *

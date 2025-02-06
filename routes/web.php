@@ -27,6 +27,8 @@ Route::get('/masterDashboard', [masterController::class, 'index']);
 Route::get('/masterDataPembina', [masterController::class, 'dataPembina']);
 Route::post('/savePembina', [masterController::class, 'savePembina']);
 Route::get('/masterDataEkskul', [masterController::class, 'dataEkskul']);
+Route::post('/saveEkskul', [masterController::class, 'saveEkskul']);
+Route::get('/hapusEkskul/{id}', [masterController::class, 'deleteEkskul']);
 // end Dashboard Master
 
 // Dashboard Users

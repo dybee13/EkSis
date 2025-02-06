@@ -9,7 +9,7 @@ class Ekskuls extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['name'];
+    protected $fillable = ['nama_ekskul'];
 
     public function ekskulUsers()
     {
@@ -20,5 +20,10 @@ class Ekskuls extends Model
     {
         return $this->hasOneThrough(User::class, EkskulUsers::class, 'id_ekskul', 'id', 'id', 'id_user')
             ->where('users.role', 'pembina'); 
+    }
+
+    public function users()
+    {
+        return $this->belongsToMany(User::class, 'ekskul_users', 'id_ekskul', 'id_user');
     }
 }

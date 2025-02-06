@@ -18,6 +18,9 @@
         </div>
 
         <!-- Tabel Data -->
+        @if (session('success'))
+            <p style="color: green;">{{ session('success') }}</p>
+        @endif
         <div class="w-full overflow-x-auto">
             <table class="w-full table-auto bg-white rounded-lg border border-gray-300 text-center">
                 <thead>
@@ -26,6 +29,7 @@
                         <th class="py-2 px-4 w-1/4 text-center text-gray-700">NIP</th>
                         <th class="py-2 px-4 w-1/4 text-center text-gray-700">Ekskul</th>
                         <th class="py-2 px-4 w-1/4 text-center text-gray-700">Status</th>
+                        <th class="py-2 px-4 w-1/4 text-center text-gray-700">Aksi</th>
                     </tr>
                 </thead>
                 <tbody id="table-body">
@@ -49,8 +53,9 @@
 
 <!-- Modal Tambah Guru Pembina -->
 <div id="modalTambahGuru" class="fixed inset-0 bg-black bg-opacity-50 hidden flex justify-center items-center">
-    <form method="POST" action="savePembina">
-    <div class="bg-white p-6 rounded-lg shadow-lg w-1/3">
+    <form method="POST" action="/savePembina">
+        @csrf
+    <div class="bg-white p-6 rounded-lg shadow-lg w-96 h-auto">
         <h2 class="text-lg font-semibold mb-4">Tambah Guru Pembina</h2>
 
         <label class="block text-sm font-medium text-gray-700">Nama Guru</label>
@@ -66,16 +71,14 @@
         <input type="text" id="email" name="email" class="w-full mt-1 mb-4 p-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500">
 
         <label class="block text-sm font-medium text-gray-700">Password</label>
-        <input type="password" id="pw" name="pw" class="w-full mt-1 mb-4 p-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500">
+        <input type="password" id="password" name="password" class="w-full mt-1 mb-4 p-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500">
 
         <label class="block text-sm font-medium text-gray-700">Konfirmasi Password</label>
-        <input type="password" id="konfPw" name="konfPw" class="w-full mt-1 mb-4 p-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500">
-
-        <input type="hidden" id="role" name="role" value="pembina" class="w-full mt-1 mb-4 p-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500">
+        <input type="password" id="password_confirmation" name="password_confirmation" class="w-full mt-1 mb-4 p-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500">
 
         <div class="flex justify-end space-x-2">
-            <button id="btnBatal" class="px-4 py-2 bg-red-600 text-white rounded-md hover:bg-red-700">Batal</button>
-            <button id="btnSimpan" class="px-4 py-2 bg-green-600 text-white rounded-md hover:bg-green-700">Simpan</button>
+            <button onclick="window.location.href=`{{ url('/masterDataPembina') }}`" id="btnBatal" class="px-4 py-2 bg-red-600 text-white rounded-md hover:bg-red-700">Batal</button>
+            <button type="submit" id="btnSimpan" class="px-4 py-2 bg-green-600 text-white rounded-md hover:bg-green-700">Simpan</button>
         </div>
     </div>
     </form>
