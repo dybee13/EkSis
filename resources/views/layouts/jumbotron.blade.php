@@ -1,9 +1,10 @@
-<section class="bg-white dark:bg-gray-900 min-h-screen flex items-center justify-center relative">
+<script src="https://cdn.tailwindcss.com"></script>
+<section class="bg-gray-900 min-h-screen flex items-center justify-center relative">
     <div class="py-8 px-4 mx-auto max-w-screen-lg text-center lg:py-16 relative z-10">
         <h1 class="mb-4 text-4xl font-extrabold tracking-tight leading-none text-gray-900 md:text-5xl lg:text-6xl dark:text-white">
             Selamat datang di Eksis!
         </h1>
-        <p class="mb-8 text-lg font-normal text-gray-500 lg:text-xl sm:px-16 lg:px-32 dark:text-gray-200">
+        <p class="mb-8 text-lg font-normal lg:text-xl sm:px-16 lg:px-32 text-gray-200">
             Sistem Pencatatan Eskul Siswa Digital
         </p>
         <div class="flex flex-col sm:flex-row justify-center gap-4">
