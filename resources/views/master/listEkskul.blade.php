@@ -14,7 +14,7 @@
                     <option value="Akademik">Akademik</option>
                 </select>
             </div>
-            <button id="btnTambahEskul" class="px-4 py-2 bg-green-500 text-white rounded-md hover:bg-green-600">+ Tambah Ekskul</button>
+            <button id="btnTambahEkskul" class="px-4 py-2 bg-green-500 text-white rounded-md hover:bg-green-600">+ Tambah Ekskul</button>
         </div>
 
         <!-- Tabel Data -->
@@ -30,15 +30,17 @@
                 </thead>
                 <tbody id="table-body">
                     @foreach ($datas as $ekskul)
-                    <tr class="border-b" data-eskul="NeMo">
+                    <tr class="border-b" data-eskul="kategori">
                         <td class="py-2 px-4 text-center">{{ $ekskul->nama_ekskul }}</td>
-                        <td>
+                        <td class="py-2 px-4 text-center">
                             {{ $ekskul->pembina ? $ekskul->pembina->name : 'Belum ada pembina' }}
                         </td>
                         <td class="py-2 px-4 text-center text-green-600 font-semibold">Aktif</td>
-                        <td class="py-2 px-4 text-center">
-                            <!-- <a href="/edit" class="px-3 py-1 bg-blue-500 text-white rounded-md hover:bg-blue-600">edit</> -->
-                            <a href="/hapusEkskul/{{ $ekskul->id }}" class="px-3 py-1 bg-red-500 text-white rounded-md hover:bg-red-600">Hapus</a>
+                        <td>
+                        <button id="btnDetailEkskul" class="btn btn-warning btnDetailEkskul"
+                            data-id="{{ $ekskul->id }}">
+                            Detail
+                        </button>
                         </td>
                     </tr>
                     @endforeach
@@ -48,62 +50,249 @@
     </div>
 </div>
 
-<!-- Modal Tambah Ekskul -->
-<div id="modalTambahEskul" class="fixed inset-0 bg-black bg-opacity-50 hidden flex justify-center items-center">
-    <form method="POST" action="/saveEkskul">
+<!-- Modal Detail -->
+<div id="detailModal" class="fixed inset-0 flex items-center justify-center bg-gray-800 bg-opacity-50 hidden">
+    <div class="bg-white p-6 rounded-lg w-96">
+        <h2 class="text-lg font-bold mb-4">Detail Ekskul</h2>
+        
+        <div class="mb-4">
+            <label class="font-semibold">Ekskul:</label>
+            <p id="detailNamaEkskul" class="text-gray-700"></p>
+        </div>
+        
+        <div class="mb-4"> 
+            <label class="font-semibold">Pembina:</label>
+            <p id="detailNamaPembina" class="text-gray-700"></p>
+        </div>
+
+        <div class="flex justify-between">
+            <button id="closeDetailModal" class="px-4 py-2 bg-gray-500 text-white rounded">Tutup</button>
+            <button id="btnEdit" class="px-4 py-2 bg-blue-500 text-white rounded">Edit</button>
+            <button id="btnHapus" class="px-3 py-1 bg-red-500 text-white rounded-md hover:bg-red-600">Hapus</button>
+        </div>
+    </div>
+</div>
+
+<!-- Modal Data -->
+<div id="modalData" class="fixed inset-0 bg-black bg-opacity-50 hidden flex justify-center items-center">
+    <form method="POST" id="dataForm">
         @csrf
+        <input type="hidden" id="ekskulId"> <!-- Hidden input untuk ID ekskul (digunakan saat edit) -->
+
     <div class="bg-white p-6 rounded-lg shadow-lg w-96">
-        <h2 class="text-lg font-semibold mb-4">Tambah Ekskul</h2>
+        <h2 id="modalTitle" class="text-lg font-semibold mb-4">Tambah Ekskul</h2>
 
         <label class="block text-sm font-medium text-gray-700">Nama Ekskul</label>
-        <input type="text" id="namaEskul" name="nama_ekskul" class="w-full mt-1 mb-4 p-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500">
+        <input type="text" id="namaEkskulInput" name="nama_ekskul" class="w-full mt-1 mb-4 p-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500">
 
         <label class="block text-sm font-medium text-gray-700">Guru Pembina</label>
-        <select name="users[]" multiple class="form-select" aria-label="Default select example">
+        <select id="users" name="users[]" multiple class="form-select" aria-label="Default select example">
             <option selected>Open this select menu</option>
             @foreach ($pembinas as $pembina)
                 <option value={{ $pembina->id }}>{{ $pembina->name }}</option>
             @endforeach
         </select>
+<!-- 
+        <label class="block text-sm font-medium text-gray-700">Kategori</label>
+        <select id="kategories" name="kategories[]" multiple class="form-select" aria-label="Default select example">
+            <option selected>Open this select menu</option>
+                <option value="olahraga">Olahraga</option>
+                <option value="seni">Seni & Kreativitas</option>
+                <option value="bahasaSastra">Bahasa & Sastra</option>
+                <option value="kepemimpinan">Kepemimpinan & Organisasi</option>
+                <option value="religi">Religi & Sosial</option>
+                <option value="alam">Alam & Lingkungan</option>
+        </select> -->
 
         <div class="flex justify-end space-x-2">
-            <button id="btnBatal" class="px-4 py-2 bg-red-600 text-white rounded-md hover:bg-red-700">Batal</button>
-            <button id="btnSimpan" class="px-4 py-2 bg-green-600 text-white rounded-md hover:bg-green-700">Simpan</button>
+            <a type="button" id="btnBatal" class="px-4 py-2 bg-red-600 text-white rounded-md hover:bg-red-700">Batal</a>
+            <button type="submit" id="btnSimpan" class="px-4 py-2 bg-green-600 text-white rounded-md hover:bg-green-700">Simpan</button>
         </div>
     </div>
     </form>
 </div>
 
 <script>
-    const modalTambahEskul = document.getElementById('modalTambahEskul');
-    const btnTambahEskul = document.getElementById('btnTambahEskul');
+document.addEventListener('DOMContentLoaded', function () {
+    const detailModal = document.getElementById('detailModal');
+    const btnDetailEkskul = document.getElementById('btnDetailEkskul');
+    const closeDetailModal = document.getElementById('closeDetailModal');
+    const detailNamaEkskul = document.getElementById('detailNamaEkskul');
+    const detailNamaPembina = document.getElementById('detailNamaPembina');
+    const modalData = document.getElementById('modalData');
+    const btnTambahEkskul = document.getElementById('btnTambahEkskul');
     const btnBatal = document.getElementById('btnBatal');
+    const btnEdit = document.getElementById('btnEdit');
+    const btnHapus = document.getElementById('btnHapus');
     const btnSimpan = document.getElementById('btnSimpan');
+    const modalTitle = document.getElementById('modalTitle');
+    const ekskulIdInput = document.getElementById('ekskulId');
+    const namaEkskulInput = document.getElementById('namaEkskulInput');
+    const usersSelect = document.getElementById('users');
+    const dataForm = document.getElementById('dataForm');
 
+    let currentEkskulId = null; // Simpan ID ekskul yang sedang dibuka
+    let isEditMode = false; // Untuk cek apakah modal dalam mode edit
 
-    btnTambahEskul.addEventListener('click', () => {
-        modalTambahEskul.classList.remove('hidden');
+    // Event listener untuk membuka modal detail
+    document.querySelectorAll('.btnDetailEkskul').forEach(button => {
+        button.addEventListener('click', () => {
+            const ekskulId = button.dataset.id;
+
+            fetch(`/ekskul/${ekskulId}/dataEdit`)
+                .then(response => response.json())
+                .then(data => {
+                    currentEkskulId = data.ekskul.id;
+                    detailNamaEkskul.textContent = data.ekskul.nama_ekskul;
+
+                    // Kosongkan daftar pembina sebelumnya
+                    detailNamaPembina.innerHTML = '';
+
+                    // Tambahkan daftar pembina
+                    data.ekskul.users.forEach(user => {
+                        const li = document.createElement('li');
+                        li.textContent = user.name;
+                        detailNamaPembina.appendChild(li);
+                    });
+
+                    detailModal.classList.remove('hidden');
+                });
+        });
     });
 
-
-    btnBatal.addEventListener('click', () => {
-        modalTambahEskul.classList.add('hidden');
+    closeDetailModal.addEventListener('click', () => {
+        detailModal.classList.add('hidden');
     });
 
-
-    btnSimpan.addEventListener('click', () => {
-        let namaEskul = document.getElementById('namaEskul').value;
-        let guruPembina = document.getElementById('guruPembina').value;
-
-        if (namaEskul.trim() === '' || guruPembina.trim() === '') {
-            alert('Harap isi semua kolom!');
-            return;
+    // Event: Buka modal untuk tambah ekskul
+    btnTambahEkskul.addEventListener('click', () => {
+        isEditMode = false;
+        modalTitle.textContent = "Tambah Ekskul";
+        ekskulIdInput.value = "";
+        namaEkskulInput.value = "";
+        
+        const usersSelect = document.getElementById("users");
+        if (usersSelect) {
+            Array.from(usersSelect.options).forEach(option => option.selected = false);
         }
 
-        alert(`Ekskul "${namaEskul}" dengan Guru Pembina "${guruPembina}" telah ditambahkan!`);
-        modalTambahEskul.classList.add('hidden');
+        modalData.classList.remove('hidden');
     });
 
+   // Event listener untuk membuka modal edit dari modal detail
+   btnEdit.addEventListener('click', () => {
+        detailModal.classList.add('hidden');
+        openEditModal(currentEkskulId);
+        isEditMode = true;
+    });
+
+    // Fungsi untuk membuka modal edit
+    function openEditModal(id) {
+        fetch(`/ekskul/${id}/dataEdit`)
+            .then(response => response.json())
+            .then(data => {
+                isEditMode = true;
+                modalTitle.textContent = "Edit Ekskul";
+                ekskulIdInput.value = data.ekskul.id;
+                namaEkskulInput.value = data.ekskul.nama_ekskul;
+
+                // Reset opsi pembina dan pilih yang sesuai
+                usersSelect.innerHTML = '';
+                fetch('/get-users')
+                    .then(response => response.json())
+                    .then(users => {
+                        users.forEach(user => {
+                            const option = document.createElement('option');
+                            option.value = user.id;
+                            option.textContent = user.name;
+
+                            // Tandai pembina yang sudah terdaftar di ekskul
+                            if (data.ekskul.users.some(u => u.id == user.id)) {
+                                option.selected = true;
+                            }
+
+                            usersSelect.appendChild(option);
+                        });
+                    })
+                    .catch(error => console.error('Error mengambil daftar guru:', error));
+
+                modalData.classList.remove('hidden');
+            })
+            .catch(error => console.error('Error mengambil data ekskul:', error));
+    }
+
+    // Event: Simpan data (Tambah atau Edit)
+    dataForm.addEventListener('submit', function (e) {
+        e.preventDefault();
+
+        const id = ekskulIdInput.value;
+        const formData = new FormData();
+
+        // Ambil nilai input nama ekskul
+        const namaEkskul = namaEkskulInput.value.trim();
+        if (namaEkskul === "") {
+            alert("Nama Ekskul tidak boleh kosong!");
+            return;
+        }
+        formData.append('nama_ekskul', namaEkskul); // Ubah ke 'nama_ekskul' agar sesuai dengan backend
+
+        // Ambil user yang dipilih
+        const selectedUsers = Array.from(usersSelect.selectedOptions).map(option => option.value);
+        if (selectedUsers.length === 0) {
+            alert("Minimal pilih 1 pembina!");
+            return;
+        }
+        selectedUsers.forEach(user => formData.append('users[]', user));
+
+        let url = "/saveEkskul";
+        let method = "POST"; // Default untuk tambah ekskul
+
+        if (isEditMode) {
+            url = `/updateEkskul/${id}`;
+            formData.append('_method', 'PUT'); // Laravel hanya menerima PUT jika ada _method
+        }
+
+        fetch(url, {
+            method: "POST",
+            headers: {
+                "X-CSRF-TOKEN": document.querySelector('meta[name="csrf-token"]').content
+            },
+            body: formData
+        })
+        .then(response => response.json())
+        .then(data => {
+            alert(data.message);
+            modalData.classList.add('hidden');
+            location.reload(); // Refresh halaman setelah update
+        })
+        .catch(error => console.error('Error:', error));
+    });
+
+    //hapus data
+    document.getElementById('btnHapus').addEventListener('click', function () {
+    if (confirm("Apakah Anda yakin ingin menghapus ekskul ini?")) {
+        fetch(`/hapusEkskul/${currentEkskulId}`, {
+            method: "POST", // Laravel hanya menerima DELETE jika ada _method
+            headers: {
+                "X-CSRF-TOKEN": document.querySelector('meta[name="csrf-token"]').content,
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({ _method: "DELETE" }) // Laravel butuh _method untuk DELETE
+        })
+        .then(response => response.json())
+        .then(data => {
+            alert(data.message);
+            detailModal.classList.add('hidden'); // Tutup modal setelah hapus
+            location.reload(); // Refresh halaman untuk memperbarui data
+        })
+        .catch(error => console.error('Error:', error));
+    }
+});
+
+    btnBatal.addEventListener('click', () => {
+        modalData.classList.add('hidden');
+        isEditMode = false;
+    });
 
     document.getElementById('eskul').addEventListener('change', function() {
         let selectedEskul = this.value;
@@ -114,6 +303,7 @@
             row.style.display = (selectedEskul === 'all' || eskul === selectedEskul) ? '' : 'none';
         });
     });
+});
 </script>
 
 @endsection

@@ -9,6 +9,11 @@ use Illuminate\Support\Facades\Hash;
 
 class masterController extends Controller
 {
+    public function getUsers()
+    {
+        $users = User::where('role', 'pembina')->get(); // Ambil hanya guru pembina
+        return response()->json($users);
+    }
     public function index(){
         return view('master/masterDashboard', [
             'title' => 'EkSis || Dashboard Master Admin',
@@ -63,21 +68,92 @@ class masterController extends Controller
             'users.*' => 'exists:users,id' // Validasi setiap user_id harus ada di tabel users
         ]);
 
-        // Simpan ekskul baru
-    $ekskul = Ekskuls::create([
-        'nama_ekskul' => $request->nama_ekskul,
-    ]);
-
-    // Hubungkan ekskul dengan pengguna (menyimpan ke ekskul_users)
-    $ekskul->users()->attach($request->users);
-        
-        return back()->with('success', 'Ekskul berhasil ditambahkan!');
+        try {
+            // Simpan ekskul baru
+            $ekskul = Ekskuls::create([
+                'nama_ekskul' => $request->nama_ekskul,
+            ]);
+    
+            // Hubungkan ekskul dengan pengguna (menyimpan ke ekskul_users)
+            $ekskul->users()->attach($request->users);
+    
+            return response()->json(['success' => true, 'message' => 'Ekskul berhasil ditambahkan!']);
+    
+        } catch (\Exception $e) {
+            return response()->json(['success' => false, 'message' => $e->getMessage()], 500);
+        }
     }
 
     public function deleteEkskul($id){
         $Ekskul = Ekskuls::findOrFail($id);
+        
+        // Hapus relasi ekskul dengan pengguna sebelum menghapus ekskul
+        $Ekskul->users()->detach();
+        
         $Ekskul->delete();
 
-        return back()->with('success', 'Ekskul berhasil dihapus!');
+        return response()->json(['message' => 'Ekskul berhasil dihapus!']);
     }
+
+    public function deletePembina($id){
+        $User = User::findOrFail($id);
+        $User->delete();
+
+        return response()->json(['message' => 'Data berhasil dihapus!']);
+    }
+
+    public function updatePembina(Request $request, $id){
+        $request->validate([
+            'name' => 'required',
+            'nip' => 'required|min:18',
+            'noHp' => 'required',
+            'email' => 'required',
+        ]);
+
+        $update = User::find($id);
+        $update->name = $request->name;
+        $update->email= $request->email;
+        $update->no_hp = $request->noHp;
+        $update->nip = $request->nip;
+        $update->pp = "profile.png";
+        $update->role = "pembina";
+        $update->password = Hash::make($request->password);
+        $update->save();
+        
+        return back()->with('success', 'User berhasil diedit!');
+    }
+
+    public function dataEdit($id)
+    {
+        $ekskul = Ekskuls::with('users')->findOrFail($id);
+        $users = User::all(); // Ambil semua user untuk pilihan
+
+        return response()->json([
+            'ekskul' => $ekskul,
+            'users' => $users
+        ]);
+    }
+
+
+    public function updateEkskul(Request $request, $id)
+    {
+        $request->validate([
+            'nama_ekskul' => 'required|string|max:255',
+            'users' => 'required|array',
+            'users.*' => 'exists:users,id'
+        ]);
+
+        $ekskul = Ekskuls::findOrFail($id);
+
+        // Update nama ekskul
+        $ekskul->update([
+            'nama_ekskul' => $request->nama_ekskul
+        ]);
+
+        // Update hubungan user dengan ekskul (sinkronisasi)
+        $ekskul->users()->sync($request->users);
+
+        return response()->json(['message' => 'Ekskul berhasil diperbarui!']);
+    }
+
 }
