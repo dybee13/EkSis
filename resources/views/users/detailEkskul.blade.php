@@ -1,4 +1,4 @@
 @extends('partials.navbar')
 @section('container')
-@extends('layouts.jumbotron')
+@extends('users.main')
 @endsection
