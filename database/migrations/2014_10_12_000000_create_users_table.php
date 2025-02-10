@@ -18,7 +18,6 @@ return new class extends Migration
             $table->string('no_hp')->unique();
             $table->string('nip')->nullable()->unique();
             $table->string('nis')->nullable()->unique();
-            $table->string('kelas')->nullable();
             $table->string('jurusan')->nullable();
             $table->string('pp');
             $table->enum('role', ['master', 'pembina', 'pengurus', 'user']);

@@ -16,9 +16,6 @@
                 <li>
                     <a href="#" class="hover:underline me-4 md:me-6">Tentang Website</a>
                 </li>
-                <li>
-                    <a href="#" class="hover:underline">Ikuti Kami</a>
-                </li>
                 <hr class="my-6 sm:mx-auto border-gray-700 lg:my-8" />
             </ul>
         </div>
