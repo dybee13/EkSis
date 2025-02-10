@@ -37,9 +37,14 @@ Route::put('/updateEkskul/{id}', [masterController::class, 'updateEkskul'])->nam
 Route::delete('/hapusEkskul/{id}', [masterController::class, 'deleteEkskul']);
 // end Dashboard Master
 
-// Dashboard Pembina
-Route::get('/masterDashboard', [pembinaController::class, 'index']);
-// End Dashboard Pembina
+// Role Pembina START
+Route::get('/dashboardPembina', [pembinaController::class, 'getDashboardPembina']);
+Route::get('/dataAnggotaEskul', [pembinaController::class, 'getDataAnggotaEskul']);
+Route::post('/dataAnggotaEskul', [pembinaController::class, 'createUser']);
+Route::get('/dataInformasiEskul', [pembinaController::class, 'getDataInformasiEskul']);
+Route::get('/dataStrukturEskul', [pembinaController::class, 'getDataStrukturEskul']);
+// Role Pembina END
+
 
 // Dashboard Users
 Route::get('/mainEkskul', function () {

@@ -16,13 +16,13 @@ class masterController extends Controller
     }
     public function index(){
         return view('master/masterDashboard', [
-            'title' => 'EkSis || Dashboard Master Admin',
+            'title' => 'Dashboard Master Admin',
         ]);
     }
     public function dataPembina()
     {
         return view('master.pembinaEkskul', [
-            'title' => 'EkSis || Data Pembina Ekskul',
+            'title' => 'Data Pembina Ekskul',
             'datas' => User::where('role', 'pembina')->with('ekskuls.ekskul')->get() // Ambil hanya user dengan role 'pembina'
         ]);
     }

@@ -15,7 +15,7 @@
                     </select>
                 </div>
                 <button id="btnTambah" class="px-4 py-2 bg-green-500 text-white rounded-md hover:bg-green-600">+ Tambah
-                    Guru</button>
+                    Anggota</button>
             </div>
 
             <!-- Tabel Data -->
@@ -26,7 +26,7 @@
                 <table class="w-full table-auto bg-white rounded-lg border border-gray-300 text-center">
                     <thead>
                         <tr class="bg-gray-100 border-b">
-                            <th class="py-2 px-4 w-1/4 text-center text-gray-700">Nama Pembina</th>
+                            <th class="py-2 px-4 w-1/4 text-center text-gray-700">Nama Anggota</th>
                             <th class="py-2 px-4 w-1/4 text-center text-gray-700">NIP</th>
                             <th class="py-2 px-4 w-1/4 text-center text-gray-700">Ekskul</th>
                             <th class="py-2 px-4 w-1/4 text-center text-gray-700">Status</th>
@@ -34,21 +34,21 @@
                         </tr>
                     </thead>
                     <tbody id="table-body">
-                        @foreach ($datas as $pembina)
+                        @foreach ($datas as $user)
                             <tr class="border-b">
-                                <td class="py-2 px-4 text-center">{{ $pembina->name }}</td>
-                                <td class="py-2 px-4 text-center">{{ $pembina->nip }}</td>
+                                <td class="py-2 px-4 text-center">{{ $user->name }}</td>
+                                <td class="py-2 px-4 text-center">{{ $user->nip }}</td>
                                 <td>
-                                    @foreach ($pembina->ekskuls as $ekskulUser)
+                                    @foreach ($user->ekskuls as $ekskulUser)
                                         {{ $ekskulUser->ekskul->nama_ekskul }}<br>
                                     @endforeach
                                 </td>
                                 <td class="py-2 px-4 text-center text-green-600 font-semibold">Aktif</td>
                                 <td>
-                                    <button id="btnDetail" class="btn btn-warning btnDetail" data-id="{{ $pembina->id }}"
-                                        data-name="{{ $pembina->name }}" data-email="{{ $pembina->email }}"
-                                        data-nohp="{{ $pembina->no_hp }}" data-nip="{{ $pembina->nip }}"
-                                        data-ekskul="{{ implode(', ', $pembina->ekskuls->map(fn($e) => $e->ekskul->nama_ekskul)->toArray()) }}">
+                                    <button id="btnDetail" class="btn btn-warning btnDetail" data-id="{{ $user->id }}"
+                                        data-name="{{ $user->name }}" data-email="{{ $user->email }}"
+                                        data-nohp="{{ $user->no_hp }}" data-nip="{{ $user->nip }}"
+                                        data-ekskul="{{ implode(', ', $user->ekskuls->map(fn($e) => $e->ekskul->nama_ekskul)->toArray()) }}">
                                         Detail
                                     </button>
                                 </td>
@@ -62,14 +62,8 @@
 
     <!-- Modal Detail -->
     <div id="detailModal" class="fixed inset-0 flex items-center justify-center bg-gray-800 bg-opacity-50 hidden">
-        <div class="bg-white p-6 rounded-lg w-[860px] ml-32 relative">
-            <div class="flex justify-between items-center mb-4">
-                <h2 class="text-lg font-bold">Detail Pembina</h2>
-                <button id="closeDetailModal" class="text-gray-500 hover:text-gray-700">
-                    ✖
-                </button>
-            </div>
-
+        <div class="bg-white p-6 rounded-lg w-96">
+            <h2 class="text-lg font-bold mb-4">Detail Pembina</h2>
 
             <div class="mb-4">
                 <label class="font-semibold">NIP:</label>
@@ -96,11 +90,10 @@
                 <p id="detailEkskul" class="text-gray-700"></p>
             </div>
 
-            <div class="flex justify-end">
-                <!-- <button id="closeDetailModal" class="px-4 py-2 bg-gray-500 text-white rounded">Tutup</button> -->
-                <button id="btnEdit" class="px-4 py-2 m-2 bg-blue-500 text-white rounded">Edit</button>
-                <button id="btnHapus"
-                    class="px-4 py-2 m-2 bg-red-500 text-white rounded-md hover:bg-red-600">Hapus</button>
+            <div class="flex justify-between">
+                <button id="closeDetailModal" class="px-4 py-2 bg-gray-500 text-white rounded">Tutup</button>
+                <button id="btnEdit" class="px-4 py-2 bg-blue-500 text-white rounded">Edit</button>
+                <button id="btnHapus" class="px-3 py-1 bg-red-500 text-white rounded-md hover:bg-red-600">Hapus</button>
             </div>
         </div>
     </div>
@@ -111,16 +104,16 @@
             @csrf
             <div id="methodField"></div> <!-- Tempat untuk @method('PUT') -->
             <div class="bg-white p-6 ml-36 mt-16 rounded-lg shadow-lg w-[860px]">
-                <h2 class="text-lg font-semibold mb-4 modalTitle" id="modalTitle">Tambah Guru Pembina</h2>
+                <h2 class="text-lg font-semibold mb-4 modalTitle" id="modalTitle">Tambah Anggota Eskul</h2>
 
                 <input type="hidden" id="idGuru" name="id">
 
-                <label class="block text-sm font-medium text-gray-700">Nama Guru</label>
+                <label class="block text-sm font-medium text-gray-700">Nama Lengkap</label>
                 <input type="text" id="namaGuru" name="name"
                     class="w-full mt-1 mb-4 p-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500">
 
-                <label class="block text-sm font-medium text-gray-700">NIP</label>
-                <input type="text" id="nipGuru" name="nip"
+                <label class="block text-sm font-medium text-gray-700">NIS</label>
+                <input type="text" id="nipGuru" name="nis"
                     class="w-full mt-1 mb-4 p-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500">
 
                 <label class="block text-sm font-medium text-gray-700">No. Handphone</label>
@@ -153,9 +146,7 @@
         document.addEventListener('DOMContentLoaded', function() {
             //modal
             const detailModal = document.getElementById('detailModal');
-            document.getElementById("closeDetailModal").addEventListener("click", function() {
-                document.getElementById("detailModal").classList.add("hidden");
-            });
+            const closeDetailModal = document.getElementById('closeDetailModal');
             const dataModal = document.getElementById('dataModal');
             const dataForm = document.getElementById('dataForm');
             const modalTitle = document.getElementById('modalTitle');
@@ -285,7 +276,7 @@
                 return;
             }
 
-            alert(`Guru "${namaGuru}" dengan NIP "${nipGuru}" telah ditambahkan!`);
+            alert(`Anggota "${namaGuru}" dengan NIS "${nipGuru}" telah ditambahkan!`);
             modalTambahGuru.classList.add('hidden');
         });
 
