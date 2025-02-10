@@ -25,11 +25,16 @@ Route::get('/logout', [authController::class, 'logout']);
 
 // Dashboard Master
 Route::get('/masterDashboard', [masterController::class, 'index']);
+Route::get('/get-users', [masterController::class, 'getUsers']);
 Route::get('/masterDataPembina', [masterController::class, 'dataPembina']);
-Route::post('/savePembina', [masterController::class, 'savePembina']);
+Route::post('/savePembina', [masterController::class, 'savePembina'])->name('save.pembina');
+Route::put('/editPembina/{id}', [masterController::class, 'updatePembina'])->name('update.pembina');
+Route::delete('/hapusPembina/{id}', [masterController::class, 'deletePembina']);
 Route::get('/masterDataEkskul', [masterController::class, 'dataEkskul']);
-Route::post('/saveEkskul', [masterController::class, 'saveEkskul']);
-Route::get('/hapusEkskul/{id}', [masterController::class, 'deleteEkskul']);
+Route::post('/saveEkskul', [masterController::class, 'saveEkskul'])->name('save.ekskul');
+Route::get('/ekskul/{id}/dataEdit', [masterController::class, 'dataEdit'])->name('ekskul.dataEdit');
+Route::put('/updateEkskul/{id}', [masterController::class, 'updateEkskul'])->name('ekskul.update');
+Route::delete('/hapusEkskul/{id}', [masterController::class, 'deleteEkskul']);
 // end Dashboard Master
 
 // Role Pembina START
@@ -59,8 +64,8 @@ Route::get('/daftarEkskul', function () {
 Route::get('/tentangWebsite', function () {
     return view('users/tentangWebsite');
 })->name('tentangWebsite');
-
 // end Dashboard Users
+
 Route::get('/dataPembina', function () {
     return view('dataPembina');
 });

@@ -9,7 +9,7 @@ class pembinaController extends Controller
     // Dashboard Pembina 
     public function getDashboardPembina()
     {
-        return view('pembina.dashboardPembina', ['title' => 'Dashboard Pembina']);
+        return view('pembina.pembinaDashboard', ['title' => 'Dashboard Pembina']);
     }
 
     // Data Anggota Eskul 
@@ -22,5 +22,6 @@ class pembinaController extends Controller
     public function getDataInformasiEskul()
     {
         return view('pembina.dataInformasiEkskul', ['title' => 'Data Informasi Eskul']);
+
     }
 }
