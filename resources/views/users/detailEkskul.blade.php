@@ -7,15 +7,16 @@
         <div class="flex items-center justify-center mt-20">
             <img src=".\assets\images\ekskul.png" class="w-24 h-24">
         </div>
-        <p class="text-lg font-mono m-1">Pembina : M.Dymas</p>
-        <p class="text-lg font-mono m-1">Ketua : M.Dymas</p>
-        <p class="text-lg font-mono m-1">Jadwal Latihan : M.Dymas</p>
-        <p class="text-lg font-mono m-1">Waktu : M.Dymas</p>
+        <p class="flex items-center justify-center text-2xl font-semibold mt-1">Badminton</p>
+        <p class="text-lg font-mono mb-1">Pembina : M.Dymas</p>
+        <p class="text-lg font-mono mb-1">Ketua : M.Dymas</p>
+        <p class="text-lg font-mono mb-1">Jadwal Latihan : M.Dymas</p>
+        <p class="text-lg font-mono mb-1">Waktu : M.Dymas</p>
     </div>
 
     <div class="w-full min-h-screen">
         <!-- Tabs -->
-        <div class="flex space-x-4 mb-4 w-full items-center justify-center">
+        <div class="flex space-x-12 gap-40 mb-4 w-full items-center justify-center">
             <button onclick="showTab('announcements')" class="font-bold tab-button text-blue-700" id="btn-announcements">Announcements</button>
             <button onclick="showTab('achievements')" class="font-bold tab-button text-black" id="btn-achievements">Achievements</button>
             <button onclick="showTab('blogs')" class="font-bold tab-button text-black" id="btn-blogs">Blogs</button>
