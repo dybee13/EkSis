@@ -42,13 +42,17 @@ Route::get('/masterDashboard', [pembinaController::class, 'index']);
 // End Dashboard Pembina
 
 // Dashboard Users
-Route::get('/detailEkskul', function () {
-    return view('users/detailEkskul');
-})->name('detailEkskul');
+Route::get('/mainEkskul', function () {
+    return view('users/mainEkskul');
+})->name('mainEkskul');
 
 Route::get('/daftarEkskul', function () {
     return view('users/daftarEkskul');
 })->name('daftarEkskul');
+
+Route::get('/detailEkskul', function () {
+    return view('users/detailEkskul');
+})->name('detailEkskul');
 
 Route::get('/tentangWebsite', function () {
     return view('users/tentangWebsite');
