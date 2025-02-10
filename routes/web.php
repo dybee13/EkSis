@@ -38,17 +38,11 @@ Route::delete('/hapusEkskul/{id}', [masterController::class, 'deleteEkskul']);
 // end Dashboard Master
 
 // Role Pembina START
-// Dashboard Pembina START
 Route::get('/dashboardPembina', [pembinaController::class, 'getDashboardPembina']);
-// Dashboard Pembina END
-
-// Data Anggota Eskul START
 Route::get('/dataAnggotaEskul', [pembinaController::class, 'getDataAnggotaEskul']);
-// Data Anggota Eskul END
-
-// Data Informasi Eskul START
+Route::post('/dataAnggotaEskul', [pembinaController::class, 'createUser']);
 Route::get('/dataInformasiEskul', [pembinaController::class, 'getDataInformasiEskul']);
-// Data Informasi Eskul END
+Route::get('/dataStrukturEskul', [pembinaController::class, 'getDataStrukturEskul']);
 // Role Pembina END
 
 
