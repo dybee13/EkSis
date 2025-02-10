@@ -38,9 +38,11 @@ Route::delete('/hapusEkskul/{id}', [masterController::class, 'deleteEkskul']);
 // end Dashboard Master
 
 // Role Pembina START
-Route::get('/dashboardPembina', [pembinaController::class, 'getDashboardPembina']);
+Route::get('/pembinaDashboard', [pembinaController::class, 'getDashboardPembina']);
 Route::get('/dataAnggotaEskul', [pembinaController::class, 'getDataAnggotaEskul']);
-Route::post('/dataAnggotaEskul', [pembinaController::class, 'createUser']);
+Route::post('/saveAnggota', [pembinaController::class, 'saveAnggota']);
+Route::delete('/hapusAnggota/{id}', [pembinaController::class, 'deleteAnggota']);
+Route::get('/api/jurusan', [pembinaController::class, 'getJurusan']);
 Route::get('/dataInformasiEskul', [pembinaController::class, 'getDataInformasiEskul']);
 Route::get('/dataStrukturEskul', [pembinaController::class, 'getDataStrukturEskul']);
 // Role Pembina END
