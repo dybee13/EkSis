@@ -62,8 +62,14 @@
 
     <!-- Modal Detail -->
     <div id="detailModal" class="fixed inset-0 flex items-center justify-center bg-gray-800 bg-opacity-50 hidden">
-        <div class="bg-white p-6 rounded-lg w-96">
-            <h2 class="text-lg font-bold mb-4">Detail Pembina</h2>
+        <div class="bg-white p-6 rounded-lg w-[860px] ml-32 relative">
+            <div class="flex justify-between items-center mb-4">
+                <h2 class="text-lg font-bold">Detail Pembina</h2>
+                <button id="closeDetailModal" class="text-gray-500 hover:text-gray-700">
+                    ✖
+                </button>
+            </div>
+
 
             <div class="mb-4">
                 <label class="font-semibold">NIP:</label>
@@ -90,10 +96,11 @@
                 <p id="detailEkskul" class="text-gray-700"></p>
             </div>
 
-            <div class="flex justify-between">
-                <button id="closeDetailModal" class="px-4 py-2 bg-gray-500 text-white rounded">Tutup</button>
-                <button id="btnEdit" class="px-4 py-2 bg-blue-500 text-white rounded">Edit</button>
-                <button id="btnHapus" class="px-3 py-1 bg-red-500 text-white rounded-md hover:bg-red-600">Hapus</button>
+            <div class="flex justify-end">
+                <!-- <button id="closeDetailModal" class="px-4 py-2 bg-gray-500 text-white rounded">Tutup</button> -->
+                <button id="btnEdit" class="px-4 py-2 m-2 bg-blue-500 text-white rounded">Edit</button>
+                <button id="btnHapus"
+                    class="px-4 py-2 m-2 bg-red-500 text-white rounded-md hover:bg-red-600">Hapus</button>
             </div>
         </div>
     </div>
@@ -146,7 +153,9 @@
         document.addEventListener('DOMContentLoaded', function() {
             //modal
             const detailModal = document.getElementById('detailModal');
-            const closeDetailModal = document.getElementById('closeDetailModal');
+            document.getElementById("closeDetailModal").addEventListener("click", function() {
+                document.getElementById("detailModal").classList.add("hidden");
+            });
             const dataModal = document.getElementById('dataModal');
             const dataForm = document.getElementById('dataForm');
             const modalTitle = document.getElementById('modalTitle');
