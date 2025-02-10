@@ -6,10 +6,10 @@
             <img src=".\assets\images\ekskul.png" class="w-24 h-24">
         </div>
         <p class="flex items-center justify-center text-2xl font-semibold mt-1">Badminton</p>
-        <p class="text-lg font-mono mb-1">Pembina : M.Dymas</p>
-        <p class="text-lg font-mono mb-1">Ketua : M.Dymas</p>
-        <p class="text-lg font-mono mb-1">Jadwal Latihan : M.Dymas</p>
-        <p class="text-lg font-mono mb-1">Waktu : M.Dymas</p>
+        <p class="text-lg font-mono mb-0.5">Pembina : HJR</p>
+        <p class="text-lg font-mono mb-0.5">Ketua : M.Dymas Rafi</p>
+        <p class="text-lg font-mono mb-0.5">Jadwal Latihan : Selasa - Jum'at</p>
+        <p class="text-lg font-mono mb-0.5">Waktu : 16.00 - 17.00</p>
     </div>
 
     <div class="w-full min-h-screen">
@@ -66,5 +66,3 @@
     </script>
 
 </div>
-
-@extends('partials.footer')
