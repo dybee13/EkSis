@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\authController;
 use App\Http\Controllers\masterController;
+use App\Http\Controllers\pembinaController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -30,6 +31,21 @@ Route::get('/masterDataEkskul', [masterController::class, 'dataEkskul']);
 Route::post('/saveEkskul', [masterController::class, 'saveEkskul']);
 Route::get('/hapusEkskul/{id}', [masterController::class, 'deleteEkskul']);
 // end Dashboard Master
+
+// Role Pembina START
+// Dashboard Pembina START
+Route::get('/dashboardPembina', [pembinaController::class, 'getDashboardPembina']);
+// Dashboard Pembina END
+
+// Data Anggota Eskul START
+Route::get('/dataAnggotaEskul', [pembinaController::class, 'getDataAnggotaEskul']);
+// Data Anggota Eskul END
+
+// Data Informasi Eskul START
+Route::get('/dataInformasiEskul', [pembinaController::class, 'getDataInformasiEskul']);
+// Data Informasi Eskul END
+// Role Pembina END
+
 
 // Dashboard Users
 Route::get('/detailEkskul', function () {
