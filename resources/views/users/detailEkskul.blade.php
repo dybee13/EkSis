@@ -1,9 +1,7 @@
 @extends('partials.navbar')
 
-
-
-<div class="container min-h-screen">
-    <div class="m-8">
+<div class="container min-h-screen bg-gradient-to-b from-white via-blue-300 to-purple-200">
+    <div class="m-8 ">
         <div class="flex items-center justify-center mt-20">
             <img src=".\assets\images\ekskul.png" class="w-24 h-24">
         </div>
