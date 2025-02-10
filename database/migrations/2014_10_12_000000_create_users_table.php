@@ -21,7 +21,7 @@ return new class extends Migration
             $table->string('kelas')->nullable();
             $table->string('jurusan')->nullable();
             $table->string('pp');
-            $table->enum('role', ['master', 'pembina', 'pengurus']);
+            $table->enum('role', ['master', 'pembina', 'pengurus', 'user']);
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
             $table->rememberToken();
