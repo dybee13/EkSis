@@ -5,13 +5,13 @@
             <!-- Dropdown Ekskul & Tombol Tambah -->
             <div class="mb-4 flex justify-between items-center">
                 <div class="w-1/2">
-                    <label for="eskul" class="block text-sm font-medium text-gray-700">Pilih anggota Ekskul</label>
+                    <label for="eskul" class="block text-sm font-medium text-gray-700">Pilih Kelas</label>
                     <select id="eskul"
                         class="w-full mt-1 block py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm">
                         <option value="all">Semua</option>
-                        <option value="Basket">Basket</option>
-                        <option value="Futsal">Futsal</option>
-                        <option value="Rohis">Rohis</option>
+                        <option value="Basket">10</option>
+                        <option value="Futsal">11</option>
+                        <option value="Rohis">12</option>
                     </select>
                 </div>
                 <button id="btnTambah" class="px-4 py-2 bg-green-500 text-white rounded-md hover:bg-green-600">+ Tambah
@@ -26,9 +26,9 @@
                 <table class="w-full table-auto bg-white rounded-lg border border-gray-300 text-center">
                     <thead>
                         <tr class="bg-gray-100 border-b">
-                            <th class="py-2 px-4 w-1/4 text-center text-gray-700">Nama anggota</th>
+                            <th class="py-2 px-4 w-1/4 text-center text-gray-700">Nama Anggota</th>
                             <th class="py-2 px-4 w-1/4 text-center text-gray-700">NIS</th>
-                            <th class="py-2 px-4 w-1/4 text-center text-gray-700">Ekskul</th>
+                            <th class="py-2 px-4 w-1/4 text-center text-gray-700">Jabatan</th>
                             <th class="py-2 px-4 w-1/4 text-center text-gray-700">Status</th>
                             <th class="py-2 px-4 w-1/4 text-center text-gray-700">Aksi</th>
                         </tr>
@@ -36,8 +36,8 @@
                     <tbody id="table-body">
                         @foreach ($datas as $anggota)
                             <tr class="border-b">
-                                <td class="py-2 px-4 text-center">{{ $anggota->name }}</td>
-                                <td class="py-2 px-4 text-center">{{ $anggota->nis }}</td>
+                                <td class="py-2 px-4 text-center">{{ $user->name }}</td>
+                                <td class="py-2 px-4 text-center">{{ $user->nis }}</td>
                                 <td>
                                     @foreach ($anggota->ekskuls as $ekskulUser)
                                         {{ $ekskulUser->ekskul->nama_ekskul }}<br>
@@ -45,10 +45,10 @@
                                 </td>
                                 <td class="py-2 px-4 text-center text-green-600 font-semibold">Aktif</td>
                                 <td>
-                                    <button id="btnDetail" class="btn btn-warning btnDetail" data-id="{{ $anggota->id }}"
-                                        data-name="{{ $anggota->name }}" data-email="{{ $anggota->email }}"
-                                        data-nohp="{{ $anggota->no_hp }}" data-nis="{{ $anggota->nis }}"
-                                        data-ekskul="{{ implode(', ', $anggota->ekskuls->map(fn($e) => $e->ekskul->nama_ekskul)->toArray()) }}">
+                                    <button id="btnDetail" class="btn btn-warning btnDetail" data-id="{{ $user->id }}"
+                                        data-name="{{ $user->name }}" data-email="{{ $user->email }}"
+                                        data-nohp="{{ $user->no_hp }}" data-nis="{{ $user->nis }}"
+                                        data-ekskul="{{ implode(', ', $user->ekskuls->map(fn($e) => $e->ekskul->nama_ekskul)->toArray()) }}">
                                         Detail
                                     </button>
                                 </td>
@@ -62,14 +62,8 @@
 
     <!-- Modal Detail -->
     <div id="detailModal" class="fixed inset-0 flex items-center justify-center bg-gray-800 bg-opacity-50 hidden">
-        <div class="bg-white p-6 rounded-lg w-[860px] ml-32 relative">
-            <div class="flex justify-between items-center mb-4">
-                <h2 class="text-lg font-bold">Detail anggota</h2>
-                <button id="closeDetailModal" class="text-gray-500 hover:text-gray-700">
-                    ✖
-                </button>
-            </div>
-
+        <div class="bg-white p-6 rounded-lg w-96">
+            <h2 class="text-lg font-bold mb-4">Detail Anggota</h2>
 
             <div class="mb-4">
                 <label class="font-semibold">NIS:</label>
@@ -125,7 +119,7 @@
                 @enderror
 
                 <label class="block text-sm font-medium text-gray-700">NIS</label>
-                <input type="text" id="nis" name="nis"
+                <input type="text" id="nisAnggota" name="nis"
                     class="w-full mt-1 mb-4 p-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500">
                 @error('nis')
                     <div class="text-red-500 bg-red-100 border border-red-400 p-2 rounded-md mt-1">
@@ -151,6 +145,12 @@
                     </div>
                 @enderror
 
+                <label class="block text-sm font-medium text-gray-700">Jurusan</label>
+                <select id="jurusanSelect" name="jurusan"
+                    class="form-select w-full p-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500">
+                    <option value="" selected>Pilih Jurusan</option>
+                </select>
+
                 <label class="block text-sm font-medium text-gray-700">Password</label>
                 <input type="password" id="password" name="password"
                     class="w-full mt-1 mb-4 p-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500">
@@ -170,7 +170,7 @@
                 @enderror
 
                 <div class="flex justify-end space-x-2">
-                    <button onclick="window.location.href=`{{ url('/masterDataanggota') }}`" id="btnBatal"
+                    <button id="btnBatal"
                         class="px-4 py-2 bg-red-600 text-white rounded-md hover:bg-red-700">Batal</button>
                     <button type="submit" id="btnSimpan"
                         class="px-4 py-2 bg-green-600 text-white rounded-md hover:bg-green-700">Simpan</button>
@@ -214,7 +214,7 @@
             //input form
             const idAnggota = document.getElementById('idAnggota')
             const namaAnggota = document.getElementById('namaAnggota');
-            const nis = document.getElementById('nis');
+            const nisAnggota = document.getElementById('nisAnggota');
             const email = document.getElementById('email');
             const noHp = document.getElementById('noHp');
             const pw = document.getElementById('password');
@@ -242,10 +242,10 @@
             // Open modal for adding data
             btnTambah.addEventListener('click', () => {
                 modalTitle.innerText = "Tambah Data";
-                dataForm.action = "/saveDataAnggotaEskul";
+                dataForm.action = "/saveAnggota";
                 dataForm.method = "POST";
                 namaAnggota.value = "";
-                nis.value = "";
+                nisAnggota.value = "";
                 email.value = "";
                 noHp.value = "";
                 idAnggota.value = "";
@@ -253,7 +253,29 @@
                 konfpw.value = "";
                 methodField.innerHTML = "";
                 dataModal.classList.remove('hidden');
+                // Panggil fungsi untuk mengisi dropdown jurusan
+                loadJurusan();
             });
+
+            // Fungsi untuk fetch jurusan dari backend dan memasukkan ke dalam select option
+            function loadJurusan() {
+                fetch('/api/jurusan')
+                    .then(response => response.json())
+                    .then(data => {
+                        let selectJurusan = document.getElementById("jurusanSelect");
+
+                        // Hapus option sebelumnya agar tidak menumpuk
+                        selectJurusan.innerHTML = '<option value="">-- Pilih Jurusan --</option>';
+
+                        for (const [key, value] of Object.entries(data)) {
+                            let option = document.createElement("option");
+                            option.value = key;
+                            option.textContent = value;
+                            selectJurusan.appendChild(option);
+                        }
+                    })
+                    .catch(error => console.error("Error fetching jurusan:", error));
+            }
 
             // Open Modal Edit from Detail Modal
             btnEdit.addEventListener('click', () => {
@@ -277,7 +299,7 @@
             btnHapus.addEventListener('click', () => {
                 if (currentId) {
                     if (confirm("Apakah Anda yakin ingin menghapus data ini?")) {
-                        fetch(`/hapusanggota/${currentId}`, {
+                        fetch(`/hapusAnggota/${currentId}`, {
                                 method: "DELETE",
                                 headers: {
                                     "X-CSRF-TOKEN": document.querySelector('meta[name="csrf-token"]')

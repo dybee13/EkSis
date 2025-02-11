@@ -26,6 +26,7 @@ class masterController extends Controller
             'datas' => User::where('role', 'pembina')->with('ekskuls.ekskul')->get() // Ambil hanya user dengan role 'pembina'
         ]);
     }
+    
     public function dataEkskul()
     {
         $ekskuls = Ekskuls::with('pembina')->get();
@@ -86,6 +87,19 @@ class masterController extends Controller
         [
             'nama_eskul.required' => 'Nama Eskul wajid diisi',
         ]);
+
+        // Cek apakah semua user yang dikirim memiliki role 'pembina'
+        $invalidUsers = User::whereIn('id', $request->users)
+        ->where('role', '!=', 'pembina')
+        ->pluck('id');
+
+        if ($invalidUsers->isNotEmpty()) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Gagal menambahkan ekskul! Beberapa pengguna bukan pembina.',
+                'invalid_users' => $invalidUsers
+            ], 400);
+        }
 
         try {
             // Simpan ekskul baru

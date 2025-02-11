@@ -91,7 +91,7 @@
 
             <label class="block text-sm font-medium text-gray-700">Guru Pembina</label>
             <select id="users" name="users" class="form-select w-full p-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500">
-                <option selected disabled>Pilih Guru Pembina</option>
+                <option selected>Pilih Guru Pembina</option>
                 @foreach ($pembinas as $pembina)
                 <option value="{{ $pembina->id }}">{{ $pembina->name }}</option>
                 @endforeach

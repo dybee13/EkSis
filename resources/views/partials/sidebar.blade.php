@@ -49,6 +49,7 @@
     aria-label="Sidebar">
     <div class="h-full px-3 pb-4 overflow-y-auto bg-gray-800">
         <ul class="space-y-2 font-medium">
+            @if (Auth::user()->role === 'master')
             <li>
                 <a href="/masterDashboard" class="flex items-center p-2 rounded-lg text-white hover:bg-gray-700 group">
                     <svg class="w-5 h-5 transition duration-75 text-gray-400 group-hover:text-white" aria-hidden="true"
@@ -82,6 +83,7 @@
                     <span class="flex-1 ms-3 whitespace-nowrap">Daftar Pembina Ekskul</span>
                 </a>
             </li>
+            @elseif (Auth::user()->role === 'pembina')
             <li>
                 <a href="/dashboardPembina" class="flex items-center p-2 rounded-lg text-white hover:bg-gray-700 group">
                     <svg class="shrink-0 w-5 h-5transition duration-75 text-gray-400  group-hover:text-white"
@@ -113,6 +115,7 @@
                     <span class="flex-1 ms-3 whitespace-nowrap">Data Informasi Ekskul</span>
                 </a>
             </li>
+            @endif
         </ul>
     </div>
 </aside>

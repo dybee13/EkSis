@@ -272,23 +272,9 @@
             dataModal.classList.add('hidden');
         });
 
-        closeDetailModal.addEventListener('click', () => {
-            detailModal.classList.add('hidden');
-        });
-
-        btnSimpan.addEventListener('click', () => {
-            let namaGuru = document.getElementById('namaGuru').value;
-            let nipGuru = document.getElementById('nipGuru').value;
-
-            if (namaGuru.trim() === '' || nipGuru.trim() === '') {
-                alert('Harap isi semua kolom!');
-                return;
-            }
-
-            alert(`Guru "${namaGuru}" dengan NIP "${nipGuru}" telah ditambahkan!`);
-            modalTambahGuru.classList.add('hidden');
-        });
-
+    closeDetailModal.addEventListener('click', () => {
+        detailModal.classList.add('hidden');
+    });
 
         document.getElementById('eskul').addEventListener('change', function() {
             let selectedEskul = this.value;

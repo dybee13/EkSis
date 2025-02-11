@@ -38,10 +38,11 @@ Route::delete('/hapusEkskul/{id}', [masterController::class, 'deleteEkskul']);
 // end Dashboard Master
 
 // Role Pembina START
-Route::get('/dashboardPembina', [pembinaController::class, 'getDashboardPembina']);
+Route::get('/pembinaDashboard', [pembinaController::class, 'getDashboardPembina']);
 Route::get('/dataAnggotaEskul', [pembinaController::class, 'getDataAnggotaEskul']);
-Route::post('/saveDataAnggotaEskul', [pembinaController::class, 'createUser']);
-Route::put('/editDataAnggotaEskul/{id}', [pembinaController::class, 'updateUser']);
+Route::post('/saveAnggota', [pembinaController::class, 'saveAnggota']);
+Route::delete('/hapusAnggota/{id}', [pembinaController::class, 'deleteAnggota']);
+Route::get('/api/jurusan', [pembinaController::class, 'getJurusan']);
 Route::get('/dataInformasiEskul', [pembinaController::class, 'getDataInformasiEskul']);
 Route::get('/dataStrukturEskul', [pembinaController::class, 'getDataStrukturEskul']);
 // Role Pembina END
@@ -52,9 +53,9 @@ Route::get('/mainEkskul', function () {
     return view('users/mainEkskul');
 })->name('mainEkskul');
 
-Route::get('/daftarEkskul', function () {
-    return view('users/daftarEkskul');
-})->name('daftarEkskul');
+Route::get('/dataEkskul', function () {
+    return view('users/dataEkskul');
+})->name('dataEkskul');
 
 Route::get('/detailEkskul', function () {
     return view('users/detailEkskul');
@@ -68,6 +69,6 @@ Route::get('/tentangWebsite', function () {
 Route::get('/dataPembina', function () {
     return view('dataPembina');
 });
-Route::get('/dataEkskul', function () {
-    return view('dataEkskul');
-});
+// Route::get('/dataEkskul', function () {
+//     return view('dataEkskul');
+// });
