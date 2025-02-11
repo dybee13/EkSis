@@ -41,10 +41,26 @@ class masterController extends Controller
         
         $request->validate([
             'name' => 'required',
-            'nip' => 'required|min:18',
-            'noHp' => 'required',
-            'email' => 'required',
+            'nip' => 'required|unique:users,nip',
+            'noHp' => 'required|numeric|digits_between:10,13',
+            'email' => 'required|email|unique:users,email',
             'password' => 'required|min:6|confirmed',
+            'password_confirmation' => 'required',
+        ],
+        [ 
+            'name.required' => 'Nama wajib diisi.',
+            'nip.required' => 'NIP wajib diisi.',
+            'nip.unique' => 'NIP ini sudah digunakan, silakan gunakan NIP lain.',
+            'noHp.required' => 'Nomor HP wajib diisi.',
+            'noHp.numeric' => 'Diisi dengan Nomor.',
+            'noHp.digits_between' => 'Nomor HP harus terdiri dari 10 hingga 13 digit.',
+            'email.required' => 'Email wajib diisi.',
+            'email.email' => 'Format email tidak valid.',
+            'email.unique' => 'Email ini sudah digunakan, silakan gunakan email lain.',
+            'password.required' => 'Password wajib diisi.',
+            'password.min' => 'Password minimal harus :min karakter.',
+            'password.confirmed' => 'Konfirmasi password tidak cocok.',
+            'password_confirmation.required' => 'Password wajib diisi.'
         ]);
 
         $create = new User();
@@ -66,6 +82,9 @@ class masterController extends Controller
             'nama_ekskul' => 'required|string|max:255',
             'users' => 'required|array', // Pastikan users dikirim sebagai array
             'users.*' => 'exists:users,id' // Validasi setiap user_id harus ada di tabel users
+        ],
+        [
+            'nama_eskul.required' => 'Nama Eskul wajid diisi',
         ]);
 
         try {
@@ -105,9 +124,19 @@ class masterController extends Controller
     public function updatePembina(Request $request, $id){
         $request->validate([
             'name' => 'required',
-            'nip' => 'required|min:18',
-            'noHp' => 'required',
-            'email' => 'required',
+            'nip' => 'required|unique:users,nip',
+            'noHp' => 'required|numeric|digits_between:10,13',
+            'email' => 'required|email|unique:users,email',
+        ],[
+            'name.required' => 'Nama wajib diisi.',
+            'nip.required' => 'NIP wajib diisi.',
+            'nip.unique' => 'NIP ini sudah digunakan, silakan gunakan NIP lain.',
+            'noHp.required' => 'Nomor HP wajib diisi.',
+            'noHp.numeric' => 'Diisi dengan Nomor.',
+            'noHp.digits_between' => 'Nomor HP harus terdiri dari 10 hingga 13 digit.',
+            'email.required' => 'Email wajib diisi.',
+            'email.email' => 'Format email tidak valid.',
+            'email.unique' => 'Email ini sudah digunakan, silakan gunakan email lain.',
         ]);
 
         $update = User::find($id);
@@ -141,6 +170,8 @@ class masterController extends Controller
             'nama_ekskul' => 'required|string|max:255',
             'users' => 'required|array',
             'users.*' => 'exists:users,id'
+        ],  [
+            'nama_eskul.required' => 'Nama Eskul wajid diisi',
         ]);
 
         $ekskul = Ekskuls::findOrFail($id);

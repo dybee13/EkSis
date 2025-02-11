@@ -40,7 +40,8 @@ Route::delete('/hapusEkskul/{id}', [masterController::class, 'deleteEkskul']);
 // Role Pembina START
 Route::get('/dashboardPembina', [pembinaController::class, 'getDashboardPembina']);
 Route::get('/dataAnggotaEskul', [pembinaController::class, 'getDataAnggotaEskul']);
-Route::post('/dataAnggotaEskul', [pembinaController::class, 'createUser']);
+Route::post('/saveDataAnggotaEskul', [pembinaController::class, 'createUser']);
+Route::put('/editDataAnggotaEskul/{id}', [pembinaController::class, 'updateUser']);
 Route::get('/dataInformasiEskul', [pembinaController::class, 'getDataInformasiEskul']);
 Route::get('/dataStrukturEskul', [pembinaController::class, 'getDataStrukturEskul']);
 // Role Pembina END
