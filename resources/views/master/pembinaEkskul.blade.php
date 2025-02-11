@@ -1,5 +1,16 @@
 @extends('layouts.main')
 @section('container')
+    @if (session('success'))
+        <script>
+            Swal.fire({
+                title: "Sukses!",
+                text: "{{ session('success') }}",
+                icon: "success",
+                timer: 2000,
+                showConfirmButton: false
+            });
+        </script>
+    @endif
     <div class="w-full min-h-screen flex justify-center items-start mt-32 ml-32 px-6">
         <div class="w-full max-w-screen-lg bg-white p-6 rounded-lg shadow">
             <!-- Dropdown Ekskul & Tombol Tambah -->
@@ -140,8 +151,9 @@
                     class="w-full mt-1 mb-4 p-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500">
 
                 <div class="flex justify-end space-x-2">
-                    <button onclick="window.location.href=`{{ url('/masterDataPembina') }}`" id="btnBatal"
-                        class="px-4 py-2 bg-red-600 text-white rounded-md hover:bg-red-700">Batal</button>
+                    <button id="btnBatal" class="px-4 py-2 bg-red-600 text-white rounded-md hover:bg-red-700">
+                        Batal
+                    </button>
                     <button type="submit" id="btnSimpan"
                         class="px-4 py-2 bg-green-600 text-white rounded-md hover:bg-green-700">Simpan</button>
                 </div>
@@ -151,11 +163,12 @@
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            //modal
+            // modal
             const detailModal = document.getElementById('detailModal');
             document.getElementById("closeDetailModal").addEventListener("click", function() {
                 document.getElementById("detailModal").classList.add("hidden");
             });
+
             const dataModal = document.getElementById('dataModal');
             const dataForm = document.getElementById('dataForm');
             const modalTitle = document.getElementById('modalTitle');
@@ -181,8 +194,8 @@
             let currentNoHp = null;
             let currentEkskul = null;
 
-            //input form
-            const idGuru = document.getElementById('idGuru')
+            // input form
+            const idGuru = document.getElementById('idGuru');
             const namaGuru = document.getElementById('namaGuru');
             const nipGuru = document.getElementById('nipGuru');
             const email = document.getElementById('email');
@@ -242,47 +255,119 @@
                 }
             });
 
-            // Delete Data with Confirmation
-            btnHapus.addEventListener('click', () => {
-                if (currentId) {
-                    if (confirm("Apakah Anda yakin ingin menghapus data ini?")) {
-                        fetch(`/hapusPembina/${currentId}`, {
-                                method: "DELETE",
-                                headers: {
-                                    "X-CSRF-TOKEN": document.querySelector('meta[name="csrf-token"]')
-                                        .content
-                                }
-                            })
-                            .then(response => response.json())
-                            .then(data => {
-                                alert(data.message);
-                                detailModal.classList.add('hidden');
-                                location.reload(); // Reload halaman setelah penghapusan
-                            })
-                            .catch(error => console.error("Error:", error));
-                    }
+            dataForm.addEventListener('submit', function(event) {
+                const submitter = event.submitter;
+                if (submitter && submitter.id === 'btnSimpan') {
+                    event.preventDefault(); // hentikan form submit sementara
+
+                    let isEdit = methodField.innerHTML.includes(
+                        'PUT'); // cek apakah ini edit atau tambah data
+                    let confirmText = isEdit ? "Apakah Anda yakin ingin mengupdate data ini?" :
+                        "Apakah Anda yakin ingin menambahkan data guru ini?";
+                    let successText = isEdit ? "Data berhasil diperbarui!" : "Data berhasil ditambahkan!";
+
+                    Swal.fire({
+                        title: "Konfirmasi",
+                        text: confirmText,
+                        icon: "warning",
+                        showCancelButton: true,
+                        confirmButtonText: isEdit ? "Ya, Update!" : "Ya, Tambahkan!",
+                        cancelButtonText: "Batal"
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            Swal.fire({
+                                title: "Sukses!",
+                                text: successText,
+                                icon: "success",
+                                timer: 2000,
+                                showConfirmButton: false
+                            });
+
+                            setTimeout(() => {
+                                dataForm.submit(); // lanjutkan submit jika dikonfirmasi
+                            }, 1500);
+                        }
+                    });
                 }
             });
 
 
-        });
+
+            btnBatal.addEventListener('click', (event) => {
+                event.preventDefault(); // hentikan aksi default
+
+                let isEdit = methodField.innerHTML.includes('PUT'); // cek apakah ini edit atau tambah data
+                let confirmText = isEdit ? "Anda yakin ingin membatalkan perubahan data?" :
+                    "Anda yakin ingin membatalkan penambahan data?";
+
+                Swal.fire({
+                    title: "Batalkan?",
+                    text: confirmText,
+                    icon: "warning",
+                    showCancelButton: true,
+                    confirmButtonText: "Ya, Batalkan",
+                    cancelButtonText: "Kembali"
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        dataModal.classList.add('hidden'); // tutup modal jika dibatalkan
+                    }
+                });
+            });
 
 
-        btnBatal.addEventListener('click', () => {
-            dataModal.classList.add('hidden');
-        });
 
-    closeDetailModal.addEventListener('click', () => {
-        detailModal.classList.add('hidden');
-    });
+            btnHapus.addEventListener('click', () => {
+                if (currentId) {
+                    Swal.fire({
+                        title: "Konfirmasi",
+                        text: "Apakah Anda yakin ingin menghapus data ini?",
+                        icon: "warning",
+                        showCancelButton: true,
+                        confirmButtonText: "Ya, Hapus!",
+                        cancelButtonText: "Batal"
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            fetch(`/hapusPembina/${currentId}`, {
+                                    method: "DELETE",
+                                    headers: {
+                                        "X-CSRF-TOKEN": document.querySelector(
+                                            'meta[name="csrf-token"]').content
+                                    }
+                                })
+                                .then(response => response.json())
+                                .then(data => {
+                                    Swal.fire({
+                                        title: "Terhapus!",
+                                        text: "Data berhasil dihapus.",
+                                        icon: "success",
+                                        timer: 2000,
+                                        showConfirmButton: false
+                                    });
 
-        document.getElementById('eskul').addEventListener('change', function() {
-            let selectedEskul = this.value;
-            let rows = document.querySelectorAll('#table-body tr');
+                                    setTimeout(() => {
+                                        detailModal.classList.add('hidden');
+                                        location.reload(); // reload setelah sukses
+                                    }, 1500);
+                                })
+                                .catch(error => console.error("Error:", error));
+                        }
+                    });
+                }
+            });
 
-            rows.forEach(row => {
-                let eskul = row.getAttribute('data-eskul');
-                row.style.display = (selectedEskul === 'all' || eskul === selectedEskul) ? '' : 'none';
+            closeDetailModal.addEventListener('click', () => {
+                detailModal.classList.add('hidden');
+            });
+
+            document.getElementById('eskul').addEventListener('change', function() {
+                let selectedEskul = this.value;
+                let rows = document.querySelectorAll('#table-body tr');
+
+                rows.forEach(row => {
+                    let eskul = row.getAttribute('data-eskul');
+                    row.style.display = (selectedEskul === 'all' || eskul === selectedEskul) ? '' :
+                        'none';
+                });
             });
         });
     </script>

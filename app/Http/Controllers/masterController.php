@@ -58,7 +58,7 @@ class masterController extends Controller
         $create->password = Hash::make($request->password);
         $create->save();
         
-        return back()->with('success', 'User berhasil ditambahkan!');
+        return back()->with('success');
     }
 
     public function saveEkskul(Request $request){
@@ -134,7 +134,7 @@ class masterController extends Controller
         $update->password = Hash::make($request->password);
         $update->save();
         
-        return back()->with('success', 'User berhasil diedit!');
+        return back()->with('success');
     }
 
     public function dataEdit($id)
