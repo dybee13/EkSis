@@ -1,4 +1,4 @@
-<footer class="shadow-sm bg-gray-900 fixed bottom-0 w-full">
+<footer class="shadow-sm bg-gray-900 fixed bottom-0 w-full z-10">
     <div class="w-full max-w-screen-xl mx-auto p-2">
         <div class="sm:flex sm:items-center sm:justify-between">
             <a href="#" class="flex items-center mb-4 sm:mb-0 space-x-3 rtl:space-x-reverse">

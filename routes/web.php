@@ -57,9 +57,9 @@ Route::get('/dataEkskul', function () {
     return view('users/dataEkskul');
 })->name('dataEkskul');
 
-Route::get('/detailEkskul', function () {
-    return view('users/detailEkskul');
-})->name('detailEkskul');
+Route::get('/listEkskul', function () {
+    return view('users/listEkskul');
+})->name('listEkskul');
 
 Route::get('/tentangWebsite', function () {
     return view('users/tentangWebsite');
@@ -69,6 +69,6 @@ Route::get('/tentangWebsite', function () {
 Route::get('/dataPembina', function () {
     return view('dataPembina');
 });
-// Route::get('/dataEkskul', function () {
-//     return view('dataEkskul');
-// });
+Route::get('/daftarEkskul', function () {
+    return view('daftarEkskul');
+});
