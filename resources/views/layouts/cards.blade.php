@@ -12,7 +12,7 @@
 
 <div id="cardContainer" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 p-6 mt-8">
     <!-- Card 1 (Olahraga) -->
-    <a href="/detailEkskul" class="card relative rounded-lg overflow-hidden shadow-lg transform transition duration-300 hover:scale-105" data-category="olahraga">
+    <a href="/dataEkskul" class="card relative rounded-lg overflow-hidden shadow-lg transform transition duration-300 hover:scale-105" data-category="olahraga">
         <img src="./assets/images/ekstrakulikuler/badminton.jpg" class="w-full h-64 object-cover">
         <div class="absolute inset-0 bg-black bg-opacity-30 flex items-center justify-center text-center hover:bg-opacity-50">
             <div class="p-4">
