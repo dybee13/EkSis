@@ -21,19 +21,19 @@
                     <div class="z-50 hidden my-4 text-base list-none divide-yrounded-sm shadow-sm bg-gray-700 divide-gray-600"
                         id="dropdown-user">
                         @if (Session::has('user'))
-                            <div class="px-4 py-3" role="none">
-                                <p class="text-sm text-white" role="none">
-                                    {{ Session::get('user')['name'] }}
-                                </p>
-                                <p class="text-sm font-medium truncate text-gray-300" role="none">
-                                    {{ Session::get('user')['email'] }}
-                                </p>
-                            </div>
+                        <div class="px-4 py-3" role="none">
+                            <p class="text-sm text-white" role="none">
+                                {{ Session::get('user')['name'] }}
+                            </p>
+                            <p class="text-sm font-medium truncate text-gray-300" role="none">
+                                {{ Session::get('user')['email'] }}
+                            </p>
+                        </div>
                         @endif
                         <ul class="py-1" role="none">
                             <li>
                                 <a href="/logout"
-                                    class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-white"
+                                    class="block px-4 py-2 text-sm text-white hover:bg-gray-100 hover:text-white"
                                     role="menuitem">Keluar</a>
                             </li>
                         </ul>
