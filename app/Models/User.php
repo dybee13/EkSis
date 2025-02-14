@@ -25,7 +25,6 @@ class User extends Authenticatable
         'no_hp',
         'nip',
         'nis',
-        'kelas',
         'jurusan',
         'pp',
         'role',

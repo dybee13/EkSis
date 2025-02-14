@@ -34,12 +34,12 @@
                         </tr>
                     </thead>
                     <tbody id="table-body">
-                        @foreach ($datas as $user)
+                        @foreach ($datas as $anggota)
                             <tr class="border-b">
                                 <td class="py-2 px-4 text-center">{{ $user->name }}</td>
                                 <td class="py-2 px-4 text-center">{{ $user->nis }}</td>
                                 <td>
-                                    @foreach ($user->ekskuls as $ekskulUser)
+                                    @foreach ($anggota->ekskuls as $ekskulUser)
                                         {{ $ekskulUser->ekskul->nama_ekskul }}<br>
                                     @endforeach
                                 </td>
@@ -90,52 +90,84 @@
                 <p id="detailEkskul" class="text-gray-700"></p>
             </div>
 
-            <div class="flex justify-between">
-                <button id="closeDetailModal" class="px-4 py-2 bg-gray-500 text-white rounded">Tutup</button>
-                <button id="btnEdit" class="px-4 py-2 bg-blue-500 text-white rounded">Edit</button>
-                <button id="btnHapus" class="px-3 py-1 bg-red-500 text-white rounded-md hover:bg-red-600">Hapus</button>
+            <div class="flex justify-end">
+                <!-- <button id="closeDetailModal" class="px-4 py-2 bg-gray-500 text-white rounded">Tutup</button> -->
+                <button id="btnEdit" class="px-4 py-2 m-2 bg-blue-500 text-white rounded">Edit</button>
+                <button id="btnHapus"
+                    class="px-4 py-2 m-2 bg-red-500 text-white rounded-md hover:bg-red-600">Hapus</button>
             </div>
         </div>
     </div>
 
-    <!-- Modal Tambah Data Guru Pembina -->
+    <!-- Modal Tambah Data Anggota anggota -->
     <div id="dataModal" class="fixed inset-0 bg-black bg-opacity-50 hidden flex justify-center items-center dataModal">
         <form method="POST" id="dataForm">
             @csrf
             <div id="methodField"></div> <!-- Tempat untuk @method('PUT') -->
             <div class="bg-white p-6 ml-36 mt-16 rounded-lg shadow-lg w-[860px]">
-                <h2 class="text-lg font-semibold mb-4 modalTitle" id="modalTitle">Tambah Anggota Eskul</h2>
+                <h2 class="text-lg font-semibold mb-4 modalTitle" id="modalTitle">Tambah Anggota</h2>
 
                 <input type="hidden" id="idAnggota" name="id">
 
                 <label class="block text-sm font-medium text-gray-700">Nama Lengkap</label>
                 <input type="text" id="namaAnggota" name="name"
                     class="w-full mt-1 mb-4 p-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500">
+                @error('name')
+                    <div class="text-red-500 bg-red-100 border border-red-400 p-2 rounded-md mt-1">
+                        {{ $message }}
+                    </div>
+                @enderror
 
                 <label class="block text-sm font-medium text-gray-700">NIS</label>
                 <input type="text" id="nisAnggota" name="nis"
                     class="w-full mt-1 mb-4 p-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500">
+                @error('nis')
+                    <div class="text-red-500 bg-red-100 border border-red-400 p-2 rounded-md mt-1">
+                        {{ $message }}
+                    </div>
+                @enderror
 
                 <label class="block text-sm font-medium text-gray-700">No. Handphone</label>
                 <input type="text" id="noHp" name="noHp"
                     class="w-full mt-1 mb-4 p-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500">
+                @error('noHp')
+                    <div class="text-red-500 bg-red-100 border border-red-400 p-2 rounded-md mt-1">
+                        {{ $message }}
+                    </div>
+                @enderror
 
                 <label class="block text-sm font-medium text-gray-700">Email</label>
                 <input type="text" id="email" name="email"
                     class="w-full mt-1 mb-4 p-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500">
+                @error('email')
+                    <div class="text-red-500 bg-red-100 border border-red-400 p-2 rounded-md mt-1">
+                        {{ $message }}
+                    </div>
+                @enderror
 
                 <label class="block text-sm font-medium text-gray-700">Jurusan</label>
-                <select id="jurusanSelect" name="jurusan" class="form-select w-full p-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500">
+                <select id="jurusanSelect" name="jurusan"
+                    class="form-select w-full p-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500">
                     <option value="" selected>Pilih Jurusan</option>
                 </select>
 
                 <label class="block text-sm font-medium text-gray-700">Password</label>
                 <input type="password" id="password" name="password"
                     class="w-full mt-1 mb-4 p-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500">
+                @error('password')
+                    <div class="text-red-500 bg-red-100 border border-red-400 p-2 rounded-md mt-1">
+                        {{ $message }}
+                    </div>
+                @enderror
 
                 <label class="block text-sm font-medium text-gray-700">Konfirmasi Password</label>
                 <input type="password" id="password_confirmation" name="password_confirmation"
                     class="w-full mt-1 mb-4 p-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500">
+                @error('password_confirmation')
+                    <div class="text-red-500 bg-red-100 border border-red-400 p-2 rounded-md mt-1">
+                        {{ $message }}
+                    </div>
+                @enderror
 
                 <div class="flex justify-end space-x-2">
                     <button id="btnBatal"
@@ -151,7 +183,9 @@
         document.addEventListener('DOMContentLoaded', function() {
             //modal
             const detailModal = document.getElementById('detailModal');
-            const closeDetailModal = document.getElementById('closeDetailModal');
+            document.getElementById("closeDetailModal").addEventListener("click", function() {
+                document.getElementById("detailModal").classList.add("hidden");
+            });
             const dataModal = document.getElementById('dataModal');
             const dataForm = document.getElementById('dataForm');
             const modalTitle = document.getElementById('modalTitle');
@@ -164,7 +198,7 @@
             const methodField = document.getElementById('methodField');
 
             // Detail
-            const detailNip = document.getElementById('detailNip');
+            const detailNis = document.getElementById('detailNis');
             const detailName = document.getElementById('detailName');
             const detailNoHp = document.getElementById('detailNoHp');
             const detailEmail = document.getElementById('detailEmail');
@@ -246,13 +280,14 @@
             // Open Modal Edit from Detail Modal
             btnEdit.addEventListener('click', () => {
                 if (currentId) {
-                    dataForm.action = `/editPembina/${currentId}`;
+                    modalTitle.innerText = "Edit Data";
+                    dataForm.action = `/editDataAnggotaEskul/${currentId}`;
                     dataForm.method = "POST";
-                    namaGuru.value = currentName;
-                    nipGuru.value = currentNip;
+                    namaAnggota.value = currentName;
+                    nis.value = currentNis;
                     email.value = currentEmail;
                     noHp.value = currentNoHp;
-                    idGuru.value = currentId;
+                    idAnggota.value = currentId;
                     methodField.innerHTML = '<input type="hidden" name="_method" value="PUT">';
 
                     detailModal.classList.add('hidden'); // Tutup Modal Detail
@@ -292,19 +327,6 @@
 
         closeDetailModal.addEventListener('click', () => {
             detailModal.classList.add('hidden');
-        });
-
-        btnSimpan.addEventListener('click', () => {
-            let namaGuru = document.getElementById('namaGuru').value;
-            let nipGuru = document.getElementById('nipGuru').value;
-
-            if (namaGuru.trim() === '' || nipGuru.trim() === '') {
-                alert('Harap isi semua kolom!');
-                return;
-            }
-
-            alert(`Anggota "${namaGuru}" dengan NIS "${nipGuru}" telah ditambahkan!`);
-            modalTambahGuru.classList.add('hidden');
         });
 
 
