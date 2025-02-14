@@ -15,11 +15,45 @@
             </a>
         </div>
     </div>
+    <!-- bg gradient -->
     <div class="bg-gradient-to-b to-transparent from-blue-900 absolute inset-0 z-20">
     </div>
 </section>
+<div class="w-full flex items-center justify-center py-20">
+    <div class="flex flex-col w-4/5 gap-16">
+        <!-- Berita 1 -->
+        <div class="flex items-center gap-10">
+            <div class="w-1/2 flex justify-center">
+                <img src="./assets/images/ekskul.png" class="w-96 h-64 object-cover rounded-lg shadow-lg">
+            </div>
+            <div class="w-1/2">
+                <h2 class="text-xl font-bold text-gray-800">Judul Berita Dummy 1</h2>
+                <p class="text-gray-600 mt-2">
+                    Ini adalah deskripsi singkat dari berita dummy pertama. Konten ini hanya sebagai contoh.
+                </p>
+                <button class="mt-4 px-4 py-2 bg-blue-400 text-white rounded-xl">Baca Selengkapnya</button>
+            </div>
+        </div>
+
+        <!-- Berita 2 -->
+        <div class="flex items-center gap-10 flex-row-reverse">
+            <div class="w-1/2 flex justify-center">
+                <img src="./assets/images/ekskul.png" class="w-96 h-64 object-cover rounded-lg shadow-lg">
+            </div>
+            <div class="w-1/2">
+                <h2 class="text-xl font-bold text-gray-800">Judul Berita Dummy 2</h2>
+                <p class="text-gray-600 mt-2">
+                    Ini adalah deskripsi singkat dari berita dummy kedua. Konten ini hanya sebagai contoh.
+                </p>
+                <button class="mt-4 px-4 py-2 bg-blue-400 text-white rounded-xl">Baca Selengkapnya</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- konten 1 -->
 <div class="relative flex justify-center items-center mt-6">
-    <!-- Garis horizontal -->
     <div class="absolute w-full h-3 bg-slate-700 top-1/2 -translate-y-1/2"></div>
 
     <div class="relative flex gap-6 z-0">
@@ -93,6 +127,69 @@
     </div>
 </div>
 
+<!-- Konten 2 -->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320">
+    <path fill="#000b76" fill-opacity="0.8" d="M0,224L80,234.7C160,245,320,267,480,272C640,277,800,267,960,224C1120,181,1280,107,1360,69.3L1440,32L1440,0L1360,0C1280,0,1120,0,960,0C800,0,640,0,480,0C320,0,160,0,80,0L0,0Z"></path>
+</svg>
+<p class="text-3xl text-center font-semibold">Ekstrakulikuler</p>
+<div class="w-full flex items-center justify-center py-2 ">
+    <div class="flex w-4/5 gap-10">
+        <div class="w-1/2 relative overflow-hidden mt-36">
+            <div class="relative w-full">
+                <div class="overflow-hidden relative">
+                    <div class="flex transition-transform duration-500 ease-in-out" id="slider2">
+                        <div class="w-full flex-shrink-0">
+                            <img src="./assets/images/ekskul.png" alt="Slide 1" class="w-96 h-64 md:ml-12 rounded-lg items-center">
+                            <p class="bg-white p-4 rounded-lg mt-2 shadow text-center font-semibold">Badminton</p>
+                        </div>
+                        <div class="w-full flex-shrink-0">
+                            <img src="./assets/images/ekskul.png" alt="Slide 2" class="w-96 h-64 md:ml-12 items-center rounded-lg">
+                            <p class="bg-white p-4 rounded-lg mt-2 shadow text-center font-semibold">Nemo Band</p>
+                        </div>
+                        <div class="w-full flex-shrink-0">
+                            <img src="./assets/images/ekskul.png" alt="Slide 3" class="w-96 h-64 md:ml-12 rounded-lg items-center">
+                            <p class="bg-white p-4 rounded-lg mt-2 shadow text-center font-semibold">Silat</p>
+                        </div>
+                    </div>
+                </div>
+                <button id="prev2" class="absolute top-1/2 left-0 transform -translate-y-1/2 bg-blue-500 text-white p-2 rounded-full shadow-lg">&#10094;</button>
+                <button id="next2" class="absolute top-1/2 right-0 transform -translate-y-1/2 bg-blue-500 text-white p-2 rounded-full shadow-lg">&#10095;</button>
+            </div>
+        </div>
+        <div class="w-1/2 flex justify-center mt-20">
+            <img src="./assets/images/kejuaraan.png" class="w-86 h-86 ">
+        </div>
+    </div>
+</div>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320">
+    <path fill="#000b76" fill-opacity="0.8" d="M0,224L80,234.7C160,245,320,267,480,272C640,277,800,267,960,224C1120,181,1280,107,1360,69.3L1440,32L1440,320L1360,320C1280,320,1120,320,960,320C800,320,640,320,480,320C320,320,160,320,80,320L0,320Z"></path>
+</svg>
+
+<!-- Konten 3 -->
+<p class="text-3xl text-center font-semibold bg-slate-200 translate-y-6">Berita</p>
+<div class="w-full flex items-center justify-center py-2 bg-slate-200 mt-[-37px]">
+    <div class="flex w-4/5 gap-10">
+        <!-- Image fixed -->
+        <div class="w-1/2 flex justify-center mt-20">
+            <img src="./assets/images/kejuaraan.png" class="w-86 h-86 mb-20">
+        </div>
+        <div class="w-1/2 flex flex-col items-center mt-20">
+            <div class="grid grid-cols-1 gap-4 mt-4 w-full">
+                <div class="bg-gray-400 px-6 py-6">
+                    <p class="text-white font-semibold">Lorem ipsum dolor sit amet consectetur adipisicing elit. Nisi doloremque quia assumenda nulla sequi alias dicta quam ea doloribus asperiores?</p>
+                </div>
+                <div class="bg-gray-400 px-6 py-6">
+                    <p class="text-white font-semibold">Lorem ipsum dolor sit amet consectetur adipisicing elit. Explicabo, sit!</p>
+                </div>
+                <div class="bg-gray-400 px-6 py-6">
+                    <p class="text-white font-semibold">Lorem ipsum dolor sit amet consectetur adipisicing elit. Recusandae, praesentium consequuntur corporis alias eius ipsa eos repellendus ex, modi incidunt eligendi ad doloribus, sint quis? Eum enim sunt corrupti facilis!</p>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
 <div class="mb-96">
 </div>
 
@@ -102,17 +199,48 @@
     const totalSlides = slides.length;
     const slider = document.getElementById("slider");
 
-    document.getElementById("next").addEventListener("click", () => {
-        currentIndex = (currentIndex + 1) % totalSlides;
-        updateSlider();
-    });
-
-    document.getElementById("prev").addEventListener("click", () => {
-        currentIndex = (currentIndex - 1 + totalSlides) % totalSlides;
-        updateSlider();
-    });
-
     function updateSlider() {
         slider.style.transform = `translateX(-${currentIndex * 100}%)`;
     }
+
+    function nextSlide() {
+        currentIndex = (currentIndex + 1) % totalSlides;
+        updateSlider();
+    }
+
+    function prevSlide() {
+        currentIndex = (currentIndex - 1 + totalSlides) % totalSlides;
+        updateSlider();
+    }
+
+    document.getElementById("next").addEventListener("click", nextSlide);
+    document.getElementById("prev").addEventListener("click", prevSlide);
+
+    // Auto slide every 3 seconds
+    setInterval(nextSlide, 3000);
+
+    let currentIndex2 = 0;
+    const slides2 = document.querySelectorAll('#slider2 > div');
+    const totalSlides2 = slides2.length;
+    const slider2 = document.getElementById("slider2");
+
+    function updateSlider2() {
+        slider2.style.transform = `translateX(-${currentIndex2 * 100}%)`;
+    }
+
+    function nextSlide2() {
+        currentIndex2 = (currentIndex2 + 1) % totalSlides2;
+        updateSlider2();
+    }
+
+    function prevSlide2() {
+        currentIndex2 = (currentIndex2 - 1 + totalSlides2) % totalSlides2;
+        updateSlider2();
+    }
+
+    document.getElementById("next2").addEventListener("click", nextSlide2);
+    document.getElementById("prev2").addEventListener("click", prevSlide2);
+
+    // Auto slide every 3 seconds
+    setInterval(nextSlide2, 3000);
 </script>
