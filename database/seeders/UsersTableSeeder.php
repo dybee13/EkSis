@@ -14,7 +14,7 @@ class UsersTableSeeder extends Seeder
             [
                 'name' => 'Admin Master',
                 'email' => 'master@gmail.com',
-                'no_hp' => '0812345678901',
+                'no_hp' => '08123123123',
                 'nip' => null,
                 'nis' => null,
                 'jurusan' => null,
@@ -28,9 +28,9 @@ class UsersTableSeeder extends Seeder
             ],
             [
                 'name' => 'Pembina',
-                'email' => 'pembina@mail.com',
-                'no_hp' => '081234568563',
-                'nip' => '123456789987654321',
+                'email' => 'pembina@gmail.com',
+                'no_hp' => '081231231231',
+                'nip' => null,
                 'nis' => null,
                 'jurusan' => null,
                 'pp' => 'profile.png',
@@ -43,10 +43,9 @@ class UsersTableSeeder extends Seeder
             ],[
                 'name' => 'User',
                 'email' => 'user@gmail.com',
-                'no_hp' => '0812345678903',
+                'no_hp' => '081231231232',
                 'nip' => null,
                 'nis' => null,
-                'kelas' => null,
                 'jurusan' => null,
                 'pp' => 'profile.png',
                 'role' => 'user',

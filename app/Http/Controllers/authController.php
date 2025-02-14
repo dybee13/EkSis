@@ -60,7 +60,7 @@ class authController extends Controller
             }
         }else{
             //login gagal
-            return redirect()->withErrors('email dan password yang dimasukkan tidak valid')->withInput();
+            return redirect()->back()->withErrors(['login' => 'Email dan Password yang dimasukkan tidak valid'])->withInput();
         }
     }
 

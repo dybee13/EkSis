@@ -71,8 +71,13 @@
         @endif --}}
         <form method="post" action="/loginn">
             @csrf
+            @error('login')
+                <div class=" text-red-500 bg-red-100 border border-red-400 p-2 rounded-md mb-4 text-sm">
+                    {{ $message }}
+                </div>
+            @enderror
             <!-- <input type="text" name="nis" placeholder="NIS" value="{{ Session::get('nis') }}" required><br> -->
-            <input type="text" name="email" placeholder="Email" required>
+            <input type="text" name="email" placeholder="Email" value="{{ old('email') }}" required>
             @error('email')
                 <div class=" text-red-500 bg-red-100 border border-red-400 p-2 rounded-md mt-1">
                     {{ $message }}

@@ -33,7 +33,7 @@
                         <ul class="py-1" role="none">
                             <li>
                                 <a href="/logout"
-                                    class="block px-4 py-2 text-sm text-white hover:bg-gray-100 hover:text-white"
+                                    class="block px-4 py-2 text-sm text-gray-200 hover:bg-gray-100"
                                     role="menuitem">Keluar</a>
                             </li>
                         </ul>
