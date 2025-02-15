@@ -16,7 +16,7 @@
         </div>
     </div>
     <!-- bg gradient -->
-    <div class="bg-gradient-to-b to-transparent from-blue-900 absolute inset-0 z-20">
+    <div class="bg-gradient-to-b to-transparent from-blue-400 absolute inset-0 z-20">
     </div>
 </section>
 <div class="w-full flex items-center justify-center py-20">
@@ -92,8 +92,8 @@
         </div>
     </div>
 </div>
-<p class="text-3xl translate-y-44 text-center font-semibold bg-slate-200 mt-[-135px]">Kejuaraan</p>
-<div class="bg-slate-200 w-full flex items-center justify-center py-20 ">
+<p class="text-3xl translate-y-44 text-center font-semibold bg-slate-100 mt-[-135px]">Kejuaraan</p>
+<div class="bg-slate-100 w-full flex items-center justify-center py-20 ">
     <div class="flex w-4/5 gap-10">
         <!-- Gambar Fixed -->
         <div class="w-1/2 flex justify-center mt-20">
@@ -128,70 +128,90 @@
 </div>
 
 <!-- Konten 2 -->
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320">
-    <path fill="#000b76" fill-opacity="0.8" d="M0,224L80,234.7C160,245,320,267,480,272C640,277,800,267,960,224C1120,181,1280,107,1360,69.3L1440,32L1440,0L1360,0C1280,0,1120,0,960,0C800,0,640,0,480,0C320,0,160,0,80,0L0,0Z"></path>
-</svg>
-<p class="text-3xl text-center font-semibold">Ekstrakulikuler</p>
-<div class="w-full flex items-center justify-center py-2 ">
-    <div class="flex w-4/5 gap-10">
-        <div class="w-1/2 relative overflow-hidden mt-36">
-            <div class="relative w-full">
-                <div class="overflow-hidden relative">
-                    <div class="flex transition-transform duration-500 ease-in-out" id="slider2">
-                        <div class="w-full flex-shrink-0">
-                            <img src="./assets/images/ekskul.png" alt="Slide 1" class="w-96 h-64 md:ml-12 rounded-lg items-center">
-                            <p class="bg-white p-4 rounded-lg mt-2 shadow text-center font-semibold">Badminton</p>
-                        </div>
-                        <div class="w-full flex-shrink-0">
-                            <img src="./assets/images/ekskul.png" alt="Slide 2" class="w-96 h-64 md:ml-12 items-center rounded-lg">
-                            <p class="bg-white p-4 rounded-lg mt-2 shadow text-center font-semibold">Nemo Band</p>
-                        </div>
-                        <div class="w-full flex-shrink-0">
-                            <img src="./assets/images/ekskul.png" alt="Slide 3" class="w-96 h-64 md:ml-12 rounded-lg items-center">
-                            <p class="bg-white p-4 rounded-lg mt-2 shadow text-center font-semibold">Silat</p>
+<div class="bg-white">
+
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320">
+        <defs>
+            <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%">
+                <feDropShadow dx="0" dy="10" stdDeviation="10" flood-color="rgba(0, 0, 0, 0.3)" />
+            </filter>
+        </defs>
+        <path fill="#f3f4f5" fill-opacity="1" filter="url(#shadow)" d="M0,224L120,192C240,160,480,96,720,96C960,96,1200,160,1320,192L1440,224L1440,0L1320,0C1200,0,960,0,720,0C480,0,240,0,120,0L0,0Z"></path>
+    </svg>
+
+    <p class="text-3xl text-center font-semibold">Ekstrakulikuler</p>
+    <div class="w-full flex items-center justify-center py-2 ">
+        <div class="flex w-4/5 gap-10">
+            <div class="w-1/2 relative overflow-hidden mt-36">
+                <div class="relative w-full">
+                    <div class="overflow-hidden relative">
+                        <div class="flex transition-transform duration-500 ease-in-out" id="slider2">
+                            <div class="w-full flex-shrink-0">
+                                <img src="./assets/images/ekskul.png" alt="Slide 1" class="w-96 h-64 md:ml-12 rounded-lg items-center">
+                                <p class="p-4 rounded-lg mt-2 shadow text-center font-semibold">Badminton</p>
+                            </div>
+                            <div class="w-full flex-shrink-0">
+                                <img src="./assets/images/ekskul.png" alt="Slide 2" class="w-96 h-64 md:ml-12 items-center rounded-lg">
+                                <p class="p-4 rounded-lg mt-2 shadow text-center font-semibold">Nemo Band</p>
+                            </div>
+                            <div class="w-full flex-shrink-0">
+                                <img src="./assets/images/ekskul.png" alt="Slide 3" class="w-96 h-64 md:ml-12 rounded-lg items-center">
+                                <p class="p-4 rounded-lg mt-2 shadow text-center font-semibold">Silat</p>
+                            </div>
                         </div>
                     </div>
+                    <button id="prev2" class="absolute top-1/2 left-0 transform -translate-y-1/2 bg-blue-500 text-white p-2 rounded-full shadow-lg">&#10094;</button>
+                    <button id="next2" class="absolute top-1/2 right-0 transform -translate-y-1/2 bg-blue-500 text-white p-2 rounded-full shadow-lg">&#10095;</button>
                 </div>
-                <button id="prev2" class="absolute top-1/2 left-0 transform -translate-y-1/2 bg-blue-500 text-white p-2 rounded-full shadow-lg">&#10094;</button>
-                <button id="next2" class="absolute top-1/2 right-0 transform -translate-y-1/2 bg-blue-500 text-white p-2 rounded-full shadow-lg">&#10095;</button>
+            </div>
+            <div class="w-1/2 flex justify-center mt-20">
+                <img src="./assets/images/kejuaraan.png" class="w-86 h-86 ">
             </div>
         </div>
-        <div class="w-1/2 flex justify-center mt-20">
-            <img src="./assets/images/kejuaraan.png" class="w-86 h-86 ">
-        </div>
     </div>
-</div>
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320">
-    <path fill="#000b76" fill-opacity="0.8" d="M0,224L80,234.7C160,245,320,267,480,272C640,277,800,267,960,224C1120,181,1280,107,1360,69.3L1440,32L1440,320L1360,320C1280,320,1120,320,960,320C800,320,640,320,480,320C320,320,160,320,80,320L0,320Z"></path>
-</svg>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320">
+        <defs>
+            <filter id="strongShadow" x="-20%" y="-20%" width="140%" height="140%">
+                <feDropShadow dx="0" dy="15" stdDeviation="15" flood-color="rgba(0, 0, 0, 0.5)" />
+            </filter>
+        </defs>
+        <path fill="#f3f4f5" fill-opacity="1" filter="url(#strongShadow)" d="M0,64L120,96C240,128,480,192,720,197.3C960,203,1200,149,1320,122.7L1440,96L1440,320L1320,320C1200,320,960,320,720,320C480,320,240,320,120,320L0,320Z"></path>
+    </svg>
 
+</div>
 <!-- Konten 3 -->
-<p class="text-3xl text-center font-semibold bg-slate-200 translate-y-6">Berita</p>
-<div class="w-full flex items-center justify-center py-2 bg-slate-200 mt-[-37px]">
-    <div class="flex w-4/5 gap-10">
-        <!-- Image fixed -->
-        <div class="w-1/2 flex justify-center mt-20">
-            <img src="./assets/images/kejuaraan.png" class="w-86 h-86 mb-20">
-        </div>
-        <div class="w-1/2 flex flex-col items-center mt-20">
-            <div class="grid grid-cols-1 gap-4 mt-4 w-full">
-                <div class="bg-gray-400 px-6 py-6">
-                    <p class="text-white font-semibold">Lorem ipsum dolor sit amet consectetur adipisicing elit. Nisi doloremque quia assumenda nulla sequi alias dicta quam ea doloribus asperiores?</p>
-                </div>
-                <div class="bg-gray-400 px-6 py-6">
-                    <p class="text-white font-semibold">Lorem ipsum dolor sit amet consectetur adipisicing elit. Explicabo, sit!</p>
-                </div>
-                <div class="bg-gray-400 px-6 py-6">
-                    <p class="text-white font-semibold">Lorem ipsum dolor sit amet consectetur adipisicing elit. Recusandae, praesentium consequuntur corporis alias eius ipsa eos repellendus ex, modi incidunt eligendi ad doloribus, sint quis? Eum enim sunt corrupti facilis!</p>
+<div class="bg-slate-100 ">
+    <p class="text-3xl text-center font-semibold translate-y-6">Berita</p>
+    <div class="w-full flex items-center justify-center py-2 mt-[-37px]">
+        <div class="flex w-4/5 gap-10">
+            <!-- Image fixed -->
+            <div class="w-1/2 flex justify-center mt-20">
+                <img src="./assets/images/kejuaraan.png" class="w-86 h-86 mb-20">
+            </div>
+            <div class="w-1/2 flex flex-col items-center mt-20 border ">
+                <div class="grid grid-cols-1 gap-4 mt-4 w-full">
+                    <div class="bg-gray-400 px-6 py-6">
+                        <p class="text-white font-semibold">Lorem ipsum dolor sit amet consectetur adipisicing elit. Nisi doloremque quia assumenda nulla sequi alias dicta quam ea doloribus asperiores?</p>
+                    </div>
+                    <div class="bg-gray-400 px-6 py-6">
+                        <p class="text-white font-semibold">Lorem ipsum dolor sit amet consectetur adipisicing elit. Explicabo, sit!</p>
+                    </div>
+                    <div class="bg-gray-400 px-6 py-6">
+                        <p class="text-white font-semibold">Lorem ipsum dolor sit amet consectetur adipisicing elit. Recusandae, praesentium consequuntur corporis alias eius ipsa eos repellendus ex, modi incidunt eligendi ad doloribus, sint quis? Eum enim sunt corrupti facilis!</p>
+                    </div>
                 </div>
             </div>
-        </div>
 
+        </div>
     </div>
 </div>
 
-<div class="mb-96">
-</div>
+<footer class="shadow-sm bg-gray-900 sticky w-full z-10">
+    <div class="w-full max-w-screen-xl mx-auto p-2">
+        <p class="text-sm sm:text-center text-gray-400">© 2025 | <a href="#" class="hover:underline">Sistem Pencatatan Ekskul Siswa Digital SMK Negeri 1 CIREBON</a></p>
+        <p class="text-sm sm:text-center text-gray-400">All Rights Reserved. Created with ❤️</p>
+    </div>
+</footer>
 
 <script>
     let currentIndex = 0;
