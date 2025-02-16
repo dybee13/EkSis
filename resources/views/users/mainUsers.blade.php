@@ -68,6 +68,16 @@
             </a>
         </div>
 
+        <!-- Ekskul -->
+        <div class="rounded-xl shadow-xl min-h-[13rem] max-h-[13rem] min-w-[13rem] max-w-[13rem] bg-white flex flex-col justify-center items-center">
+            <a href="">
+                <svg viewBox="0 0 512 512" class="w-24 items-center text-black" xmlns="http://www.w3.org/2000/svg" fill="currentColor">
+                    <path d="M504 256c0 136.967-111.033 248-248 248S8 392.967 8 256 119.033 8 256 8s248 111.033 248 248zm-48 0l-.003-.282-26.064 22.741-62.679-58.5 16.454-84.355 34.303 3.072c-24.889-34.216-60.004-60.089-100.709-73.141l13.651 31.939L256 139l-74.953-41.525 13.651-31.939c-40.631 13.028-75.78 38.87-100.709 73.141l34.565-3.073 16.192 84.355-62.678 58.5-26.064-22.741-.003.282c0 43.015 13.497 83.952 38.472 117.991l7.704-33.897 85.138 10.447 36.301 77.826-29.902 17.786c40.202 13.122 84.29 13.148 124.572 0l-29.902-17.786 36.301-77.826 85.138-10.447 7.704 33.897C442.503 339.952 456 299.015 456 256zm-248.102 69.571l-29.894-91.312L256 177.732l77.996 56.527-29.622 91.312h-96.476z" />
+                </svg>
+                <h1 class="text-3xl text-center">Ekskul</h1>
+            </a>
+        </div>
+
         <!-- Berita -->
         <div class="rounded-xl shadow-xl min-h-[13rem] max-h-[13rem] min-w-[13rem] max-w-[13rem] bg-white flex flex-col justify-center items-center">
             <a class="flex flex-col" href="">
@@ -81,15 +91,6 @@
             </a>
         </div>
 
-        <!-- Ekskul -->
-        <div class="rounded-xl shadow-xl min-h-[13rem] max-h-[13rem] min-w-[13rem] max-w-[13rem] bg-white flex flex-col justify-center items-center">
-            <a href="">
-                <svg viewBox="0 0 512 512" class="w-24 items-center text-black" xmlns="http://www.w3.org/2000/svg" fill="currentColor">
-                    <path d="M504 256c0 136.967-111.033 248-248 248S8 392.967 8 256 119.033 8 256 8s248 111.033 248 248zm-48 0l-.003-.282-26.064 22.741-62.679-58.5 16.454-84.355 34.303 3.072c-24.889-34.216-60.004-60.089-100.709-73.141l13.651 31.939L256 139l-74.953-41.525 13.651-31.939c-40.631 13.028-75.78 38.87-100.709 73.141l34.565-3.073 16.192 84.355-62.678 58.5-26.064-22.741-.003.282c0 43.015 13.497 83.952 38.472 117.991l7.704-33.897 85.138 10.447 36.301 77.826-29.902 17.786c40.202 13.122 84.29 13.148 124.572 0l-29.902-17.786 36.301-77.826 85.138-10.447 7.704 33.897C442.503 339.952 456 299.015 456 256zm-248.102 69.571l-29.894-91.312L256 177.732l77.996 56.527-29.622 91.312h-96.476z" />
-                </svg>
-                <h1 class="text-3xl text-center">Ekskul</h1>
-            </a>
-        </div>
     </div>
 </div>
 <p class="text-3xl translate-y-44 text-center font-semibold bg-slate-100 mt-[-135px]">Kejuaraan</p>
@@ -228,9 +229,9 @@
 
     <!-- Box 2 -->
     <div class="bg-white shadow-md rounded-xl p-6 border border-gray-200 w-80">
-        <h2 class="text-xl font-semibold text-gray-800">&#128279; Website Terkait</h2>
+        <h2 class="text-xl font-semibold text-gray-800">&#128279; Kunjungi Website Lain</h2>
         <div class="mt-4 space-y-2">
-            <button class="w-full bg-slate-400 text-white py-2 px-4 rounded-md">SISPARKING</button>
+            <button class="w-full bg-slate-400 text-white py-2 px-4 rounded-md">NEPARKING</button>
             <!-- <button class="w-full bg-green-600 text-white py-2 px-4 rounded-md"></button>
             <button class="w-full bg-green-600 text-white py-2 px-4 rounded-md"></button> -->
         </div>
@@ -238,6 +239,7 @@
 
     <!-- Box 3 -->
     <div class="bg-white shadow-md rounded-xl p-6 border border-gray-200 w-80">
+        <h2>Informasi Sekolah</h2>
         <h2 class="text-xl font-semibold text-gray-800">SMK Negeri 1 Cirebon</h2>
         <p class="mt-2 text-slate-600"> Jl. Perjuangan By Pass Sunyaragi, Cirebon, Indonesia 45132</p>
         <p class="mt-1 text-slate-600">&#9742; Telp & Fax: +62-0231-480202</p>
