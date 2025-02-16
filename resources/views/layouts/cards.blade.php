@@ -1,14 +1,23 @@
-<div class=" flex justify-center items-center z-50 relative">
+<div class="flex justify-center items-center z-50 relative">
     <button id="dropdownButton" class="px-6 py-3 mt-20 ml-16 mr-16 w-[900px] font-semibold bg-blue-600 text-white rounded-lg focus:outline-none">
         Pilih Kategori
     </button>
 
     <div id="dropdownMenu" class="absolute top-full mt-2 w-[900px] bg-white border rounded-lg shadow-lg hidden">
-        <button data-category="all" class="block px-6 py-3 w-[900px] text-gray-800 hover:bg-gray-200 text-center">Semua</button>
-        <button data-category="olahraga" class="block px-6 py-3 w-[900px] text-gray-800 hover:bg-gray-200 text-center">Olahraga</button>
-        <button data-category="seni" class="block px-6 py-3 w-[900px] text-gray-800 hover:bg-gray-200 text-center">Seni</button>
+        <div class="grid grid-cols-4 gap-4 p-4">
+            <button data-category="all" class="px-6 py-3 text-gray-800 hover:bg-gray-200 text-center rounded-lg border">Semua</button>
+            <button data-category="olahraga" class="px-6 py-3 text-gray-800 hover:bg-gray-200 text-center rounded-lg border">Olahraga</button>
+            <button data-category="seni" class="px-6 py-3 text-gray-800 hover:bg-gray-200 text-center rounded-lg border">Seni</button>
+            <button data-category="teknologi" class="px-6 py-3 text-gray-800 hover:bg-gray-200 text-center rounded-lg border">Teknologi</button>
+            <button data-category="musik" class="px-6 py-3 text-gray-800 hover:bg-gray-200 text-center rounded-lg border">Musik</button>
+            <button data-category="bahasa" class="px-6 py-3 text-gray-800 hover:bg-gray-200 text-center rounded-lg border">Bahasa</button>
+            <button data-category="sains" class="px-6 py-3 text-gray-800 hover:bg-gray-200 text-center rounded-lg border">Sains</button>
+            <button data-category="lainnya" class="px-6 py-3 text-gray-800 hover:bg-gray-200 text-center rounded-lg border">Lainnya</button>
+        </div>
     </div>
 </div>
+
+
 
 <div id="cardContainer" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 p-6 mt-8">
     <!-- Card 1 (Olahraga) -->

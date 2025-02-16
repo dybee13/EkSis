@@ -180,7 +180,7 @@
 
 </div>
 <!-- Konten 3 -->
-<div class="bg-slate-100 ">
+<div class="bg-slate-100 mb-8">
     <p class="text-3xl text-center font-semibold translate-y-6">Berita</p>
     <div class="w-full flex items-center justify-center py-2 mt-[-37px]">
         <div class="flex w-4/5 gap-10">
@@ -201,10 +201,55 @@
                     </div>
                 </div>
             </div>
+        </div>
+    </div>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320" class="-translate-y-86">
+        <defs>
+            <filter id="strongShadow" x="-20%" y="-20%" width="140%" height="140%">
+                <feDropShadow dx="0" dy="15" stdDeviation="15" flood-color="rgba(0, 0, 0, 0.5)" />
+            </filter>
+        </defs>
+        <path fill="#f3f4f5" fill-opacity="1" filter="url(#strongShadow)" d="M0,64L120,96C240,128,480,192,720,197.3C960,203,1200,149,1320,122.7L1440,96L1440,320L1320,320C1200,320,960,320,720,320C480,320,240,320,120,320L0,320Z"></path>
+    </svg>
+</div>
 
+<!-- Credit -->
+<div class="w-full h-1 bg-black -translate-y-8"></div>
+<div class="flex justify-between m-12">
+    <!-- Box 1 -->
+    <div class="bg-white shadow-md rounded-xl p-6 border border-gray-200 w-80">
+        <h2 class="text-xl font-semibold text-gray-800">&#9432; Tentang</h2>
+        <div class="mt-4 space-y-2">
+            <button class="w-full bg-slate-400 text-white py-2 px-4 rounded-md">&#128100; Kepala Sekolah</button>
+            <button class="w-full bg-slate-400 text-white py-2 px-4 rounded-md">&#127941; Visi dan Misi</button>
+            <button class="w-full bg-slate-400 text-white py-2 px-4 rounded-md">&#128101; Pengembang Website</button>
+        </div>
+    </div>
+
+    <!-- Box 2 -->
+    <div class="bg-white shadow-md rounded-xl p-6 border border-gray-200 w-80">
+        <h2 class="text-xl font-semibold text-gray-800">&#128279; Website Terkait</h2>
+        <div class="mt-4 space-y-2">
+            <button class="w-full bg-slate-400 text-white py-2 px-4 rounded-md">SISPARKING</button>
+            <!-- <button class="w-full bg-green-600 text-white py-2 px-4 rounded-md"></button>
+            <button class="w-full bg-green-600 text-white py-2 px-4 rounded-md"></button> -->
+        </div>
+    </div>
+
+    <!-- Box 3 -->
+    <div class="bg-white shadow-md rounded-xl p-6 border border-gray-200 w-80">
+        <h2 class="text-xl font-semibold text-gray-800">SMK Negeri 1 Cirebon</h2>
+        <p class="mt-2 text-slate-600"> Jl. Perjuangan By Pass Sunyaragi, Cirebon, Indonesia 45132</p>
+        <p class="mt-1 text-slate-600">&#9742; Telp & Fax: +62-0231-480202</p>
+        <p class="mt-1 text-slate-600">&#128231; Email: info@smkn1-cirebon.sch.id</p>
+        <div class="mt-4 flex space-x-2 justify-center">
+            <a class="bg-gray-200 p-2 rounded-md" href="https://referensi.data.kemdikbud.go.id/tabs.php?npsn=20222174">&#8505;</a>
         </div>
     </div>
 </div>
+
+<div class="w-full h-1 bg-black mt-6"></div>
+
 
 <footer class="shadow-sm bg-gray-900 sticky w-full z-10">
     <div class="w-full max-w-screen-xl mx-auto p-2">
