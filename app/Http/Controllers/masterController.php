@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\User;
 use App\Models\Ekskuls;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Auth;
 
 class masterController extends Controller
 {
@@ -21,15 +22,19 @@ class masterController extends Controller
     }
     public function dataPembina()
     {
+
+        // Ambil semua user dengan role 'pembina' dan ekskul yang dibina
+        $pembinas = User::where('role', 'pembina')->with('ekskuls')->get();
+
         return view('master.pembinaEkskul', [
             'title' => 'Data Pembina Ekskul',
-            'datas' => User::where('role', 'pembina')->with('ekskuls.ekskul')->get() // Ambil hanya user dengan role 'pembina'
+            'datas' => $pembinas // Ambil hanya user dengan role 'pembina'
         ]);
     }
     
     public function dataEkskul()
     {
-        $ekskuls = Ekskuls::with('pembina')->get();
+        $ekskuls = Ekskuls::with('users')->get();
 
         return view('master.listEkskul', [
             'title' => 'Data Ekskul',

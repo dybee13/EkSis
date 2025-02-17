@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\AnggotaEkskul;
 use App\Models\Ekskuls;
 use App\Models\User;
 use App\Models\EkskulUsers;
@@ -35,56 +36,113 @@ class pembinaController extends Controller
     // Get Data Anggota
     public function getDataAnggotaEskul()
     {
-        $datas = User::where('role', 'pengurus')->get();
-        return view('pembina.dataAnggotaEkskul', ['title' => 'Data Anggota Eskul', 'datas' => $datas]);
+        // Ambil ID pembina yang sedang login
+        $pembina = Auth::user();
+
+        // Ambil ekskul yang dimiliki oleh pembina
+        $ekskuls = $pembina->ekskuls;
+
+        // Ambil semua anggota yang didaftarkan oleh pembina
+        $anggotaEkskul = AnggotaEkskul::where('id_pembina', $pembina->id)
+            ->get();
+
+        // Buat array untuk menyimpan ekskul per anggota
+        $anggotaEkskulData = $anggotaEkskul->map(function ($anggota) use ($pembina) {
+            return [
+                'anggota' => $anggota,
+                'ekskuls' => $pembina->ekskuls, // Ekskul dari pembina
+            ];
+        });
+
+        return view('pembina.dataAnggotaEkskul', [
+            'title' => 'Dashboard Pembina',
+            'datas' => $anggotaEkskulData,
+            'ekskuls' => $ekskuls
+        ]);
     }
+
     // Create User
-    public function saveAnggota(Request $request){
+    public function saveAnggota(Request $request)
+    {
         $request->validate([
-            'name' => 'required',
-            'nis' => 'required|min:18',
-            'noHp' => 'required',
-            'email' => 'required',
-            'jurusan' => 'required',
-            'password' => 'required|min:6|confirmed'
+            'name' => 'required|string|max:255',
+            'nis' => 'required|string|min:8|unique:data_anggota_ekskul,nis',
+            'noHp' => 'required|string|max:15',
+            'email' => 'required|email|unique:data_anggota_ekskul,email',
+            'jurusan' => 'required|string|max:255',
         ]);
 
         try {
-            // Ambil ID Pembina yang sedang login
-            $pembina_id = Auth::id();
+            // Ambil ID pembina yang sedang login
+            $pembina = Auth::user()->id;
 
-            // Cari ekskul yang dimiliki oleh pembina
-            $ekskul = EkskulUsers::where('id_user', $pembina_id)->first();
-
-            if (!$ekskul) {
-                return response()->json(['success' => false, 'message' => 'Anda tidak memiliki ekskul yang dapat diisi anggota!'], 403);
+            if (!$pembina) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'User tidak ditemukan!'
+                ], 403);
             }
 
-            // Simpan anggota baru
-            $anggota = User::create([
+            // Cek apakah anggota sudah ada berdasarkan NIS
+            $existingMember = AnggotaEkskul::where('nis', $request->nis)->first();
+
+            if ($existingMember) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Anggota dengan NIS ini sudah terdaftar!'
+                ], 400);
+            }
+
+            // Jika anggota belum ada, buat anggota baru
+            AnggotaEkskul::create([
                 'name' => $request->name,
                 'nis' => $request->nis,
                 'email' => $request->email,
                 'no_hp' => $request->noHp,
                 'jurusan' => $request->jurusan,
-                'pp' => 'profile.png',
-                'password' => bcrypt($request->password),
-                'role' => 'pengurus', // Pastikan role siswa
+                'id_pembina' => $pembina, // Set pembina sesuai dengan yang login
+                'pp' => 'profile.png', // Foto profil default
             ]);
 
-            // Tambahkan anggota ke ekskul_users
-            EkskulUsers::create([
-                'id_user' => $anggota->id,
-                'id_ekskul' => $ekskul->id,
+            return response()->json([
+                'success' => true,
+                'message' => 'Anggota berhasil ditambahkan!'
             ]);
-
-            return response()->json(['success' => true, 'message' => 'Anggota berhasil ditambahkan ke ekskul!']);
 
         } catch (\Exception $e) {
-            return response()->json(['success' => false, 'message' => $e->getMessage()], 500);
+            return response()->json([
+                'success' => false,
+                'message' => $e->getMessage()
+            ], 500);
         }
     }
     // Data Anggota Eskul END
+
+    public function updateAnggota(Request $request, $id){
+        // Debugging: Periksa ID dan data yang dikirim
+        // dd($id, $request->all());
+        $request->validate([
+            'name' => 'required',
+            'nis' => 'required|min:8',
+            'jurusan' => 'required',
+            'noHp' => 'required',
+            'email' => 'required',
+        ]);
+
+        $update = AnggotaEkskul::findOrFail($id);
+
+        // dd($update);
+        $update->name = $request->name;
+        $update->email= $request->email;
+        $update->jurusan = $request->jurusan;
+        $update->no_hp = $request->noHp;
+        $update->nis = $request->nis;
+        $update->pp = "profile.png";
+        $update->save();
+        
+        return back()->with('success', 'User berhasil diedit!');
+    }
+
     // Data Informasi Eskul 
     public function getDataInformasiEskul()
     {
@@ -100,7 +158,7 @@ class pembinaController extends Controller
     }
 
     public function deleteAnggota($id){
-        $User = User::findOrFail($id);
+        $User = AnggotaEkskul::findOrFail($id);
         $User->delete();
 
         return response()->json(['message' => 'Data berhasil dihapus!']);

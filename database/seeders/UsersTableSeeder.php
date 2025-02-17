@@ -25,21 +25,6 @@ class UsersTableSeeder extends Seeder
                 'remember_token' => Str::random(10),
                 'created_at' => now(),
                 'updated_at' => now(),
-            ],
-            [
-                'name' => 'Pembina',
-                'email' => 'pembina@mail.com',
-                'no_hp' => '081234568563',
-                'nip' => '123456789987654321',
-                'nis' => null,
-                'jurusan' => null,
-                'pp' => 'profile.png',
-                'role' => 'pembina',
-                'email_verified_at' => now(),
-                'password' => Hash::make('pembina123'),
-                'remember_token' => Str::random(10),
-                'created_at' => now(),
-                'updated_at' => now(),
             ]
         ]);
     }

@@ -5,13 +5,10 @@
             <!-- Dropdown Ekskul & Tombol Tambah -->
             <div class="mb-4 flex justify-between items-center">
                 <div class="w-1/2">
-                    <label for="eskul" class="block text-sm font-medium text-gray-700">Pilih Kelas</label>
-                    <select id="eskul"
+                    <label for="jurusan" class="block text-sm font-medium text-gray-700">Jurusan</label>
+                    <select id="jurusan"
                         class="w-full mt-1 block py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm">
                         <option value="all">Semua</option>
-                        <option value="Basket">10</option>
-                        <option value="Futsal">11</option>
-                        <option value="Rohis">12</option>
                     </select>
                 </div>
                 <button id="btnTambah" class="px-4 py-2 bg-green-500 text-white rounded-md hover:bg-green-600">+ Tambah
@@ -34,26 +31,33 @@
                         </tr>
                     </thead>
                     <tbody id="table-body">
-                        @foreach ($datas as $user)
-                            <tr class="border-b">
-                                <td class="py-2 px-4 text-center">{{ $user->name }}</td>
-                                <td class="py-2 px-4 text-center">{{ $user->nis }}</td>
-                                <td>
-                                    @foreach ($user->ekskuls as $ekskulUser)
-                                        {{ $ekskulUser->ekskul->nama_ekskul }}<br>
-                                    @endforeach
+                        @forelse ($datas as $user)
+                            <tr class="border-b" data-jurusan="{{ $user['anggota']->jurusan }}">
+                                <td class="py-2 px-4 text-center">{{ $user['anggota']->name }}</td>
+                                <td class="py-2 px-4 text-center">{{ $user['anggota']->nis }}</td>
+                                <td class="py-2 px-4 text-center">
+                                    @forelse ($user['ekskuls'] as $ekskul)
+                                        {{ $ekskul->nama_ekskul }}
+                                    @empty
+                                        Tidak ada ekskul
+                                    @endforelse
                                 </td>
                                 <td class="py-2 px-4 text-center text-green-600 font-semibold">Aktif</td>
                                 <td>
-                                    <button id="btnDetail" class="btn btn-warning btnDetail" data-id="{{ $user->id }}"
-                                        data-name="{{ $user->name }}" data-email="{{ $user->email }}"
-                                        data-nohp="{{ $user->no_hp }}" data-nis="{{ $user->nis }}"
-                                        data-ekskul="{{ implode(', ', $user->ekskuls->map(fn($e) => $e->ekskul->nama_ekskul)->toArray()) }}">
+                                    <button id="btnDetail" class="btn btn-warning btnDetail" data-id="{{ $user['anggota']->id }}"
+                                        data-name="{{ $user['anggota']->name }}" data-email="{{ $user['anggota']->email }}"
+                                        data-nohp="{{ $user['anggota']->no_hp }}" data-nis="{{ $user['anggota']->nis }}"
+                                        data-kejuruan="{{ $user['anggota']->jurusan }}"
+                                        data-ekskul="@foreach($user['ekskuls'] as $ekskul){{ $ekskul->nama_ekskul }}, @endforeach">
                                         Detail
                                     </button>
                                 </td>
                             </tr>
-                        @endforeach
+                            @empty
+                                <tr>
+                                    <td colspan="8" class="text-center">Belum ada anggota ekskul.</td>
+                                </tr>
+                            @endforelse
                     </tbody>
                 </table>
             </div>
@@ -86,6 +90,11 @@
             </div>
 
             <div class="mb-4">
+                <label class="font-semibold">Jurusan:</label>
+                <p id="detailJurusan" class="text-gray-700"></p>
+            </div>
+
+            <div class="mb-4">
                 <label class="font-semibold">Ekskul:</label>
                 <p id="detailEkskul" class="text-gray-700"></p>
             </div>
@@ -106,18 +115,18 @@
             <div class="bg-white p-6 ml-36 mt-16 rounded-lg shadow-lg w-[860px]">
                 <h2 class="text-lg font-semibold mb-4 modalTitle" id="modalTitle">Tambah Anggota Eskul</h2>
 
-                <input type="hidden" id="idAnggota" name="id">
+                <input type="hidden" id="id" name="id">
 
                 <label class="block text-sm font-medium text-gray-700">Nama Lengkap</label>
-                <input type="text" id="namaAnggota" name="name"
+                <input type="text" id="nama" name="name"
                     class="w-full mt-1 mb-4 p-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500">
 
                 <label class="block text-sm font-medium text-gray-700">NIS</label>
-                <input type="text" id="nisAnggota" name="nis"
+                <input type="text" id="nis" name="nis"
                     class="w-full mt-1 mb-4 p-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500">
 
                 <label class="block text-sm font-medium text-gray-700">No. Handphone</label>
-                <input type="text" id="noHp" name="noHp"
+                <input type="number" id="noHp" name="noHp"
                     class="w-full mt-1 mb-4 p-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500">
 
                 <label class="block text-sm font-medium text-gray-700">Email</label>
@@ -128,14 +137,6 @@
                 <select id="jurusanSelect" name="jurusan" class="form-select w-full p-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500">
                     <option value="" selected>Pilih Jurusan</option>
                 </select>
-
-                <label class="block text-sm font-medium text-gray-700">Password</label>
-                <input type="password" id="password" name="password"
-                    class="w-full mt-1 mb-4 p-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500">
-
-                <label class="block text-sm font-medium text-gray-700">Konfirmasi Password</label>
-                <input type="password" id="password_confirmation" name="password_confirmation"
-                    class="w-full mt-1 mb-4 p-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500">
 
                 <div class="flex justify-end space-x-2">
                     <button id="btnBatal"
@@ -164,27 +165,29 @@
             const methodField = document.getElementById('methodField');
 
             // Detail
+            const detailId = document.getElementById('detailId');
             const detailNip = document.getElementById('detailNip');
             const detailName = document.getElementById('detailName');
             const detailNoHp = document.getElementById('detailNoHp');
             const detailEmail = document.getElementById('detailEmail');
+            const detailJurusan = document.getElementById('detailJurusan');
             const detailEkskul = document.getElementById('detailEkskul');
 
-            let currentId = null;
+            let currentId = document.getElementById('detailId').value;;
             let currentName = null;
             let currentNis = null;
             let currentEmail = null;
             let currentNoHp = null;
+            let currentJurusan = null;
             let currentEkskul = null;
 
             //input form
-            const idAnggota = document.getElementById('idAnggota')
-            const namaAnggota = document.getElementById('namaAnggota');
-            const nisAnggota = document.getElementById('nisAnggota');
+            const id = document.getElementById('id')
+            const nama = document.getElementById('nama');
+            const nis = document.getElementById('nis');
             const email = document.getElementById('email');
+            const jurusan = document.getElementById('jurusanSelect');
             const noHp = document.getElementById('noHp');
-            const pw = document.getElementById('password');
-            const konfpw = document.getElementById('password_confirmation');
 
             // Open Modal Detail
             btnDetail.forEach(button => {
@@ -194,12 +197,16 @@
                     currentNis = button.dataset.nis;
                     currentEmail = button.dataset.email;
                     currentNoHp = button.dataset.nohp;
+                    currentJurusan = button.dataset.kejuruan;
                     currentEkskul = button.dataset.ekskul;
+
+                    console.log("Data ID yang dimasukkan ke tombol Edit:", btnEdit.dataset.id);
 
                     detailNis.innerText = currentNis;
                     detailName.innerText = currentName;
                     detailEmail.innerText = currentEmail;
                     detailNoHp.innerText = currentNoHp;
+                    detailJurusan.innerText = currentJurusan;
                     detailEkskul.innerText = currentEkskul;
                     detailModal.classList.remove('hidden');
                 });
@@ -210,13 +217,12 @@
                 modalTitle.innerText = "Tambah Data";
                 dataForm.action = "/saveAnggota";
                 dataForm.method = "POST";
-                namaAnggota.value = "";
-                nisAnggota.value = "";
+                nama.value = "";
+                nis.value = "";
+                jurusan.value = "";
                 email.value = "";
                 noHp.value = "";
-                idAnggota.value = "";
-                pw.value = "";
-                konfpw.value = "";
+                id.value = "";
                 methodField.innerHTML = "";
                 dataModal.classList.remove('hidden');
                 // Panggil fungsi untuk mengisi dropdown jurusan
@@ -243,20 +249,25 @@
                     .catch(error => console.error("Error fetching jurusan:", error));
             }
 
-            // Open Modal Edit from Detail Modal
-            btnEdit.addEventListener('click', () => {
+            btnEdit.addEventListener('click', function () {
                 if (currentId) {
-                    dataForm.action = `/editPembina/${currentId}`;
-                    dataForm.method = "POST";
-                    namaGuru.value = currentName;
-                    nipGuru.value = currentNip;
+                    modalTitle.innerText = "Edit Data";
+                    dataForm.action = `/updateAnggota/${currentId}`;
+                    dataForm.method = "POST"; // Laravel mendukung metode PUT/PATCH dalam form melalui input hidden
+                    // Tambahkan field hidden untuk metode PUT agar Laravel mengenalinya
+                    methodField.innerHTML = '<input type="hidden" name="_method" value="PUT">';
+                    nama.value = currentName;
+                    nis.value = currentNis;
                     email.value = currentEmail;
                     noHp.value = currentNoHp;
-                    idGuru.value = currentId;
-                    methodField.innerHTML = '<input type="hidden" name="_method" value="PUT">';
 
+                    // Tampilkan modal
+                    dataModal.classList.remove('hidden');
                     detailModal.classList.add('hidden'); // Tutup Modal Detail
-                    dataModal.classList.remove('hidden'); // Buka Modal Edit
+
+                    // Panggil fungsi untuk mengisi dropdown jurusan
+                    // Fungsi load jurusan dengan opsi terpilih
+                    loadJurusan(jurusan);
                 }
             });
 
@@ -285,6 +296,24 @@
 
         });
 
+        document.addEventListener("DOMContentLoaded", function () {
+            fetch('/api/jurusan')
+                    .then(response => response.json())
+                    .then(data => {
+                        let selectJurusan = document.getElementById("jurusan");
+
+                        // Hapus option sebelumnya agar tidak menumpuk
+                        selectJurusan.innerHTML = '<option value="">-- Semua Jurusan --</option>';
+
+                        for (const [key, value] of Object.entries(data)) {
+                            let option = document.createElement("option");
+                            option.value = key;
+                            option.textContent = value;
+                            selectJurusan.appendChild(option);
+                        }
+                    })
+                    .catch(error => console.error("Error fetching jurusan:", error));
+        });
 
         btnBatal.addEventListener('click', () => {
             dataModal.classList.add('hidden');
@@ -294,28 +323,17 @@
             detailModal.classList.add('hidden');
         });
 
-        btnSimpan.addEventListener('click', () => {
-            let namaGuru = document.getElementById('namaGuru').value;
-            let nipGuru = document.getElementById('nipGuru').value;
-
-            if (namaGuru.trim() === '' || nipGuru.trim() === '') {
-                alert('Harap isi semua kolom!');
-                return;
-            }
-
-            alert(`Anggota "${namaGuru}" dengan NIS "${nipGuru}" telah ditambahkan!`);
-            modalTambahGuru.classList.add('hidden');
-        });
-
-
-        document.getElementById('eskul').addEventListener('change', function() {
-            let selectedEskul = this.value;
+        document.getElementById('jurusan').addEventListener('change', function() {
+            let selectedJurusan = this.value;
             let rows = document.querySelectorAll('#table-body tr');
 
             rows.forEach(row => {
-                let eskul = row.getAttribute('data-eskul');
-                row.style.display = (selectedEskul === 'all' || eskul === selectedEskul) ? '' : 'none';
-            });
+            if (selectedJurusan === "" || row.getAttribute("data-jurusan") === selectedJurusan) {
+                row.style.display = "";
+            } else {
+                row.style.display = "none";
+            }
         });
+    });
     </script>
 @endsection

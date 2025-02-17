@@ -41,6 +41,8 @@ Route::delete('/hapusEkskul/{id}', [masterController::class, 'deleteEkskul']);
 Route::get('/pembinaDashboard', [pembinaController::class, 'getDashboardPembina']);
 Route::get('/dataAnggotaEskul', [pembinaController::class, 'getDataAnggotaEskul']);
 Route::post('/saveAnggota', [pembinaController::class, 'saveAnggota']);
+Route::post('/updateAnggota/{id}', [pembinaController::class, 'updateAnggota'])->name('update.anggota');
+Route::put('/updateAnggota/{id}', [pembinaController::class, 'updateAnggota'])->name('update.anggota');
 Route::delete('/hapusAnggota/{id}', [pembinaController::class, 'deleteAnggota']);
 Route::get('/api/jurusan', [pembinaController::class, 'getJurusan']);
 Route::get('/dataInformasiEskul', [pembinaController::class, 'getDataInformasiEskul']);

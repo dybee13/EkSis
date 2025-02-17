@@ -34,26 +34,32 @@
                         </tr>
                     </thead>
                     <tbody id="table-body">
-                        @foreach ($datas as $pembina)
+                        @forelse ($datas as $pembina)
                             <tr class="border-b">
                                 <td class="py-2 px-4 text-center">{{ $pembina->name }}</td>
                                 <td class="py-2 px-4 text-center">{{ $pembina->nip }}</td>
                                 <td>
-                                    @foreach ($pembina->ekskuls as $ekskulUser)
-                                        {{ $ekskulUser->ekskul->nama_ekskul }}<br>
-                                    @endforeach
+                                    @forelse ($pembina->ekskuls as $ekskul)
+                                        <span class="badge bg-primary">{{ $ekskul->nama_ekskul }}</span>
+                                    @empty
+                                        <span class="text-muted">Tidak membina ekskul</span>
+                                    @endforelse
                                 </td>
                                 <td class="py-2 px-4 text-center text-green-600 font-semibold">Aktif</td>
                                 <td>
                                     <button id="btnDetail" class="btn btn-warning btnDetail" data-id="{{ $pembina->id }}"
                                         data-name="{{ $pembina->name }}" data-email="{{ $pembina->email }}"
                                         data-nohp="{{ $pembina->no_hp }}" data-nip="{{ $pembina->nip }}"
-                                        data-ekskul="{{ implode(', ', $pembina->ekskuls->map(fn($e) => $e->ekskul->nama_ekskul)->toArray()) }}">
+                                        data-ekskul="@foreach($pembina->ekskuls as $ekskul){{ $ekskul->nama_ekskul }}, @endforeach">
                                         Detail
                                     </button>
                                 </td>
                             </tr>
-                        @endforeach
+                            @empty
+                            <tr>
+                                <td colspan="4" class="text-center">Tidak ada data pembina</td>
+                            </tr>
+                            @endforelse
                     </tbody>
                 </table>
             </div>

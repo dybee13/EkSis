@@ -33,7 +33,11 @@
                     <tr class="border-b" data-eskul="kategori">
                         <td class="py-2 px-4 text-center">{{ $ekskul->nama_ekskul }}</td>
                         <td class="py-2 px-4 text-center">
-                            {{ $ekskul->pembina ? $ekskul->pembina->name : 'Belum ada pembina' }}
+                            @forelse ($ekskul->users as $pembina)
+                                <span class="badge bg-primary">{{ $pembina->name }}</span>
+                            @empty
+                                <span class="text-muted">Belum ada Pembina</span>
+                            @endforelse
                         </td>
                         <td class="py-2 px-4 text-center text-green-600 font-semibold">Aktif</td>
                         <td>
