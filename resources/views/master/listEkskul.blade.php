@@ -139,10 +139,9 @@
         const usersSelect = document.getElementById('users');
         const dataForm = document.getElementById('dataForm');
 
-        let currentEkskulId = null; // Simpan ID ekskul yang sedang dibuka
-        let isEditMode = false; // Untuk cek apakah modal dalam mode edit
+        let currentEkskulId = null; 
+        let isEditMode = false; 
 
-        // Event listener untuk membuka modal detail
         document.querySelectorAll('.btnDetailEkskul').forEach(button => {
             button.addEventListener('click', () => {
                 const ekskulId = button.dataset.id;
@@ -152,11 +151,8 @@
                     .then(data => {
                         currentEkskulId = data.ekskul.id;
                         detailNamaEkskul.textContent = data.ekskul.nama_ekskul;
-
-                        // Kosongkan daftar pembina sebelumnya
                         detailNamaPembina.innerHTML = '';
 
-                        // Tambahkan daftar pembina
                         data.ekskul.users.forEach(user => {
                             const li = document.createElement('li');
                             li.textContent = user.name;
@@ -172,14 +168,12 @@
             detailModal.classList.add('hidden');
         });
 
-        // Event: Buka modal untuk tambah ekskul
         btnTambahEkskul.addEventListener('click', () => {
             isEditMode = false;
             modalTitle.textContent = "Tambah Ekskul";
             ekskulIdInput.value = "";
             namaEkskulInput.value = "";
 
-            const usersSelect = document.getElementById("users");
             if (usersSelect) {
                 Array.from(usersSelect.options).forEach(option => option.selected = false);
             }
@@ -187,14 +181,12 @@
             modalData.classList.remove('hidden');
         });
 
-        // Event listener untuk membuka modal edit dari modal detail
         btnEdit.addEventListener('click', () => {
             detailModal.classList.add('hidden');
             openEditModal(currentEkskulId);
             isEditMode = true;
         });
 
-        // Fungsi untuk membuka modal edit
         function openEditModal(id) {
             fetch(`/ekskul/${id}/dataEdit`)
                 .then(response => response.json())
@@ -204,7 +196,6 @@
                     ekskulIdInput.value = data.ekskul.id;
                     namaEkskulInput.value = data.ekskul.nama_ekskul;
 
-                    // Reset opsi pembina dan pilih yang sesuai
                     usersSelect.innerHTML = '';
                     fetch('/get-users')
                         .then(response => response.json())
@@ -214,7 +205,6 @@
                                 option.value = user.id;
                                 option.textContent = user.name;
 
-                                // Tandai pembina yang sudah terdaftar di ekskul
                                 if (data.ekskul.users.some(u => u.id == user.id)) {
                                     option.selected = true;
                                 }
@@ -229,75 +219,94 @@
                 .catch(error => console.error('Error mengambil data ekskul:', error));
         }
 
-        // Event: Simpan data (Tambah atau Edit)
         dataForm.addEventListener('submit', function(e) {
             e.preventDefault();
 
-            const id = ekskulIdInput.value;
-            const formData = new FormData();
+            Swal.fire({
+                title: "Simpan Data?",
+                text: "Pastikan data sudah benar sebelum disimpan!",
+                icon: "info",
+                showCancelButton: true,
+                confirmButtonColor: "#28a745",
+                cancelButtonColor: "#d33",
+                confirmButtonText: "Simpan",
+                cancelButtonText: "Batal"
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    const id = ekskulIdInput.value;
+                    const formData = new FormData();
+                    const namaEkskul = namaEkskulInput.value.trim();
+                    if (namaEkskul === "") {
+                        Swal.fire("Error", "Nama Ekskul tidak boleh kosong!", "error");
+                        return;
+                    }
+                    formData.append('nama_ekskul', namaEkskul);
 
-            // Ambil nilai input nama ekskul
-            const namaEkskul = namaEkskulInput.value.trim();
-            if (namaEkskul === "") {
-                alert("Nama Ekskul tidak boleh kosong!");
-                return;
-            }
-            formData.append('nama_ekskul', namaEkskul); // Ubah ke 'nama_ekskul' agar sesuai dengan backend
+                    const selectedUsers = Array.from(usersSelect.selectedOptions).map(option => option.value);
+                    if (selectedUsers.length === 0) {
+                        Swal.fire("Error", "Minimal pilih 1 pembina!", "error");
+                        return;
+                    }
+                    selectedUsers.forEach(user => formData.append('users[]', user));
 
-            // Ambil user yang dipilih
-            const selectedUsers = Array.from(usersSelect.selectedOptions).map(option => option.value);
-            if (selectedUsers.length === 0) {
-                alert("Minimal pilih 1 pembina!");
-                return;
-            }
-            selectedUsers.forEach(user => formData.append('users[]', user));
+                    let url = "/saveEkskul";
+                    let method = "POST"; 
 
-            let url = "/saveEkskul";
-            let method = "POST"; // Default untuk tambah ekskul
+                    if (isEditMode) {
+                        url = `/updateEkskul/${id}`;
+                        formData.append('_method', 'PUT'); 
+                    }
 
-            if (isEditMode) {
-                url = `/updateEkskul/${id}`;
-                formData.append('_method', 'PUT'); // Laravel hanya menerima PUT jika ada _method
-            }
-
-            fetch(url, {
-                    method: "POST",
-                    headers: {
-                        "X-CSRF-TOKEN": document.querySelector('meta[name="csrf-token"]').content
-                    },
-                    body: formData
-                })
-                .then(response => response.json())
-                .then(data => {
-                    alert(data.message);
-                    modalData.classList.add('hidden');
-                    location.reload(); // Refresh halaman setelah update
-                })
-                .catch(error => console.error('Error:', error));
+                    fetch(url, {
+                            method: "POST",
+                            headers: {
+                                "X-CSRF-TOKEN": document.querySelector('meta[name="csrf-token"]').content
+                            },
+                            body: formData
+                        })
+                        .then(response => response.json())
+                        .then(data => {
+                            Swal.fire("Berhasil!", "Data ekskul berhasil disimpan.", "success");
+                            setTimeout(() => location.reload(), 1500);
+                        })
+                        .catch(error => console.error('Error:', error));
+                }
+            });
         });
 
-        //hapus data
-        document.getElementById('btnHapus').addEventListener('click', function() {
-            if (confirm("Apakah Anda yakin ingin menghapus ekskul ini?")) {
-                fetch(`/hapusEkskul/${currentEkskulId}`, {
-                        method: "POST", // Laravel hanya menerima DELETE jika ada _method
-                        headers: {
-                            "X-CSRF-TOKEN": document.querySelector('meta[name="csrf-token"]').content,
-                            "Content-Type": "application/json"
-                        },
-                        body: JSON.stringify({
-                            _method: "DELETE"
-                        }) // Laravel butuh _method untuk DELETE
-                    })
-                    .then(response => response.json())
-                    .then(data => {
-                        alert(data.message);
-                        detailModal.classList.add('hidden'); // Tutup modal setelah hapus
-                        location.reload(); // Refresh halaman untuk memperbarui data
-                    })
-                    .catch(error => console.error('Error:', error));
-            }
-        });
+        if (btnHapus) {
+            btnHapus.addEventListener('click', function() {
+                Swal.fire({
+                    title: "Apakah kamu yakin?",
+                    text: "Data ekskul ini akan dihapus!",
+                    icon: "warning",
+                    showCancelButton: true,
+                    confirmButtonColor: "#d33",
+                    cancelButtonColor: "#3085d6",
+                    confirmButtonText: "Ya, hapus!",
+                    cancelButtonText: "Batal"
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        fetch(`/hapusEkskul/${currentEkskulId}`, {
+                                method: "POST", 
+                                headers: {
+                                    "X-CSRF-TOKEN": document.querySelector('meta[name="csrf-token"]').content,
+                                    "Content-Type": "application/json"
+                                },
+                                body: JSON.stringify({
+                                    _method: "DELETE"
+                                })
+                            })
+                            .then(response => response.json())
+                            .then(data => {
+                                Swal.fire("Terhapus!", "Data ekskul berhasil dihapus.", "success");
+                                setTimeout(() => location.reload(), 1500);
+                            })
+                            .catch(error => console.error('Error:', error));
+                    }
+                });
+            });
+        }
 
         btnBatal.addEventListener('click', () => {
             modalData.classList.add('hidden');
@@ -315,5 +324,6 @@
         });
     });
 </script>
+
 
 @endsection
