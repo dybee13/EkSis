@@ -8,6 +8,8 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class User extends Authenticatable
 {
@@ -31,14 +33,16 @@ class User extends Authenticatable
         'password',
     ];
 
-    public function ekskuls()
-    {
-        return $this->hasMany(EkskulUsers::class, 'id_user');
-    }
-
-    public function ekskul()
+    // Relasi ke Ekskul yang diampu (melalui ekskul_users)
+    public function ekskuls(): BelongsToMany
     {
         return $this->belongsToMany(Ekskuls::class, 'ekskul_users', 'id_user', 'id_ekskul');
+    }
+
+    // Relasi ke Data Anggota (sebagai pembina)
+    public function anggota(): HasMany
+    {
+        return $this->hasMany(AnggotaEkskul::class, 'id_pembina');
     }
 
     /**
