@@ -175,21 +175,44 @@
                 fetch(`/ekskul/${ekskulId}/dataEdit`)
                     .then(response => response.json())
                     .then(data => {
-                        currentEkskulId = data.ekskul.id;
-                        detailNamaEkskul.textContent = data.ekskul.nama_ekskul;
+                        console.log("Data diterima:", data); // Debugging
+                        
+                        if (data && data.ekskul) {
+                            currentEkskulId = data.ekskul.id;
+                            detailNamaEkskul.textContent = data.ekskul.nama_ekskul;
 
-                        // Kosongkan daftar pembina sebelumnya
-                        detailNamaPembina.innerHTML = '';
+                            // Kosongkan daftar pembina & pengurus sebelumnya
+                            detailNamaPembina.innerHTML = '';
+                            detailNamaPengurus.innerHTML = '';
 
-                        // Tambahkan daftar pembina
-                        data.ekskul.users.forEach(user => {
-                            const li = document.createElement('li');
-                            li.textContent = user.name;
-                            detailNamaPembina.appendChild(li);
-                        });
+                            // Tambahkan daftar pembina
+                            if (Array.isArray(data.pembina)) {
+                                data.pembina.forEach(user => {
+                                    const li = document.createElement('li');
+                                    li.textContent = user.name;
+                                    detailNamaPembina.appendChild(li);
+                                });
+                            } else {
+                                console.log("Data pembina tidak ditemukan atau bukan array");
+                            }
 
-                        detailModal.classList.remove('hidden');
-                    });
+                            // Tambahkan daftar pengurus
+                            if (Array.isArray(data.pengurus)) {
+                                data.pengurus.forEach(user => {
+                                    const li = document.createElement('li');
+                                    li.textContent = user.name;
+                                    detailNamaPengurus.appendChild(li);
+                                });
+                            } else {
+                                console.log("Data pengurus tidak ditemukan atau bukan array");
+                            }
+
+                            detailModal.classList.remove('hidden');
+                        } else {
+                            console.error("Data ekskul tidak ditemukan");
+                        }
+                    })
+                    .catch(error => console.error('Error:', error));
             });
         });
 

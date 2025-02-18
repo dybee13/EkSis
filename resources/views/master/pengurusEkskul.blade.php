@@ -60,7 +60,7 @@
                                 <td>
                                     <button id="btnDetail" class="btn btn-warning btnDetail" data-id="{{ $pembina->id }}"
                                         data-name="{{ $pembina->name }}" data-email="{{ $pembina->email }}"
-                                        data-nohp="{{ $pembina->no_hp }}" data-nip="{{ $pembina->nip }}"
+                                        data-nohp="{{ $pembina->no_hp }}" data-nis="{{ $pembina->nis }}"
                                         data-ekskul="@foreach($pembina->ekskuls as $ekskul){{ $ekskul->nama_ekskul }}, @endforeach">
                                         Detail
                                     </button>
@@ -90,7 +90,7 @@
 
             <div class="mb-4">
                 <label class="font-semibold">NIS:</label>
-                <p id="detailNip" class="text-gray-700"></p>
+                <p id="detailNis" class="text-gray-700"></p>
             </div>
 
             <div class="mb-4">
@@ -148,11 +148,11 @@
                 <input type="text" id="email" name="email"
                     class="w-full mt-1 mb-4 p-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500">
 
-                <label class="block text-sm font-medium text-gray-700">Password</label>
+                    <label class="block text-sm font-medium text-gray-700" id="lpw">Password</label>
                 <input type="password" id="password" name="password"
                     class="w-full mt-1 mb-4 p-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500">
 
-                <label class="block text-sm font-medium text-gray-700">Konfirmasi Password</label>
+                <label class="block text-sm font-medium text-gray-700" id="lkpw">Konfirmasi Password</label>
                 <input type="password" id="password_confirmation" name="password_confirmation"
                     class="w-full mt-1 mb-4 p-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500">
 
@@ -208,13 +208,15 @@
             const noHp = document.getElementById('noHp');
             const pw = document.getElementById('password');
             const konfpw = document.getElementById('password_confirmation');
+            const lpw = document.getElementById('lpw');
+            const lkpw = document.getElementById('lkpw');
 
             // Open Modal Detail
             btnDetail.forEach(button => {
                 button.addEventListener('click', () => {
                     currentId = button.dataset.id;
                     currentName = button.dataset.name;
-                    currentNip = button.dataset.nip;
+                    currentNis = button.dataset.nis;
                     currentEmail = button.dataset.email;
                     currentNoHp = button.dataset.nohp;
                     currentEkskul = button.dataset.ekskul;
@@ -247,13 +249,17 @@
             // Open Modal Edit from Detail Modal
             btnEdit.addEventListener('click', () => {
                 if (currentId) {
-                    dataForm.action = `/editPembina/${currentId}`;
+                    dataForm.action = `/editPengurus/${currentId}`;
                     dataForm.method = "POST";
-                    namaGuru.value = currentName;
-                    nipGuru.value = currentNip;
+                    nama.value = currentName;
+                    nis.value = currentNis;
                     email.value = currentEmail;
                     noHp.value = currentNoHp;
-                    idGuru.value = currentId;
+                    id.value = currentId;
+                    pw.classList.add('hidden');
+                    konfpw.classList.add('hidden');
+                    lpw.classList.add('hidden');
+                    lkpw.classList.add('hidden');
                     methodField.innerHTML = '<input type="hidden" name="_method" value="PUT">';
 
                     detailModal.classList.add('hidden'); // Tutup Modal Detail

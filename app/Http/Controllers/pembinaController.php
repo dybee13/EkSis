@@ -7,8 +7,8 @@ use App\Models\Ekskuls;
 use App\Models\User;
 use App\Models\EkskulUsers;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Validation\Rule;
 
 class pembinaController extends Controller
 {
@@ -170,10 +170,16 @@ class pembinaController extends Controller
         // dd($id, $request->all());
         $request->validate([
             'name' => 'required',
-            'nis' => 'required|unique:data_anggota_ekskul,nis',
+            'nis' => [
+                'required',
+                Rule::unique('data_anggota_ekskul', 'nis')->ignore($id)
+            ],
             'jurusan' => 'required',
             'noHp' => 'required|numeric|digits_between:10,13',
-            'email' => 'required|email|unique:data_anggota_ekskul,email',
+            'email' => [
+                'required',
+                Rule::unique('data_anggota_ekskul', 'email')->ignore($id)
+            ]
         ],[
             'name.required' => 'Nama wajib diisi.',
             'jurusan.required' => 'Jurusan wajib diisi.',

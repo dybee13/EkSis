@@ -7,9 +7,8 @@ use App\Models\User;
 use App\Models\Ekskuls;
 use App\Models\EkskulUsers;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Log;
+use Illuminate\Validation\Rule;
 
 class masterController extends Controller
 {
@@ -211,9 +210,15 @@ class masterController extends Controller
     public function updatePembina(Request $request, $id){
         $request->validate([
             'name' => 'required',
-            'nip' => 'required|unique:users,nip',
+            'nip' => [
+                'required',
+                Rule::unique('users', 'nip')->ignore($id)
+            ],
             'noHp' => 'required|numeric|digits_between:10,13',
-            'email' => 'required|email|unique:users,email'
+            'email' => [
+                'required',
+                Rule::unique('users', 'email')->ignore($id)
+            ],
         ],[
             'name.required' => 'Nama wajib diisi.',
             'nip.required' => 'NIP wajib diisi.',
@@ -233,7 +238,41 @@ class masterController extends Controller
         $update->nip = $request->nip;
         $update->pp = "profile.png";
         $update->role = "pembina";
-        $update->password = Hash::make($request->password);
+        $update->save();
+        
+        return back()->with('success');
+    }
+
+    public function updatePengurus(Request $request, $id){
+        $request->validate([
+            'name' => 'required',
+            'nis' => [
+                'required',
+                Rule::unique('users', 'nis')->ignore($id)
+            ],
+            'noHp' => 'required|numeric|digits_between:10,13',
+            'email' => [
+                'required',
+                Rule::unique('users', 'email')->ignore($id)
+            ],
+        ],[
+            'name.required' => 'Nama wajib diisi.',
+            'nis.required' => 'NIP wajib diisi.',
+            'nis.unique' => 'NIP ini sudah digunakan, silakan gunakan NIP lain.',
+            'noHp.required' => 'Nomor HP wajib diisi.',
+            'noHp.numeric' => 'Diisi dengan Nomor.',
+            'noHp.digits_between' => 'Nomor HP harus terdiri dari 10 hingga 13 digit.',
+            'email.required' => 'Email wajib diisi.',
+            'email.email' => 'Format email tidak valid.',
+            'email.unique' => 'Email ini sudah digunakan, silakan gunakan email lain.',
+        ]);
+
+        $update = User::find($id);
+        $update->name = $request->name;
+        $update->email= $request->email;
+        $update->no_hp = $request->noHp;
+        $update->nis = $request->nis;
+        $update->pp = "profile.png";
         $update->save();
         
         return back()->with('success');
