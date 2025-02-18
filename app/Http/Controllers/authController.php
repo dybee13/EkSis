@@ -17,11 +17,13 @@ class authController extends Controller
     public function login(Request $request){
         Session::put('key', 'Pesan ini akan bertahan sampai dihapus.');
         $request->validate([
-            'email' => 'required',
-            'pw' => 'required'
+            'email' => 'required|email',
+            'pw' => 'required|min:6'
         ], [
-            'email.required' => 'email wajib diisi',
-            'pw.required' => 'pw wajib diisi'
+            'email.required' => 'Email wajib diisi',
+            'email.email' => 'Format email tidak valid.',
+            'pw.required' => 'Password wajib diisi',
+            'pw.min' => 'Password minimal harus :min karakter.'
         ]);
 
         $info = [
@@ -58,7 +60,7 @@ class authController extends Controller
             }
         }else{
             //login gagal
-            return redirect()->withErrors('email dan password yang dimasukkan tidak valid')->withInput();
+            return redirect()->back()->withErrors(['login' => 'Email dan Password yang dimasukkan tidak valid'])->withInput();
         }
     }
 

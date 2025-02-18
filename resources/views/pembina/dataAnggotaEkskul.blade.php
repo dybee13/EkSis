@@ -67,7 +67,12 @@
     <!-- Modal Detail -->
     <div id="detailModal" class="fixed inset-0 flex items-center justify-center bg-gray-800 bg-opacity-50 hidden">
         <div class="bg-white p-6 rounded-lg w-96">
-            <h2 class="text-lg font-bold mb-4">Detail Anggota</h2>
+            <div class="flex justify-between items-center mb-4">
+                <h2 class="text-lg font-bold">Detail Anggota</h2>
+                <button id="closeDetailModal" class="text-gray-500 hover:text-gray-700">
+                    ✖
+                </button>
+            </div>
 
             <div class="mb-4">
                 <label class="font-semibold">NIS:</label>
@@ -99,42 +104,64 @@
                 <p id="detailEkskul" class="text-gray-700"></p>
             </div>
 
-            <div class="flex justify-between">
-                <button id="closeDetailModal" class="px-4 py-2 bg-gray-500 text-white rounded">Tutup</button>
-                <button id="btnEdit" class="px-4 py-2 bg-blue-500 text-white rounded">Edit</button>
-                <button id="btnHapus" class="px-3 py-1 bg-red-500 text-white rounded-md hover:bg-red-600">Hapus</button>
+            <div class="flex justify-end">
+                <!-- <button id="closeDetailModal" class="px-4 py-2 bg-gray-500 text-white rounded">Tutup</button> -->
+                <button id="btnEdit" class="px-4 py-2 m-2 bg-blue-500 text-white rounded">Edit</button>
+                <button id="btnHapus"
+                    class="px-4 py-2 m-2 bg-red-500 text-white rounded-md hover:bg-red-600">Hapus</button>
             </div>
         </div>
     </div>
 
-    <!-- Modal Tambah Data Guru Pembina -->
+    <!-- Modal Tambah Data Anggota anggota -->
     <div id="dataModal" class="fixed inset-0 bg-black bg-opacity-50 hidden flex justify-center items-center dataModal">
         <form method="POST" id="dataForm">
             @csrf
             <div id="methodField"></div> <!-- Tempat untuk @method('PUT') -->
             <div class="bg-white p-6 ml-36 mt-16 rounded-lg shadow-lg w-[860px]">
-                <h2 class="text-lg font-semibold mb-4 modalTitle" id="modalTitle">Tambah Anggota Eskul</h2>
+                <h2 class="text-lg font-semibold mb-4 modalTitle" id="modalTitle">Tambah Anggota</h2>
 
                 <input type="hidden" id="id" name="id">
 
                 <label class="block text-sm font-medium text-gray-700">Nama Lengkap</label>
                 <input type="text" id="nama" name="name"
                     class="w-full mt-1 mb-4 p-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500">
+                @error('name')
+                    <div class="text-red-500 bg-red-100 border border-red-400 p-2 rounded-md mt-1">
+                        {{ $message }}
+                    </div>
+                @enderror
 
                 <label class="block text-sm font-medium text-gray-700">NIS</label>
                 <input type="text" id="nis" name="nis"
                     class="w-full mt-1 mb-4 p-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500">
+                @error('nis')
+                    <div class="text-red-500 bg-red-100 border border-red-400 p-2 rounded-md mt-1">
+                        {{ $message }}
+                    </div>
+                @enderror
 
                 <label class="block text-sm font-medium text-gray-700">No. Handphone</label>
                 <input type="number" id="noHp" name="noHp"
                     class="w-full mt-1 mb-4 p-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500">
+                @error('noHp')
+                    <div class="text-red-500 bg-red-100 border border-red-400 p-2 rounded-md mt-1">
+                        {{ $message }}
+                    </div>
+                @enderror
 
                 <label class="block text-sm font-medium text-gray-700">Email</label>
                 <input type="text" id="email" name="email"
                     class="w-full mt-1 mb-4 p-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500">
+                @error('email')
+                    <div class="text-red-500 bg-red-100 border border-red-400 p-2 rounded-md mt-1">
+                        {{ $message }}
+                    </div>
+                @enderror
 
                 <label class="block text-sm font-medium text-gray-700">Jurusan</label>
-                <select id="jurusanSelect" name="jurusan" class="form-select w-full p-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500">
+                <select id="jurusanSelect" name="jurusan"
+                    class="form-select w-full p-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500">
                     <option value="" selected>Pilih Jurusan</option>
                 </select>
 
@@ -152,7 +179,10 @@
         document.addEventListener('DOMContentLoaded', function() {
             //modal
             const detailModal = document.getElementById('detailModal');
-            const closeDetailModal = document.getElementById('closeDetailModal');
+            document.getElementById("closeDetailModal").addEventListener("click", function() {
+                document.getElementById("detailModal").classList.add("hidden");
+            });
+
             const dataModal = document.getElementById('dataModal');
             const dataForm = document.getElementById('dataForm');
             const modalTitle = document.getElementById('modalTitle');
@@ -166,14 +196,14 @@
 
             // Detail
             const detailId = document.getElementById('detailId');
-            const detailNip = document.getElementById('detailNip');
+            const detailNis = document.getElementById('detailNis');
             const detailName = document.getElementById('detailName');
             const detailNoHp = document.getElementById('detailNoHp');
             const detailEmail = document.getElementById('detailEmail');
             const detailJurusan = document.getElementById('detailJurusan');
             const detailEkskul = document.getElementById('detailEkskul');
 
-            let currentId = document.getElementById('detailId').value;;
+            let currentId = null;
             let currentName = null;
             let currentNis = null;
             let currentEmail = null;

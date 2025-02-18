@@ -65,11 +65,25 @@ class pembinaController extends Controller
     public function saveAnggota(Request $request)
     {
         $request->validate([
-            'name' => 'required|string|max:255',
-            'nis' => 'required|string|min:8|unique:data_anggota_ekskul,nis',
-            'noHp' => 'required|string|max:15',
+            'name' => 'required',
+            'nis' => 'required|unique:data_anggota_ekskul,nis|min:8',
+            'noHp' => 'required|digits_between:10,13',
             'email' => 'required|email|unique:data_anggota_ekskul,email',
-            'jurusan' => 'required|string|max:255',
+            'jurusan' => 'required',
+        ],[
+            'name.required' => 'Nama wajib diisi.',
+            'nis.required' => 'NIS wajib diisi.',
+            'nis.unique' => 'NIS ini sudah digunakan, silakan gunakan NIS lain.',
+            'noHp.required' => 'Nomor HP wajib diisi.',
+            'noHp.numeric' => 'Diisi dengan Nomor.',
+            'noHp.digits_between' => 'Nomor HP harus terdiri dari 10 hingga 13 digit.',
+            'email.required' => 'Email wajib diisi.',
+            'email.email' => 'Format email tidak valid.',
+            'email.unique' => 'Email ini sudah digunakan, silakan gunakan email lain.',
+            // 'password.required' => 'Password wajib diisi.',
+            // 'password.min' => 'Password minimal harus :min karakter.',
+            // 'password.confirmed' => 'Konfirmasi password tidak cocok.',
+            // 'password_confirmation.required' => 'Password wajib diisi.'
         ]);
 
         try {
@@ -116,6 +130,39 @@ class pembinaController extends Controller
             ], 500);
         }
     }
+
+    // public function updateUser(Request $request, $id){
+    //     $request->validate([
+    //         'name' => 'required',
+    //         'nis' => 'required|unique:users,nis',
+    //         'jurusan' => 'required',
+    //         'noHp' => 'required|numeric|digits_between:10,13',
+    //         'email' => 'required|email|unique:users,email',
+    //     ],[
+    //         'name.required' => 'Nama wajib diisi.',
+    //         'nis.required' => 'NIP wajib diisi.',
+    //         'nis.unique' => 'NIP ini sudah digunakan, silakan gunakan NIP lain.',
+    //         'noHp.required' => 'Nomor HP wajib diisi.',
+    //         'noHp.numeric' => 'Diisi dengan Nomor.',
+    //         'noHp.digits_between' => 'Nomor HP harus terdiri dari 10 hingga 13 digit.',
+    //         'email.required' => 'Email wajib diisi.',
+    //         'email.email' => 'Format email tidak valid.',
+    //         'email.unique' => 'Email ini sudah digunakan, silakan gunakan email lain.',
+    //     ]);
+
+    //     $update = User::find($id);
+    //     $update->name = $request->name;
+    //     $update->email= $request->email;
+    //     $update->no_hp = $request->noHp;
+    //     $update->nis = $request->nis;
+    //     $update->pp = "profile.png";
+    //     $update->role = "pembina";
+    //     $update->password = Hash::make($request->password);
+    //     $update->save();
+        
+    //     return back()->with('success', 'User berhasil diedit!');
+    // }
+
     // Data Anggota Eskul END
 
     public function updateAnggota(Request $request, $id){
@@ -123,10 +170,21 @@ class pembinaController extends Controller
         // dd($id, $request->all());
         $request->validate([
             'name' => 'required',
-            'nis' => 'required|min:8',
+            'nis' => 'required|unique:data_anggota_ekskul,nis',
             'jurusan' => 'required',
-            'noHp' => 'required',
-            'email' => 'required',
+            'noHp' => 'required|numeric|digits_between:10,13',
+            'email' => 'required|email|unique:data_anggota_ekskul,email',
+        ],[
+            'name.required' => 'Nama wajib diisi.',
+            'jurusan.required' => 'Jurusan wajib diisi.',
+            'nis.required' => 'NIP wajib diisi.',
+            'nis.unique' => 'NIP ini sudah digunakan, silakan gunakan NIP lain.',
+            'noHp.required' => 'Nomor HP wajib diisi.',
+            'noHp.numeric' => 'Diisi dengan Nomor.',
+            'noHp.digits_between' => 'Nomor HP harus terdiri dari 10 hingga 13 digit.',
+            'email.required' => 'Email wajib diisi.',
+            'email.email' => 'Format email tidak valid.',
+            'email.unique' => 'Email ini sudah digunakan, silakan gunakan email lain.',
         ]);
 
         $update = AnggotaEkskul::findOrFail($id);

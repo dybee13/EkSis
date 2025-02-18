@@ -20,4 +20,9 @@ class Ekskuls extends Model
         return $this->belongsToMany(User::class, 'ekskul_users', 'id_ekskul', 'id_user');
     }
 
+    public function ekskulUsers()
+    {
+        return $this->hasMany(EkskulUsers::class, 'ekskul_id');
+    }
+
 }

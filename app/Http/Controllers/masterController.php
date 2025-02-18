@@ -5,8 +5,11 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\User;
 use App\Models\Ekskuls;
+use App\Models\EkskulUsers;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 
 class masterController extends Controller
 {
@@ -20,6 +23,7 @@ class masterController extends Controller
             'title' => 'Dashboard Master Admin',
         ]);
     }
+    
     public function dataPembina()
     {
 
@@ -32,6 +36,19 @@ class masterController extends Controller
         ]);
     }
     
+
+    public function dataPengurus()
+    {
+
+        // Ambil semua user dengan role 'pembina' dan ekskul yang dibina
+        $pengurus = User::where('role', 'pengurus')->with('ekskuls')->get();
+
+        return view('master.pengurusEkskul', [
+            'title' => 'Data Pengurus Ekskul',
+            'datas' => $pengurus // Ambil hanya user dengan role 'pembina'
+        ]);
+    }
+    
     public function dataEkskul()
     {
         $ekskuls = Ekskuls::with('users')->get();
@@ -39,7 +56,8 @@ class masterController extends Controller
         return view('master.listEkskul', [
             'title' => 'Data Ekskul',
             'datas' => $ekskuls,
-            'pembinas' => User::where('role', 'pembina')->get()
+            'pembinas' => User::where('role', 'pembina')->get(),
+            'pengurus' => User::where('role', 'pengurus')->get(),
         ]);
     }
 
@@ -47,10 +65,26 @@ class masterController extends Controller
         
         $request->validate([
             'name' => 'required',
-            'nip' => 'required|min:18',
-            'noHp' => 'required',
-            'email' => 'required',
+            'nip' => 'required|unique:users,nip',
+            'noHp' => 'required|numeric|digits_between:10,13',
+            'email' => 'required|email|unique:users,email',
             'password' => 'required|min:6|confirmed',
+            'password_confirmation' => 'required',
+        ],
+        [ 
+            'name.required' => 'Nama wajib diisi.',
+            'nip.required' => 'NIP wajib diisi.',
+            'nip.unique' => 'NIP ini sudah digunakan, silakan gunakan NIP lain.',
+            'noHp.required' => 'Nomor HP wajib diisi.',
+            'noHp.numeric' => 'Diisi dengan Nomor.',
+            'noHp.digits_between' => 'Nomor HP harus terdiri dari 10 hingga 13 digit.',
+            'email.required' => 'Email wajib diisi.',
+            'email.email' => 'Format email tidak valid.',
+            'email.unique' => 'Email ini sudah digunakan, silakan gunakan email lain.',
+            'password.required' => 'Password wajib diisi.',
+            'password.min' => 'Password minimal harus :min karakter.',
+            'password.confirmed' => 'Konfirmasi password tidak cocok.',
+            'password_confirmation.required' => 'Password wajib diisi.'
         ]);
 
         $create = new User();
@@ -63,43 +97,96 @@ class masterController extends Controller
         $create->password = Hash::make($request->password);
         $create->save();
         
-        return back()->with('success', 'User berhasil ditambahkan!');
+        return back()->with('success');
     }
 
-    public function saveEkskul(Request $request){
+    public function savePengurus(Request $request){
         
         $request->validate([
-            'nama_ekskul' => 'required|string|max:255',
-            'users' => 'required|array', // Pastikan users dikirim sebagai array
-            'users.*' => 'exists:users,id' // Validasi setiap user_id harus ada di tabel users
+            'name' => 'required',
+            'nis' => 'required|unique:users,nis',
+            'noHp' => 'required|numeric|digits_between:10,13',
+            'email' => 'required|email|unique:users,email',
+            'password' => 'required|min:6|confirmed',
+            'password_confirmation' => 'required',
+        ],
+        [ 
+            'name.required' => 'Nama wajib diisi.',
+            'nis.required' => 'NIS wajib diisi.',
+            'nis.unique' => 'NIS ini sudah terdaftar!',
+            'noHp.required' => 'Nomor HP wajib diisi.',
+            'noHp.numeric' => 'Diisi dengan Nomor.',
+            'noHp.digits_between' => 'Nomor HP harus terdiri dari 10 hingga 13 digit.',
+            'email.required' => 'Email wajib diisi.',
+            'email.email' => 'Format email tidak valid.',
+            'email.unique' => 'Email ini sudah digunakan, silakan gunakan email lain.',
+            'password.required' => 'Password wajib diisi.',
+            'password.min' => 'Password minimal harus :min karakter.',
+            'password.confirmed' => 'Konfirmasi password tidak cocok.',
+            'password_confirmation.required' => 'Password wajib diisi.'
         ]);
 
-        // Cek apakah semua user yang dikirim memiliki role 'pembina'
-        $invalidUsers = User::whereIn('id', $request->users)
-        ->where('role', '!=', 'pembina')
-        ->pluck('id');
+        $create = new User();
+        $create->name = $request->name;
+        $create->email= $request->email;
+        $create->no_hp = $request->noHp;
+        $create->nis = $request->nis;
+        $create->pp = "profile.png";
+        $create->role = "pengurus";
+        $create->password = Hash::make($request->password);
+        $create->save();
+        
+        return back()->with('success');
+    }
 
-        if ($invalidUsers->isNotEmpty()) {
-            return response()->json([
-                'success' => false,
-                'message' => 'Gagal menambahkan ekskul! Beberapa pengguna bukan pembina.',
-                'invalid_users' => $invalidUsers
-            ], 400);
-        }
-
+    public function saveEkskul(Request $request) {
         try {
+            // Validasi input
+            $request->validate([
+                'nama_ekskul' => 'required|string|max:255',
+                'users' => 'required|array', // Validasi untuk array pembina
+                'id_pengurus' => 'nullable|array', // Validasi untuk array pengurus (optional)
+                'users.*' => 'exists:users,id', // Pastikan semua id di users ada di tabel users
+                'id_pengurus.*' => 'exists:users,id', // Pastikan semua id di id_pengurus ada di tabel users
+            ]);
+    
+            DB::beginTransaction();
+    
             // Simpan ekskul baru
             $ekskul = Ekskuls::create([
                 'nama_ekskul' => $request->nama_ekskul,
             ]);
     
-            // Hubungkan ekskul dengan pengguna (menyimpan ke ekskul_users)
-            $ekskul->users()->attach($request->users);
+            // Simpan pembina ke ekskul_users
+            foreach ($request->users as $userId) {
+                EkskulUsers::create([
+                    'id_ekskul' => $ekskul->id,
+                    'id_user' => $userId
+                ]);
+            }
     
-            return response()->json(['success' => true, 'message' => 'Ekskul berhasil ditambahkan!']);
+            // Simpan pengurus ke ekskul_users jika ada
+            if ($request->has('id_pengurus')) {
+                foreach ($request->id_pengurus as $pengurusId) {
+                    EkskulUsers::create([
+                        'id_ekskul' => $ekskul->id,
+                        'id_user' => $pengurusId
+                    ]);
+                }
+            }
     
+            DB::commit();
+    
+            return response()->json([
+                'success' => true,
+                'message' => 'Ekskul berhasil ditambahkan!'
+            ]);
         } catch (\Exception $e) {
-            return response()->json(['success' => false, 'message' => $e->getMessage()], 500);
+            DB::rollback();
+            return response()->json([
+                'success' => false,
+                'message' => 'Terjadi kesalahan: ' . $e->getMessage()
+            ], 500);
         }
     }
 
@@ -124,9 +211,19 @@ class masterController extends Controller
     public function updatePembina(Request $request, $id){
         $request->validate([
             'name' => 'required',
-            'nip' => 'required|min:18',
-            'noHp' => 'required',
-            'email' => 'required',
+            'nip' => 'required|unique:users,nip',
+            'noHp' => 'required|numeric|digits_between:10,13',
+            'email' => 'required|email|unique:users,email'
+        ],[
+            'name.required' => 'Nama wajib diisi.',
+            'nip.required' => 'NIP wajib diisi.',
+            'nip.unique' => 'NIP ini sudah digunakan, silakan gunakan NIP lain.',
+            'noHp.required' => 'Nomor HP wajib diisi.',
+            'noHp.numeric' => 'Diisi dengan Nomor.',
+            'noHp.digits_between' => 'Nomor HP harus terdiri dari 10 hingga 13 digit.',
+            'email.required' => 'Email wajib diisi.',
+            'email.email' => 'Format email tidak valid.',
+            'email.unique' => 'Email ini sudah digunakan, silakan gunakan email lain.',
         ]);
 
         $update = User::find($id);
@@ -139,19 +236,24 @@ class masterController extends Controller
         $update->password = Hash::make($request->password);
         $update->save();
         
-        return back()->with('success', 'User berhasil diedit!');
+        return back()->with('success');
     }
 
     public function dataEdit($id)
     {
-        $ekskul = Ekskuls::with('users')->findOrFail($id);
-        $users = User::all(); // Ambil semua user untuk pilihan
+        $ekskul = Ekskuls::with(['users'])->findOrFail($id);
+        
+        // Pisahkan pembina dan pengurus berdasarkan role
+        $pembina = $ekskul->users->where('role', 'pembina');
+        $pengurus = $ekskul->users->where('role', 'pengurus');
 
         return response()->json([
             'ekskul' => $ekskul,
-            'users' => $users
+            'pembina' => $pembina->toArray(),
+            'pengurus' => $pengurus->toArray()
         ]);
     }
+
 
 
     public function updateEkskul(Request $request, $id)
@@ -160,6 +262,8 @@ class masterController extends Controller
             'nama_ekskul' => 'required|string|max:255',
             'users' => 'required|array',
             'users.*' => 'exists:users,id'
+        ],  [
+            'nama_eskul.required' => 'Nama Eskul wajid diisi',
         ]);
 
         $ekskul = Ekskuls::findOrFail($id);
