@@ -8,11 +8,8 @@
             <button data-category="all" class="px-6 py-3 text-gray-800 hover:bg-gray-200 text-center rounded-lg border">Semua</button>
             <button data-category="olahraga" class="px-6 py-3 text-gray-800 hover:bg-gray-200 text-center rounded-lg border">Olahraga</button>
             <button data-category="seni" class="px-6 py-3 text-gray-800 hover:bg-gray-200 text-center rounded-lg border">Seni</button>
-            <button data-category="teknologi" class="px-6 py-3 text-gray-800 hover:bg-gray-200 text-center rounded-lg border">Teknologi</button>
-            <button data-category="musik" class="px-6 py-3 text-gray-800 hover:bg-gray-200 text-center rounded-lg border">Musik</button>
             <button data-category="bahasa" class="px-6 py-3 text-gray-800 hover:bg-gray-200 text-center rounded-lg border">Bahasa</button>
-            <button data-category="sains" class="px-6 py-3 text-gray-800 hover:bg-gray-200 text-center rounded-lg border">Sains</button>
-            <button data-category="lainnya" class="px-6 py-3 text-gray-800 hover:bg-gray-200 text-center rounded-lg border">Lainnya</button>
+            <button data-category="sains" class="px-6 py-3 text-gray-800 hover:bg-gray-200 text-center rounded-lg border">Religi</button>
         </div>
     </div>
 </div>

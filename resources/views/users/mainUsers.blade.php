@@ -221,8 +221,6 @@
     <div class="bg-white shadow-md rounded-xl p-6 border border-gray-200 w-80">
         <h2 class="text-xl font-semibold text-gray-800">&#9432; Tentang</h2>
         <div class="mt-4 space-y-2">
-            <button class="w-full bg-slate-400 text-white py-2 px-4 rounded-md">&#128100; Kepala Sekolah</button>
-            <button class="w-full bg-slate-400 text-white py-2 px-4 rounded-md">&#127941; Visi dan Misi</button>
             <button class="w-full bg-slate-400 text-white py-2 px-4 rounded-md">&#128101; Pengembang Website</button>
         </div>
     </div>
