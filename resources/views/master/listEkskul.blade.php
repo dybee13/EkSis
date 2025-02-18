@@ -152,7 +152,6 @@
         });
         const detailNamaEkskul = document.getElementById('detailNamaEkskul');
         const detailNamaPembina = document.getElementById('detailNamaPembina');
-        const detailNamaPengurus = document.getElementById('detailNamaPengurus');
         const modalData = document.getElementById('modalData');
         const btnTambahEkskul = document.getElementById('btnTambahEkskul');
         const btnBatal = document.getElementById('btnBatal');
@@ -168,6 +167,7 @@
         let currentEkskulId = null; // Simpan ID ekskul yang sedang dibuka
         let isEditMode = false; // Untuk cek apakah modal dalam mode edit
 
+        // Event listener untuk membuka modal detail
         document.querySelectorAll('.btnDetailEkskul').forEach(button => {
             button.addEventListener('click', () => {
                 const ekskulId = button.dataset.id;
@@ -175,44 +175,21 @@
                 fetch(`/ekskul/${ekskulId}/dataEdit`)
                     .then(response => response.json())
                     .then(data => {
-                        console.log("Data diterima:", data); // Debugging
-                        
-                        if (data && data.ekskul) {
-                            currentEkskulId = data.ekskul.id;
-                            detailNamaEkskul.textContent = data.ekskul.nama_ekskul;
+                        currentEkskulId = data.ekskul.id;
+                        detailNamaEkskul.textContent = data.ekskul.nama_ekskul;
 
-                            // Kosongkan daftar pembina & pengurus sebelumnya
-                            detailNamaPembina.innerHTML = '';
-                            detailNamaPengurus.innerHTML = '';
+                        // Kosongkan daftar pembina sebelumnya
+                        detailNamaPembina.innerHTML = '';
 
-                            // Tambahkan daftar pembina
-                            if (Array.isArray(data.pembina)) {
-                                data.pembina.forEach(user => {
-                                    const li = document.createElement('li');
-                                    li.textContent = user.name;
-                                    detailNamaPembina.appendChild(li);
-                                });
-                            } else {
-                                console.log("Data pembina tidak ditemukan atau bukan array");
-                            }
+                        // Tambahkan daftar pembina
+                        data.ekskul.users.forEach(user => {
+                            const li = document.createElement('li');
+                            li.textContent = user.name;
+                            detailNamaPembina.appendChild(li);
+                        });
 
-                            // Tambahkan daftar pengurus
-                            if (Array.isArray(data.pengurus)) {
-                                data.pengurus.forEach(user => {
-                                    const li = document.createElement('li');
-                                    li.textContent = user.name;
-                                    detailNamaPengurus.appendChild(li);
-                                });
-                            } else {
-                                console.log("Data pengurus tidak ditemukan atau bukan array");
-                            }
-
-                            detailModal.classList.remove('hidden');
-                        } else {
-                            console.error("Data ekskul tidak ditemukan");
-                        }
-                    })
-                    .catch(error => console.error('Error:', error));
+                        detailModal.classList.remove('hidden');
+                    });
             });
         });
 
@@ -220,30 +197,20 @@
             detailModal.classList.add('hidden');
         });
 
+        // Event: Buka modal untuk tambah ekskul
         btnTambahEkskul.addEventListener('click', () => {
             isEditMode = false;
             modalTitle.textContent = "Tambah Ekskul";
-            
-            // Reset input ekskul
             ekskulIdInput.value = "";
             namaEkskulInput.value = "";
 
-            // Reset pemilihan users (pembina)
             const usersSelect = document.getElementById("users");
             if (usersSelect) {
-                usersSelect.querySelectorAll("option").forEach(option => option.selected = false);
+                Array.from(usersSelect.options).forEach(option => option.selected = false);
             }
 
-            // Reset pemilihan pengurus
-            const pengurusSelect = document.getElementById("pengurus");
-            if (pengurusSelect) {
-                pengurusSelect.querySelectorAll("option").forEach(option => option.selected = false);
-            }
-
-            // Tampilkan modal tambah ekskul
             modalData.classList.remove('hidden');
         });
-
 
         // Event listener untuk membuka modal edit dari modal detail
         btnEdit.addEventListener('click', () => {
@@ -302,49 +269,37 @@
             }
             formData.append('nama_ekskul', namaEkskul); // Ubah ke 'nama_ekskul' agar sesuai dengan backend
 
-            // Ambil user yang dipilih (pembina)
-            const usersSelect = document.getElementById("users");
-            if (usersSelect) {
-                const selectedUsers = Array.from(usersSelect.selectedOptions).map(option => option.value);
-                if (selectedUsers.length === 0) {
-                    alert("Minimal pilih 1 pembina!");
-                    return;
-                }
-                selectedUsers.forEach(user => formData.append('users[]', user));
+            // Ambil user yang dipilih
+            const selectedUsers = Array.from(usersSelect.selectedOptions).map(option => option.value);
+            if (selectedUsers.length === 0) {
+                alert("Minimal pilih 1 pembina!");
+                return;
             }
-
-            // Ambil pengurus yang dipilih
-            const pengurusSelect = document.getElementById("pengurus");
-            if (pengurusSelect) {
-                const selectedPengurus = Array.from(pengurusSelect.selectedOptions).map(option => option.value);
-                selectedPengurus.forEach(pengurus => formData.append('id_pengurus[]', pengurus));
-            }
+            selectedUsers.forEach(user => formData.append('users[]', user));
 
             let url = "/saveEkskul";
             let method = "POST"; // Default untuk tambah ekskul
 
             if (isEditMode) {
                 url = `/updateEkskul/${id}`;
-                method = "PUT"; // Ubah ke PUT jika mode edit
                 formData.append('_method', 'PUT'); // Laravel hanya menerima PUT jika ada _method
             }
 
             fetch(url, {
-                method: method, // Gunakan method yang sesuai (POST atau PUT)
-                headers: {
-                    "X-CSRF-TOKEN": document.querySelector('meta[name="csrf-token"]').content
-                },
-                body: formData
-            })
-            .then(response => response.json())
-            .then(data => {
-                alert(data.message);
-                modalData.classList.add('hidden');
-                location.reload(); // Refresh halaman setelah update
-            })
-            .catch(error => console.error('Error:', error));
+                    method: "POST",
+                    headers: {
+                        "X-CSRF-TOKEN": document.querySelector('meta[name="csrf-token"]').content
+                    },
+                    body: formData
+                })
+                .then(response => response.json())
+                .then(data => {
+                    alert(data.message);
+                    modalData.classList.add('hidden');
+                    location.reload(); // Refresh halaman setelah update
+                })
+                .catch(error => console.error('Error:', error));
         });
-
 
         //hapus data
         document.getElementById('btnHapus').addEventListener('click', function() {
@@ -385,5 +340,6 @@
         });
     });
 </script>
+
 
 @endsection
