@@ -3,6 +3,7 @@
 use App\Http\Controllers\authController;
 use App\Http\Controllers\masterController;
 use App\Http\Controllers\pembinaController;
+use App\Http\Controllers\pengurusController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -27,8 +28,11 @@ Route::get('/logout', [authController::class, 'logout']);
 Route::get('/masterDashboard', [masterController::class, 'index']);
 Route::get('/get-users', [masterController::class, 'getUsers']);
 Route::get('/masterDataPembina', [masterController::class, 'dataPembina']);
+Route::get('/masterDataPengurus', [masterController::class, 'dataPengurus']);
 Route::post('/savePembina', [masterController::class, 'savePembina'])->name('save.pembina');
+Route::post('/savePengurus', [masterController::class, 'savePengurus'])->name('save.pengurus');
 Route::put('/editPembina/{id}', [masterController::class, 'updatePembina'])->name('update.pembina');
+Route::put('/editPengurus/{id}', [masterController::class, 'updatePengurus'])->name('update.pengurus');
 Route::delete('/hapusPembina/{id}', [masterController::class, 'deletePembina']);
 Route::get('/masterDataEkskul', [masterController::class, 'dataEkskul']);
 Route::post('/saveEkskul', [masterController::class, 'saveEkskul'])->name('save.ekskul');
@@ -41,12 +45,17 @@ Route::delete('/hapusEkskul/{id}', [masterController::class, 'deleteEkskul']);
 Route::get('/pembinaDashboard', [pembinaController::class, 'getDashboardPembina']);
 Route::get('/dataAnggotaEskul', [pembinaController::class, 'getDataAnggotaEskul']);
 Route::post('/saveAnggota', [pembinaController::class, 'saveAnggota']);
+Route::post('/updateAnggota/{id}', [pembinaController::class, 'updateAnggota'])->name('update.anggota');
+Route::put('/updateAnggota/{id}', [pembinaController::class, 'updateAnggota'])->name('update.anggota');
 Route::delete('/hapusAnggota/{id}', [pembinaController::class, 'deleteAnggota']);
 Route::get('/api/jurusan', [pembinaController::class, 'getJurusan']);
 Route::get('/dataInformasiEskul', [pembinaController::class, 'getDataInformasiEskul']);
 Route::get('/dataStrukturEskul', [pembinaController::class, 'getDataStrukturEskul']);
 // Role Pembina END
 
+// Role Pengurus START
+Route::get('/pengurusDashboard', [pengurusController::class, 'getDashboardPengurus']);
+// Role Pengurus END
 
 // Dashboard Users
 Route::get('/mainEkskul', function () {

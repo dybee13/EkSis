@@ -16,7 +16,7 @@
             <!-- Dropdown Ekskul & Tombol Tambah -->
             <div class="mb-4 flex justify-between items-center">
                 <div class="w-1/2">
-                    <label for="eskul" class="block text-sm font-medium text-gray-700">Pilih Pembina Ekskul</label>
+                    <label for="eskul" class="block text-sm font-medium text-gray-700">Pilih Pengurus Ekskul</label>
                     <select id="eskul"
                         class="w-full mt-1 block py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm">
                         <option value="all">Semua</option>
@@ -26,7 +26,7 @@
                     </select>
                 </div>
                 <button id="btnTambah" class="px-4 py-2 bg-green-500 text-white rounded-md hover:bg-green-600">+ Tambah
-                    Guru</button>
+                    Pengurus</button>
             </div>
 
             <!-- Tabel Data -->
@@ -37,8 +37,8 @@
                 <table class="w-full table-auto bg-white rounded-lg border border-gray-300 text-center">
                     <thead>
                         <tr class="bg-gray-100 border-b">
-                            <th class="py-2 px-4 w-1/4 text-center text-gray-700">Nama Pembina</th>
-                            <th class="py-2 px-4 w-1/4 text-center text-gray-700">NIP</th>
+                            <th class="py-2 px-4 w-1/4 text-center text-gray-700">Nama Pengurus</th>
+                            <th class="py-2 px-4 w-1/4 text-center text-gray-700">NIS</th>
                             <th class="py-2 px-4 w-1/4 text-center text-gray-700">Ekskul</th>
                             <th class="py-2 px-4 w-1/4 text-center text-gray-700">Status</th>
                             <th class="py-2 px-4 w-1/4 text-center text-gray-700">Aksi</th>
@@ -48,19 +48,19 @@
                         @forelse ($datas as $pembina)
                             <tr class="border-b">
                                 <td class="py-2 px-4 text-center">{{ $pembina->name }}</td>
-                                <td class="py-2 px-4 text-center">{{ $pembina->nip }}</td>
+                                <td class="py-2 px-4 text-center">{{ $pembina->nis }}</td>
                                 <td>
                                     @forelse ($pembina->ekskuls as $ekskul)
                                         <span class="badge bg-primary">{{ $ekskul->nama_ekskul }}</span>
                                     @empty
-                                        <span class="text-muted">Tidak membina ekskul</span>
+                                        <span class="text-muted">Tidak mengurus ekskul</span>
                                     @endforelse
                                 </td>
                                 <td class="py-2 px-4 text-center text-green-600 font-semibold">Aktif</td>
                                 <td>
                                     <button id="btnDetail" class="btn btn-warning btnDetail" data-id="{{ $pembina->id }}"
                                         data-name="{{ $pembina->name }}" data-email="{{ $pembina->email }}"
-                                        data-nohp="{{ $pembina->no_hp }}" data-nip="{{ $pembina->nip }}"
+                                        data-nohp="{{ $pembina->no_hp }}" data-nis="{{ $pembina->nis }}"
                                         data-ekskul="@foreach($pembina->ekskuls as $ekskul){{ $ekskul->nama_ekskul }}, @endforeach">
                                         Detail
                                     </button>
@@ -68,7 +68,7 @@
                             </tr>
                             @empty
                             <tr>
-                                <td colspan="4" class="text-center">Tidak ada data pembina</td>
+                                <td colspan="4" class="text-center p-6 text-lg">Tidak ada data pengurus</td>
                             </tr>
                             @endforelse
                     </tbody>
@@ -81,7 +81,7 @@
     <div id="detailModal" class="fixed inset-0 flex items-center justify-center bg-gray-800 bg-opacity-50 hidden">
         <div class="bg-white p-6 rounded-lg w-[860px] ml-32 relative">
             <div class="flex justify-between items-center mb-4">
-                <h2 class="text-lg font-bold">Detail Pembina</h2>
+                <h2 class="text-lg font-bold">Detail Pengurus</h2>
                 <button id="closeDetailModal" class="text-gray-500 hover:text-gray-700">
                     ✖
                 </button>
@@ -89,8 +89,8 @@
 
 
             <div class="mb-4">
-                <label class="font-semibold">NIP:</label>
-                <p id="detailNip" class="text-gray-700"></p>
+                <label class="font-semibold">NIS:</label>
+                <p id="detailNis" class="text-gray-700"></p>
             </div>
 
             <div class="mb-4">
@@ -128,16 +128,16 @@
             @csrf
             <div id="methodField"></div> <!-- Tempat untuk @method('PUT') -->
             <div class="bg-white p-6 ml-36 mt-16 rounded-lg shadow-lg w-[860px]">
-                <h2 class="text-lg font-semibold mb-4 modalTitle" id="modalTitle">Tambah Guru Pembina</h2>
+                <h2 class="text-lg font-semibold mb-4 modalTitle" id="modalTitle">Tambah Pengurus Ekskul</h2>
 
-                <input type="hidden" id="idGuru" name="id">
+                <input type="hidden" id="id" name="id">
 
-                <label class="block text-sm font-medium text-gray-700">Nama Guru</label>
-                <input type="text" id="namaGuru" name="name"
+                <label class="block text-sm font-medium text-gray-700">Nama Siswa</label>
+                <input type="text" id="nama" name="name"
                     class="w-full mt-1 mb-4 p-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500">
 
-                <label class="block text-sm font-medium text-gray-700">NIP</label>
-                <input type="text" id="nipGuru" name="nip"
+                <label class="block text-sm font-medium text-gray-700">NIS</label>
+                <input type="text" id="nis" name="nis"
                     class="w-full mt-1 mb-4 p-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500">
 
                 <label class="block text-sm font-medium text-gray-700">No. Handphone</label>
@@ -148,11 +148,11 @@
                 <input type="text" id="email" name="email"
                     class="w-full mt-1 mb-4 p-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500">
 
-                <label class="block text-sm font-medium text-gray-700">Password</label>
+                    <label class="block text-sm font-medium text-gray-700" id="lpw">Password</label>
                 <input type="password" id="password" name="password"
                     class="w-full mt-1 mb-4 p-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500">
 
-                <label class="block text-sm font-medium text-gray-700">Konfirmasi Password</label>
+                <label class="block text-sm font-medium text-gray-700" id="lkpw">Konfirmasi Password</label>
                 <input type="password" id="password_confirmation" name="password_confirmation"
                     class="w-full mt-1 mb-4 p-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500">
 
@@ -187,7 +187,7 @@
             const methodField = document.getElementById('methodField');
 
             // Detail
-            const detailNip = document.getElementById('detailNip');
+            const detailNis = document.getElementById('detailNis');
             const detailName = document.getElementById('detailName');
             const detailNoHp = document.getElementById('detailNoHp');
             const detailEmail = document.getElementById('detailEmail');
@@ -195,31 +195,33 @@
 
             let currentId = null;
             let currentName = null;
-            let currentNip = null;
+            let currentNis = null;
             let currentEmail = null;
             let currentNoHp = null;
             let currentEkskul = null;
 
             // input form
-            const idGuru = document.getElementById('idGuru');
-            const namaGuru = document.getElementById('namaGuru');
-            const nipGuru = document.getElementById('nipGuru');
+            const id = document.getElementById('id');
+            const nama = document.getElementById('nama');
+            const nis = document.getElementById('nis');
             const email = document.getElementById('email');
             const noHp = document.getElementById('noHp');
             const pw = document.getElementById('password');
             const konfpw = document.getElementById('password_confirmation');
+            const lpw = document.getElementById('lpw');
+            const lkpw = document.getElementById('lkpw');
 
             // Open Modal Detail
             btnDetail.forEach(button => {
                 button.addEventListener('click', () => {
                     currentId = button.dataset.id;
                     currentName = button.dataset.name;
-                    currentNip = button.dataset.nip;
+                    currentNis = button.dataset.nis;
                     currentEmail = button.dataset.email;
                     currentNoHp = button.dataset.nohp;
                     currentEkskul = button.dataset.ekskul;
 
-                    detailNip.innerText = currentNip;
+                    detailNis.innerText = currentNis;
                     detailName.innerText = currentName;
                     detailEmail.innerText = currentEmail;
                     detailNoHp.innerText = currentNoHp;
@@ -231,13 +233,13 @@
             // Open modal for adding data
             btnTambah.addEventListener('click', () => {
                 modalTitle.innerText = "Tambah Data";
-                dataForm.action = "/savePembina";
+                dataForm.action = "/savePengurus";
                 dataForm.method = "POST";
-                namaGuru.value = "";
-                nipGuru.value = "";
+                nama.value = "";
+                nis.value = "";
                 email.value = "";
                 noHp.value = "";
-                idGuru.value = "";
+                id.value = "";
                 pw.value = "";
                 konfpw.value = "";
                 methodField.innerHTML = "";
@@ -247,13 +249,17 @@
             // Open Modal Edit from Detail Modal
             btnEdit.addEventListener('click', () => {
                 if (currentId) {
-                    dataForm.action = `/editPembina/${currentId}`;
+                    dataForm.action = `/editPengurus/${currentId}`;
                     dataForm.method = "POST";
-                    namaGuru.value = currentName;
-                    nipGuru.value = currentNip;
+                    nama.value = currentName;
+                    nis.value = currentNis;
                     email.value = currentEmail;
                     noHp.value = currentNoHp;
-                    idGuru.value = currentId;
+                    id.value = currentId;
+                    pw.classList.add('hidden');
+                    konfpw.classList.add('hidden');
+                    lpw.classList.add('hidden');
+                    lkpw.classList.add('hidden');
                     methodField.innerHTML = '<input type="hidden" name="_method" value="PUT">';
 
                     detailModal.classList.add('hidden'); // Tutup Modal Detail

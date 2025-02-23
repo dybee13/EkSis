@@ -5,21 +5,6 @@
         <div class="flex items-center justify-center mt-20">
             <img src=".\assets\images\ekskul.png" class="w-24 h-24">
         </div>
-        <!-- Title -->
-        <p class="flex items-center justify-center text-2xl font-semibold mt-1 mb-2">Badminton</p>
-        <p class="text-lg flex justify-start font-mono mb-0.5">Pembina : HJR</p>
-        <div class="grid grid-cols-2 gap-4">
-            <div class="items-start">
-                <p class="text-lg font-mono mb-0.5">Ketua : M.Dymas Rafi</p>
-                <p class="text-lg font-mono mb-0.5">Jadwal Latihan : Selasa - Jum'at</p>
-                <p class="text-lg font-mono mb-0.5">Waktu : 16.00 - 17.00</p>
-            </div>
-            <div class="items-end">
-                <p class="text-lg font-mono mb-0.5 ml-24">Wakil Ketua : Maman</p>
-                <p class="text-lg font-mono mb-0.5 ml-24">Bendahara : Halim</p>
-                <p class="text-lg font-mono mb-0.5 ml-24">Sekretaris : Jahdan</p>
-            </div>
-        </div>
 
     </div>
 
@@ -29,6 +14,7 @@
             <button onclick="showTab('announcements')" class="font-bold tab-button text-blue-700" id="btn-announcements">Announcements</button>
             <button onclick="showTab('achievements')" class="font-bold tab-button text-black" id="btn-achievements">Achievements</button>
             <button onclick="showTab('blogs')" class="font-bold tab-button text-black" id="btn-blogs">Blogs</button>
+            <button onclick="showTab('struktur')" class="font-bold tab-button text-black" id="btn-struktur">Struktur</button>
         </div>
         <!-- <img src=".\assets\images\ekskul.png" alt="Badminton" class="w-full"> -->
         <!-- Announcements Section -->
@@ -55,12 +41,26 @@
             <div class="border p-6 m-2"><img src=".\assets\images\ekskul.png" alt="Writing" class="w-full">Lorem, ipsum dolor sit amet consectetur adipisicing elit. Voluptates, corporis a atque obcaecati officiis explicabo reiciendis in nostrum culpa nam exercitationem tempore iure consequuntur aut saepe, eius beatae consectetur ducimus?</div>
         </div>
 
+        <!-- Struktur -->
+        <div class="grid grid-cols-2 gap-4 hidden" id="struktur">
+            <div class="items-start">
+                <p class="text-lg font-mono mb-0.5">Ketua : M.Dymas Rafi</p>
+                <p class="text-lg font-mono mb-0.5">Jadwal Latihan : Selasa - Jum'at</p>
+                <p class="text-lg font-mono mb-0.5">Waktu : 16.00 - 17.00</p>
+            </div>
+            <div class="items-end">
+                <p class="text-lg font-mono mb-0.5 ml-24">Wakil Ketua : Maman</p>
+                <p class="text-lg font-mono mb-0.5 ml-24">Bendahara : Halim</p>
+                <p class="text-lg font-mono mb-0.5 ml-24">Sekretaris : Jahdan</p>
+            </div>
+        </div>
+
     </div>
 
     <script>
         function showTab(tabName) {
-            let sections = ['announcements', 'achievements', 'blogs'];
-            let buttons = ['btn-announcements', 'btn-achievements', 'btn-blogs'];
+            let sections = ['announcements', 'achievements', 'blogs', 'struktur'];
+            let buttons = ['btn-announcements', 'btn-achievements', 'btn-blogs', 'btn-struktur'];
 
             sections.forEach(section => {
                 document.getElementById(section).classList.add('hidden');

@@ -4,6 +4,8 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class EkskulUsers extends Model
 {
@@ -11,12 +13,14 @@ class EkskulUsers extends Model
     protected $table = 'ekskul_users';
     protected $fillable = ['id_user', 'id_ekskul',];
 
-    public function user()
+    // Relasi ke User
+    public function user(): BelongsTo
     {
         return $this->belongsTo(User::class, 'id_user');
     }
 
-    public function ekskul()
+    // Relasi ke Ekskul
+    public function ekskul(): BelongsTo
     {
         return $this->belongsTo(Ekskuls::class, 'id_ekskul');
     }

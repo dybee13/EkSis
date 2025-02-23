@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('ekskul_users', function (Blueprint $table) {
             $table->id();
             $table->foreignId('id_ekskul')->constrained('ekskuls')->onDelete('cascade');
-            $table->foreignId('id_user')->constrained('users')->onDelete('cascade');
+            $table->foreignId('id_user')->constrained('users')->onDelete('cascade')->nullable();
             $table->timestamp('published_at')->nullable();
             $table->timestamps();
         });

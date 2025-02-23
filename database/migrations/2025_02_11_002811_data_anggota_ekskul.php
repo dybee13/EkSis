@@ -11,18 +11,16 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('users', function (Blueprint $table) {
+        Schema::create('data_anggota_ekskul', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->string('email')->unique();
-            $table->string('no_hp')->unique();
-            $table->string('nip')->nullable()->unique();
             $table->string('nis')->nullable()->unique();
             $table->string('jurusan')->nullable();
-            $table->string('pp');
-            $table->enum('role', ['master', 'pembina', 'pengurus']);
+            $table->string('no_hp')->unique();
+            $table->string('email')->unique();
+            $table->string('pp')->nullable();
+            $table->foreignId('id_pembina')->constrained('users')->onDelete('cascade')->nullable();
             $table->timestamp('email_verified_at')->nullable();
-            $table->string('password');
             $table->rememberToken();
             $table->timestamps();
         });
@@ -33,6 +31,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('users');
+        //
     }
 };

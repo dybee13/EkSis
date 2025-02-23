@@ -24,6 +24,7 @@
                     <tr class="bg-gray-100 border-b">
                         <th class="py-2 px-4 w-1/3 text-center text-gray-700">Ekskul</th>
                         <th class="py-2 px-4 w-1/3 text-center text-gray-700">Pembina</th>
+                        <th class="py-2 px-4 w-1/3 text-center text-gray-700">Pengurus</th>
                         <th class="py-2 px-4 w-1/3 text-center text-gray-700">Status</th>
                         <th class="py-2 px-4 w-1/3 text-center text-gray-700">Aksi</th>
                     </tr>
@@ -33,7 +34,18 @@
                     <tr class="border-b" data-eskul="kategori">
                         <td class="py-2 px-4 text-center">{{ $ekskul->nama_ekskul }}</td>
                         <td class="py-2 px-4 text-center">
-                            {{ $ekskul->pembina ? $ekskul->pembina->name : 'Belum ada pembina' }}
+                            @forelse ($ekskul->users->where('role', 'pembina') as $pembina)
+                                <span class="badge bg-primary">{{ $pembina->name }}</span>
+                            @empty
+                                <span class="text-muted">Belum ada Pembina</span>
+                            @endforelse
+                        </td>
+                        <td class="py-2 px-4 text-center">
+                            @forelse ($ekskul->users->where('role', 'pengurus') as $pembina)
+                                <span class="badge bg-primary">{{ $pembina->name }}</span>
+                            @empty
+                                <span class="text-muted">Belum ada Pembina</span>
+                            @endforelse
                         </td>
                         <td class="py-2 px-4 text-center text-green-600 font-semibold">Aktif</td>
                         <td>
@@ -70,6 +82,11 @@
             <p id="detailNamaPembina" class="text-gray-700"></p>
         </div>
 
+        <div class="mb-4">
+            <label class="font-semibold">Pengurus:</label>
+            <p id="detailNamaPengurus" class="text-gray-700"></p>
+        </div>
+
         <div class="flex justify-end">
             <button id="btnEdit" class="px-4 py-2 m-2 bg-blue-500 text-white rounded">Edit</button>
             <button id="btnHapus" class="px-4 py-2 m-2 bg-red-500 text-white rounded-md hover:bg-red-600">Hapus</button>
@@ -90,10 +107,18 @@
             <input type="text" id="namaEkskulInput" name="nama_ekskul" class="w-full mt-1 mb-4 p-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500">
 
             <label class="block text-sm font-medium text-gray-700">Guru Pembina</label>
-            <select id="users" name="users" class="form-select w-full p-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500">
+            <select id="users" name="users[]" class="form-select w-full p-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500">
                 <option selected>Pilih Guru Pembina</option>
                 @foreach ($pembinas as $pembina)
                 <option value="{{ $pembina->id }}">{{ $pembina->name }}</option>
+                @endforeach
+            </select>
+
+            <label class="block text-sm font-medium text-gray-700">Siswa Pengurus</label>
+            <select id="pengurus" name="id_pengurus[]" class="form-select w-full p-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500">
+                <option selected>Pilih Siswa Pengurus</option>
+                @foreach ($pengurus as $p)
+                <option value="{{ $p->id }}">{{ $p->name }}</option>
                 @endforeach
             </select>
 
@@ -150,21 +175,44 @@
                 fetch(`/ekskul/${ekskulId}/dataEdit`)
                     .then(response => response.json())
                     .then(data => {
-                        currentEkskulId = data.ekskul.id;
-                        detailNamaEkskul.textContent = data.ekskul.nama_ekskul;
+                        console.log("Data diterima:", data); // Debugging
+                        
+                        if (data && data.ekskul) {
+                            currentEkskulId = data.ekskul.id;
+                            detailNamaEkskul.textContent = data.ekskul.nama_ekskul;
 
-                        // Kosongkan daftar pembina sebelumnya
-                        detailNamaPembina.innerHTML = '';
+                            // Kosongkan daftar pembina & pengurus sebelumnya
+                            detailNamaPembina.innerHTML = '';
+                            detailNamaPengurus.innerHTML = '';
 
-                        // Tambahkan daftar pembina
-                        data.ekskul.users.forEach(user => {
-                            const li = document.createElement('li');
-                            li.textContent = user.name;
-                            detailNamaPembina.appendChild(li);
-                        });
+                            // Tambahkan daftar pembina
+                            if (Array.isArray(data.pembina)) {
+                                data.pembina.forEach(user => {
+                                    const li = document.createElement('li');
+                                    li.textContent = user.name;
+                                    detailNamaPembina.appendChild(li);
+                                });
+                            } else {
+                                console.log("Data pembina tidak ditemukan atau bukan array");
+                            }
 
-                        detailModal.classList.remove('hidden');
-                    });
+                            // Tambahkan daftar pengurus
+                            if (Array.isArray(data.pengurus)) {
+                                data.pengurus.forEach(user => {
+                                    const li = document.createElement('li');
+                                    li.textContent = user.name;
+                                    detailNamaPengurus.appendChild(li);
+                                });
+                            } else {
+                                console.log("Data pengurus tidak ditemukan atau bukan array");
+                            }
+
+                            detailModal.classList.remove('hidden');
+                        } else {
+                            console.error("Data ekskul tidak ditemukan");
+                        }
+                    })
+                    .catch(error => console.error('Error:', error));
             });
         });
 
@@ -315,5 +363,6 @@
         });
     });
 </script>
+
 
 @endsection

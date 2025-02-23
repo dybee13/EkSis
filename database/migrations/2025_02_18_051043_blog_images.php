@@ -11,14 +11,10 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('blogs', function (Blueprint $table) {
+        Schema::create('blog_images', function (Blueprint $table) {
             $table->id();
-            $table->string('title');
-            $table->string('slug')->unique();
-            $table->text('body');
-            $table->enum('keterangan', ['activities', 'announcements', 'achievments']);
-            $table->timestamp('published_at')->nullable();
-            $table->rememberToken();
+            $table->foreignId('blog_id')->constrained('blogs')->onDelete('cascade');
+            $table->string('image_path');
             $table->timestamps();
         });
     }
