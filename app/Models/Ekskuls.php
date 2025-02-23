@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class Ekskuls extends Model
 {
     use HasFactory;
-
+    protected $table = 'ekskuls';
     protected $fillable = ['nama_ekskul'];
 
     public function ekskulUsers()
@@ -26,4 +26,4 @@ class Ekskuls extends Model
     {
         return $this->belongsToMany(User::class, 'ekskul_users', 'id_ekskul', 'id_user');
     }
-}
+    }

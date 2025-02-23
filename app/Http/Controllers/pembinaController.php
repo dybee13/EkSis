@@ -142,11 +142,13 @@ class pembinaController extends Controller
     }
 
     // Data Anggota Eskul END
-    // Data Informasi Eskul 
-    public function getDataInformasiEskul()
-    {
-        return view('pembina.dataInformasiEkskul', ['title' => 'Data Informasi Eskul']);
 
+    // Data Informasi Eskul 
+    public function getDataInformasiEskul(User $user, EkskulUsers $ekskulUsers)
+    {
+        $user = User::with('ekskuls')->find(Auth::id()); 
+        $ekskuls = $user->ekskuls;
+        return view('pembina.dataInformasiEkskul', ['title' => 'Data Informasi Eskul'], compact('ekskuls', 'user'));
     }
 
     // Data Struktur Eskul 

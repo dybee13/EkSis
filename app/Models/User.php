@@ -30,16 +30,21 @@ class User extends Authenticatable
         'role',
         'password',
     ];
-
+    
     public function ekskuls()
-    {
-        return $this->hasMany(EkskulUsers::class, 'id_user');
-    }
-
-    public function ekskul()
     {
         return $this->belongsToMany(Ekskuls::class, 'ekskul_users', 'id_user', 'id_ekskul');
     }
+    
+    // public function ekskuls()
+    // {
+    //     return $this->hasMany(EkskulUsers::class, 'id_user');
+    // }
+
+    // public function ekskul()
+    // {
+    //     return $this->belongsToMany(Ekskuls::class, 'ekskul_users', 'id_user', 'id_ekskul');
+    // }
 
     /**
      * The attributes that should be hidden for serialization.
