@@ -61,6 +61,7 @@
                 Lorem ipsum dolor sit amet consectetur adipisicing elit. Modi ipsum explicabo error. Asperiores, ab. Omnis nesciunt aspernatur facere nam corporis.
                 Lorem ipsum dolor, sit amet consectetur adipisicing elit. Repellat a sit animi perspiciatis saepe fugiat libero inventore reprehenderit quae? Atque id dolores corporis molestiae error eos minima numquam sit deserunt.
             </p>
+            <img src="assets/images/ekstrakulikuler/futsal.jpg" class="mt-4" alt="">
         </div>
 
         <!-- Sidebar -->
