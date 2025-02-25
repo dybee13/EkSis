@@ -70,6 +70,10 @@ Route::get('/listEkskul', function () {
     return view('users/listEkskul');
 })->name('listEkskul');
 
+Route::get('/mainBlog', function () {
+    return view('users/mainBlog');
+})->name('Berita');
+
 Route::get('/tentangWebsite', function () {
     return view('users/tentangWebsite');
 })->name('tentangWebsite');
