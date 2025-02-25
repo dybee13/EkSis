@@ -1,12 +1,9 @@
-<script src="https://unpkg.com/@tailwindcss/browser@4"></script>
 @extends('partials.navbar')
 <div class="relative lg:h-screen h-[80vh] flex items-center justify-center">
-    <!-- Overlay Gradient -->
     <div class="absolute inset-0 bg-gradient-to-b from-black/40 via-transparent to-black/80"></div>
 
-    <!-- Background Image (Responsif di sm & md) -->
-    <div class="absolute inset-0 bg-cover bg-center opacity-30 sm:bg-contain md:bg-cover"
-        style="background-image: url('{{ asset('assets/images/ekstrakulikuler/futsal.jpg') }}');">
+    <div class="absolute inset-0 bg-cover bg-center opacity-30 sm:bg-contain md:bg-cover">
+        <img class="bg-cover h-full object-cover" src="assets/images/ekstrakulikuler/futsal.jpg" alt="">
     </div>
 
     <!-- Content Box -->
@@ -47,40 +44,69 @@
 </div>
 
 
-<div class="max-w-6xl mx-auto bg-white shadow-md overflow-hidden -translate-y-14">
-    <!-- Gambar -->
-    <img src="assets/images/ekstrakulikuler/futsal.jpg" alt="Image" class="w-full">
-
-    <div class="p-6 flex flex-col md:flex-row gap-6">
-        <!-- Konten Kiri -->
-        <div class="flex-1">
-            <p class="text-gray-700 text-lg">
-                <span class="font-bold text-green-700">SMKN 1 Cirebon</span> atau <span class="font-bold">NEPER</span> menunjukkan komitmen yang kuat dalam upaya melestarikan budaya lokal. Setelah sukses melaksanakan Pergelaran Tari Kolosal Cepetan 1.000 penari dalam kegiatan puncak gelar karya Projek Penguatan. Lorem, ipsum dolor sit amet consectetur adipisicing elit. Doloremque pariatur quasi, enim aspernatur qui tempora in quibusdam, magni unde, cupiditate iure. Expedita ipsam magnam aut reprehenderit quidem repellat ad id inventore natus. Provident, sunt sed iure cum perferendis excepturi dolores! Incidunt dolorem sunt, deleniti similique, natus accusamus explicabo id dicta illo ratione optio pariatur tenetur. Veniam cupiditate rem ullam eligendi eveniet necessitatibus ad quam excepturi vitae tempore quae provident commodi incidunt, nobis temporibus? Deleniti dolore voluptatibus nostrum! Expedita dicta necessitatibus nisi neque sit perferendis beatae laudantium deserunt consequuntur iusto quo amet, eligendi ducimus qui quos, quibusdam, non doloribus illo facere?
+<div class="max-w-6xl mx-auto bg-white overflow-hidden -translate-y-14 flex flex-col md:flex-row rounded-xl">
+    <div class="w-full md:w-2/3">
+        <!-- deskripsi 1 -->
+        <div class="px-6 py-4">
+            <img src="assets/images/ekstrakulikuler/futsal.jpg" alt="Image" class="w-full h-auto object-cover rounded-xl">
+            <p class="text-base text-black mt-4">
+                <span class="text-lg text-black font-semibold">Lorem ipsum dolor sit amet. </span> Lorem ipsum dolor sit, amet consectetur adipisicing elit. Reprehenderit dolores quae sapiente id eos deserunt temporibus, molestiae beatae voluptates est natus quasi quaerat optio exercitationem. Ipsum minus est omnis ratione pariatur rerum, incidunt molestias? Dolorem quis aliquam fuga amet reprehenderit, labore ex eveniet placeat dolores rerum laudantium esse adipisci repellendus? Lorem ipsum dolor, sit amet consectetur adipisicing elit. Cumque ducimus dolorem cum aut nulla in quod! Atque libero illum repellat, dolor aperiam omnis. Neque placeat, officia voluptatibus excepturi laboriosam quaerat recusandae? Sed officiis maxime qui nisi recusandae explicabo aliquid labore omnis enim quibusdam ducimus, nostrum iure eligendi facere magni laborum velit inventore, necessitatibus rerum atque! Ipsum impedit voluptas illum cum maxime vel asperiores labore placeat ducimus deleniti iste, omnis quasi repellat molestiae nihil, recusandae porro assumenda deserunt esse. Nobis quam obcaecati, sed amet illum iste aliquam nostrum maiores eius aut inventore aperiam, nam placeat architecto laudantium omnis sit maxime officia! Lorem ipsum dolor sit amet consectetur adipisicing elit. Facilis aliquid, accusantium reprehenderit, voluptatibus necessitatibus, inventore iure hic ipsam voluptate natus voluptates nostrum magni vero culpa ea dolor earum? Atque, fugit! Magni autem obcaecati fuga dolorum quo nulla, quisquam sed iusto deleniti esse perspiciatis consectetur quam vitae sit quae vel nam?
             </p>
-            <p class="mt-4 text-lg">
-                Lorem ipsum dolor sit amet consectetur adipisicing elit. Modi ipsum explicabo error. Asperiores, ab. Omnis nesciunt aspernatur facere nam corporis.
-                Lorem ipsum dolor, sit amet consectetur adipisicing elit. Repellat a sit animi perspiciatis saepe fugiat libero inventore reprehenderit quae? Atque id dolores corporis molestiae error eos minima numquam sit deserunt.
-            </p>
-            <img src="assets/images/ekstrakulikuler/futsal.jpg" class="mt-4" alt="">
         </div>
-
-        <!-- Sidebar -->
-        <div class="w-full md:w-1/3 bg-gray-100 p-4 rounded-lg">
-            <!-- Penulis Postingan -->
-            <div class="mb-4">
-                <h3 class="text-lg font-semibold border-b-2 border-green-600 pb-2">Penulis Postingan</h3>
-                <div class="flex flex-wrap gap-2 mt-2">
-                    <span class="bg-green-200 text-green-700 px-3 py-1 rounded-full text-sm">Admin</span>
-                </div>
-            </div>
-
-            <!-- Semua Label -->
-            <div class="mb-4">
-                <h3 class="text-lg font-semibold border-b-2 border-green-600 pb-2">Label</h3>
-                <div class="flex flex-wrap gap-2 mt-2">
-                    <span class="bg-green-600 text-white px-3 py-1 rounded-full text-sm">SMK Hebat</span>
-                </div>
-            </div>
+        <!-- deskripsi 2 -->
+        <div class="px-6 py-4">
+            <img src="assets/images/ekstrakulikuler/futsal.jpg" alt="Image" class="w-full h-auto object-cover rounded-xl">
+            <p class="text-base text-black mt-4">
+                Lorem ipsum dolor sit, amet consectetur adipisicing elit. Reprehenderit dolores quae sapiente id eos deserunt temporibus, molestiae beatae voluptates est natus quasi quaerat optio exercitationem. Ipsum minus est omnis ratione pariatur rerum, incidunt molestias? Dolorem quis aliquam fuga amet reprehenderit, labore ex eveniet placeat dolores rerum laudantium esse adipisci repellendus? Lorem ipsum dolor, sit amet consectetur adipisicing elit. Cumque ducimus dolorem cum aut nulla in quod! Atque libero illum repellat, dolor aperiam omnis. Neque placeat, officia voluptatibus excepturi laboriosam quaerat recusandae? Sed officiis maxime qui nisi recusandae explicabo aliquid labore omnis enim quibusdam ducimus, nostrum iure eligendi facere magni laborum velit inventore, necessitatibus rerum atque! Ipsum impedit voluptas illum cum maxime vel asperiores labore placeat ducimus deleniti iste, omnis quasi repellat molestiae nihil, recusandae porro assumenda deserunt esse. Nobis quam obcaecati, sed amet illum iste aliquam nostrum maiores eius aut inventore aperiam, nam placeat architecto laudantium omnis sit maxime officia! Lorem ipsum dolor sit amet consectetur adipisicing elit. Facilis aliquid, accusantium reprehenderit, voluptatibus necessitatibus, inventore iure hic ipsam voluptate natus voluptates nostrum magni vero culpa ea dolor earum? Atque, fugit! Magni autem obcaecati fuga dolorum quo nulla, quisquam sed iusto deleniti esse perspiciatis consectetur quam vitae sit quae vel nam?
+            </p>
         </div>
     </div>
+
+    <!-- Sidebar -->
+    <div class="w-full md:w-1/3 bg-gray-100 p-6 rounded-lg ml-4 max-h-auto overflow-auto mt-4">
+        <div class="mb-4">
+            <h3 class="text-lg font-semibold border-b-2 border-green-600 pb-2">Penulis Postingan</h3>
+            <div class="flex flex-wrap gap-2 mt-2">
+                <span class="bg-green-200 text-green-700 px-3 py-1 rounded-full text-sm">Admin</span>
+            </div>
+        </div>
+        <div class="mb-4">
+            <h3 class="text-lg font-semibold border-b-2 border-green-600 pb-2">Label</h3>
+            <div class="flex flex-wrap gap-2 mt-2">
+                <span class="bg-green-600 text-white px-3 py-1 rounded-full text-sm">SMK Hebat</span>
+            </div>
+        </div>
+
+        <!-- Berita Lainnya  -->
+        <!-- card 1 -->
+        <div class="mb-4">
+            <h3 class="text-lg font-semibold border-b-2 border-green-600 pb-2">Berita Lainnya</h3>
+            <div class="flex flex-wrap gap-2 mt-2">
+                <a href="/dataEkskul" class="card relative rounded-lg mt-2 overflow-hidden shadow-lg transform transition duration-300 hover:scale-105" data-category="olahraga">
+                    <img src="./assets/images/ekstrakulikuler/badminton.jpg" class="h-48 w-[335px] object-cover">
+                    <div class="absolute inset-0 bg-black bg-opacity-10 flex items-center justify-center text-center hover:bg-opacity-20">
+                        <div class="p-4">
+                            <h2 class="text-xs font-bold text-white -translate-x-[4px] translate-y-[64px] whitespace-normal">Lorem ipsum dolor sit amet consectetur adipisicing elit. Illo itaque laboriosam ipsa commodi quasi nulla magnam facilis, sit ex doloribus.</h2>
+                        </div>
+                    </div>
+                </a>
+            </div>
+        </div>
+
+        <!-- card 2 -->
+        <div class="mb-4">
+            <div class="flex flex-wrap gap-2 mt-2">
+                <a href="/dataEkskul" class="card relative rounded-lg mt-2 overflow-hidden shadow-lg transform transition duration-300 hover:scale-105" data-category="olahraga">
+                    <img src="./assets/images/ekstrakulikuler/nemo.jpg" class="h-48 w-[335px] object-cover">
+                    <div class="absolute inset-0 bg-black bg-opacity-10 flex items-center justify-center text-center hover:bg-opacity-20">
+                        <div class="p-4">
+                            <h2 class="text-xs font-bold text-white -translate-x-[4px] translate-y-[64px] whitespace-normal">Lorem ipsum dolor sit amet consectetur adipisicing elit. Illo itaque laboriosam ipsa commodi quasi nulla magnam facilis, sit ex doloribus.</h2>
+                        </div>
+                    </div>
+                </a>
+            </div>
+        </div>
+
+    </div>
+
 </div>
