@@ -57,6 +57,8 @@ class authController extends Controller
                 return redirect()->to('/pembinaDashboard')->with('success', 'Login successfully');
             }elseif(Auth::user()->role == 'pengurus'){
                 return redirect()->to('/pengurusDashboard')->with('success', 'Login successfully');
+            }elseif(Auth::user()->role == 'user'){
+                return redirect()->to('/listEkskul')->with('success', 'Login successfully');
             }
         }else{
             //login gagal

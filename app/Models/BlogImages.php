@@ -13,6 +13,6 @@ class BlogImages extends Model {
     protected $fillable = ['blog_id', 'image_path'];
 
     public function blog() {
-        return $this->belongsTo(Blogs::class);
+        return $this->belongsTo(Blogs::class, 'blog_id');
     }
 }

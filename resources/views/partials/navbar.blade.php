@@ -12,40 +12,63 @@
                 <img class="w-8 h-8 rounded-full" src="./assets/images/PROFILE.png" alt="user photo">
             </button>
             <!-- Dropdown menu -->
-            <div class="hidden absolute mb-6 translate-y-28 right-0 w-48 bg-white divide-y divide-gray-100 rounded-lg shadow-lg dark:bg-gray-700 dark:divide-gray-600" id="user-dropdown">
+            <div class="hidden absolute mb-6 translate-y-[60px] right-0 w-48 bg-white divide-y divide-gray-100 rounded-lg shadow-lg dark:bg-gray-700 dark:divide-gray-600" id="user-dropdown">
                 <div class="px-4 py-3">
-                    <span class="block text-sm text-gray-900 dark:text-white">Anonymous</span>
-                    <span class="block text-sm text-gray-500 truncate dark:text-gray-400">NIS</span>
+                @if (Session::has('user'))
+                    <span class="block text-sm text-white">
+                        {{ Session::get('user')['name'] }}
+                    </span>
+                    <span class="block text-sm truncate text-white">
+                        {{ Session::get('user')['nis'] }}
+                    </span>
+                @elseif (!Session::has('user'))
+                    <span class="block text-sm text-white">
+                        Anonymous
+                    </span>
+                    <span class="block text-sm truncate text-white">
+                        -
+                    </span>
+                @endif
                 </div>
                 <ul class="py-2" aria-labelledby="user-menu-button">
+                    @if (Session::has('user'))
+                    @if (Auth::user()->role === 'pengurus')
                     <li>
-                        <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-200 dark:hover:bg-gray-600">Pengaturan</a>
+                        <a href="/pengurusDashboard" class="block px-4 py-2 text-sm text-white">Dashboard</a>
                     </li>
+                    @endif
                     <li>
-                        <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-200 dark:hover:bg-gray-600">Keluar</a>
+                        <a href="/logout" class="block px-4 py-2 text-sm text-white">Keluar</a>
                     </li>
+                    @elseif (!Session::has('user'))
+                    <li>
+                        <a href="/" class="block px-4 py-2 text-sm text-white">Login</a>
+                    </li>
+                    @endif
                 </ul>
             </div>
         </div>
         <div class="items-center justify-between hidden w-full md:flex md:w-auto md:order-1" id="navbar-user">
             <ul class="flex flex-col font-medium p-4 md:p-0 mt-4 border border-gray-100 rounded-lg bg-gray-50 md:space-x-8 rtl:space-x-reverse md:flex-row md:mt-0 md:border-0 md:bg-white dark:bg-gray-800 md:dark:bg-gray-900 dark:border-gray-700">
                 <li>
-                    <a href="/mainEkskul" class="block py-2 px-3 rounded-sm md:p-0 {{ request()->is('mainEkskul') ? 'text-white bg-blue-700 md:bg-transparent md:text-blue-700 md:dark:text-blue-500' : 'text-gray-900 hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white' }}">
+                    <a href="/mainEkskul" class="flex items-center gap-2 block py-2 px-3 rounded-sm md:p-0 {{ request()->is('mainEkskul') ? 'text-white bg-blue-700 md:bg-transparent md:text-blue-700 md:dark:text-blue-500' : 'text-gray-900 hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white' }}">
+                        <svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M10.2 2.4a2.25 2.25 0 0 1 3.6 0l7.5 10A2.25 2.25 0 0 1 19.5 15H18v5.25A2.25 2.25 0 0 1 15.75 22h-2.25a.75.75 0 0 1-.75-.75V16.5a.75.75 0 0 0-.75-.75H12a.75.75 0 0 0-.75.75v4.75a.75.75 0 0 1-.75.75H8.25A2.25 2.25 0 0 1 6 20.25V15H4.5a2.25 2.25 0 0 1-1.8-3.6l7.5-10Z" />
+                        </svg>
                         Home
                     </a>
                 </li>
                 <li>
-                    <a href="listEkskul" class="block py-2 px-3 rounded-sm md:p-0 {{ request()->is('listEkskul') ? 'text-white bg-blue-700 md:bg-transparent md:text-blue-700 md:dark:text-blue-500' : 'text-gray-900 hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white' }}">
-                        Semua Ekstrakulikuler
+                    <a href="listEkskul" class="flex items-center gap-2 block py-2 px-3 rounded-sm md:p-0 {{ request()->is('listEkskul') ? 'text-white bg-blue-700 md:bg-transparent md:text-blue-700 md:dark:text-blue-500' : 'text-gray-900 hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white' }}">
+                        <svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                            <path fill-rule="evenodd" d="M4.5 6.75A.75.75 0 0 1 5.25 6h13.5a.75.75 0 0 1 0 1.5H5.25a.75.75 0 0 1-.75-.75ZM4.5 12a.75.75 0 0 1 .75-.75h13.5a.75.75 0 0 1 0 1.5H5.25A.75.75 0 0 1 4.5 12ZM5.25 17.25a.75.75 0 0 0 0 1.5h13.5a.75.75 0 0 0 0-1.5H5.25Z" clip-rule="evenodd" />
+                        </svg>
+                        Semua Ekstrakurikuler
                     </a>
                 </li>
-                <!-- <li>
-                    <a href="/tentangWebsite" class="block py-2 px-3 rounded-sm md:p-0 {{ request()->is('tentangWebsite') ? 'text-white bg-blue-700 md:bg-transparent md:text-blue-700 md:dark:text-blue-500' : 'text-gray-900 hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white' }}">
-                        Tentang Website
-                    </a>
-                </li> -->
             </ul>
         </div>
+
     </div>
 </nav>
 

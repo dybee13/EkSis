@@ -33,11 +33,22 @@ class User extends Authenticatable
         'password',
     ];
 
+
     // Relasi ke Ekskul yang diampu (melalui ekskul_users)
     public function ekskuls(): BelongsToMany
     {
         return $this->belongsToMany(Ekskuls::class, 'ekskul_users', 'id_user', 'id_ekskul');
     }
+    
+    // public function ekskuls()
+    // {
+    //     return $this->hasMany(EkskulUsers::class, 'id_user');
+    // }
+
+    // public function ekskul()
+    // {
+    //     return $this->belongsToMany(Ekskuls::class, 'ekskul_users', 'id_user', 'id_ekskul');
+    // }
 
     // Relasi ke Data Anggota (sebagai pembina)
     public function anggota(): HasMany
@@ -45,6 +56,10 @@ class User extends Authenticatable
         return $this->hasMany(AnggotaEkskul::class, 'id_pembina');
     }
 
+    public function strukturEkskuls(): HasMany
+    {
+        return $this->hasMany(StrukturEkskul::class, 'id_user');
+    }
     /**
      * The attributes that should be hidden for serialization.
      *

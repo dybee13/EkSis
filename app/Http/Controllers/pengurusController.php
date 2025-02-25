@@ -11,4 +11,9 @@ class pengurusController extends Controller
     {
         return view('pengurus.pengurusDashboard', ['title' => 'Dashboard Pengurus']);
     }
+
+    public function getDataBlogs()
+    {
+        return view('pengurus.dataBlogs', ['title' => 'Data Blogs']);
+    }
 }

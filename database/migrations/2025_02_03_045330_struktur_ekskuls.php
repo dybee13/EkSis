@@ -13,9 +13,11 @@ return new class extends Migration
     {
         Schema::create('struktur_ekskuls', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('id_anggota_ekskul')->constrained('data_anggota_ekskul')->onDelete('cascade');
             $table->foreignId('id_ekskul')->constrained('ekskuls')->onDelete('cascade');
-            $table->foreignId('id_user')->constrained('users')->onDelete('cascade');
             $table->enum('keterangan', ['ketua_ekskul', 'waketu_ekskul', 'bendahara', 'sekretaris', 'anggota']);
+            $table->timestamps();
+
         });
     }
 

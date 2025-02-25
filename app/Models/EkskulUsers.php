@@ -10,10 +10,8 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 class EkskulUsers extends Model
 {
     use HasFactory;
-
     protected $table = 'ekskul_users';
-    
-    protected $fillable = ['id_user', 'id_ekskul'];
+    protected $fillable = ['id_user', 'id_ekskul',];
 
     // Relasi ke User
     public function user(): BelongsTo

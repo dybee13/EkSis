@@ -18,6 +18,6 @@ class Blogs extends Model {
     ];
 
     public function images() {
-        return $this->hasMany(BlogImages::class);
+        return $this->hasMany(BlogImages::class, 'blog_id');
     }
 }

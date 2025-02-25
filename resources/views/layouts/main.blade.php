@@ -9,12 +9,12 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/flowbite@3.1.1/dist/flowbite.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-
+    @vite('resources/css/app.css')
 </head>
 
 <body>
     @include('partials.sidebar')
-    <div class="container">
+    <div class="container font-serif">
         @yield('container')
     </div>
 </body>

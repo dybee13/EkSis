@@ -180,30 +180,29 @@
     </svg>
 
 </div>
-<!-- Konten 3 -->
-<div class="bg-slate-100 mb-8">
-    <p class="text-3xl text-center font-semibold translate-y-6">Berita</p>
-    <div class="w-full flex items-center justify-center py-2 mt-[-37px]">
-        <div class="flex w-4/5 gap-10">
-            <!-- Image fixed -->
-            <div class="w-1/2 flex justify-center mt-20">
-                <img src="./assets/images/kejuaraan.png" class="w-86 h-86 mb-20">
+
+<!-- konten 3 -->
+<div class="bg-slate-100">
+    <p class="text-3xl text-center font-semibold mb-6">Berita</p>
+    <div id="post-container" class="flex justify-center gap-6 px-4 flex-wrap">
+        @foreach ($blogs as $blog)
+            <!-- Card 1 -->
+        <a href="/mainBlog" class="bg-white shadow-lg rounded-xl overflow-hidden w-80 block">
+            @foreach($blog->images as $image)
+            <img src="assets/images/blogs/{{ $image->image_path }}" alt="Gambar 1" class="w-full h-48 object-cover">
+            @endforeach
+            <div class="p-4">
+                <span class="bg-green-600 text-white text-sm px-3 py-1 rounded-lg inline-block mb-2 -translate-y-[200px]">{{ $blog->keterangan }}</span>
+                <p class="font-semibold text-lg">{{ $blog->title }}</p>
             </div>
-            <div class="w-1/2 flex flex-col items-center mt-20 border ">
-                <div class="grid grid-cols-1 gap-4 mt-4 w-full">
-                    <div class="bg-gray-400 px-6 py-6">
-                        <p class="text-white font-semibold">Lorem ipsum dolor sit amet consectetur adipisicing elit. Nisi doloremque quia assumenda nulla sequi alias dicta quam ea doloribus asperiores?</p>
-                    </div>
-                    <div class="bg-gray-400 px-6 py-6">
-                        <p class="text-white font-semibold">Lorem ipsum dolor sit amet consectetur adipisicing elit. Explicabo, sit!</p>
-                    </div>
-                    <div class="bg-gray-400 px-6 py-6">
-                        <p class="text-white font-semibold">Lorem ipsum dolor sit amet consectetur adipisicing elit. Recusandae, praesentium consequuntur corporis alias eius ipsa eos repellendus ex, modi incidunt eligendi ad doloribus, sint quis? Eum enim sunt corrupti facilis!</p>
-                    </div>
-                </div>
-            </div>
-        </div>
+        </a>
+        @endforeach
     </div>
+
+    <div class="text-center mt-6">
+        <button id="load-more" class="border border-green-600 text-green-600 px-6 py-2 rounded-full hover:bg-green-600 hover:text-white transition">LEBIH BANYAK</button>
+    </div>
+
     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320" class="-translate-y-86">
         <defs>
             <filter id="strongShadow" x="-20%" y="-20%" width="140%" height="140%">
@@ -212,10 +211,11 @@
         </defs>
         <path fill="#f3f4f5" fill-opacity="1" filter="url(#strongShadow)" d="M0,64L120,96C240,128,480,192,720,197.3C960,203,1200,149,1320,122.7L1440,96L1440,320L1320,320C1200,320,960,320,720,320C480,320,240,320,120,320L0,320Z"></path>
     </svg>
+
 </div>
 
 <!-- Credit -->
-<div class="w-full h-1 bg-black -translate-y-8"></div>
+<div class="w-full h-1 bg-black"></div>
 <div class="flex justify-between m-12">
     <!-- Box 1 -->
     <div class="bg-white shadow-md rounded-xl p-6 border border-gray-200 w-80">
@@ -308,4 +308,22 @@
 
     // Auto slide every 3 seconds
     setInterval(nextSlide2, 3000);
+
+
+    // load more
+    document.getElementById('load-more').addEventListener('click', function() {
+        const container = document.getElementById('post-container');
+        for (let i = 0; i < 3; i++) {
+            let newCard = document.createElement('div');
+            newCard.className = "bg-white shadow-lg rounded-xl overflow-hidden w-80";
+            newCard.innerHTML = `
+                <img src="image-placeholder.jpg" alt="Gambar Baru" class="w-full h-48 object-cover">
+                <div class="p-4">
+                    <span class="bg-green-600 text-white text-sm px-3 py-1 rounded-lg inline-block mb-2 -translate-y-[200px]">Admin</span>
+                    <p class="font-semibold text-lg">Konten...</p>
+                </div>
+            `;
+            container.appendChild(newCard);
+        }
+    });
 </script>

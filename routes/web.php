@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\authController;
+use App\Http\Controllers\blogsController;
 use App\Http\Controllers\masterController;
 use App\Http\Controllers\pembinaController;
 use App\Http\Controllers\pengurusController;
@@ -50,17 +51,17 @@ Route::put('/updateAnggota/{id}', [pembinaController::class, 'updateAnggota'])->
 Route::delete('/hapusAnggota/{id}', [pembinaController::class, 'deleteAnggota']);
 Route::get('/api/jurusan', [pembinaController::class, 'getJurusan']);
 Route::get('/dataInformasiEskul', [pembinaController::class, 'getDataInformasiEskul']);
+Route::post('/saveDataInformasiEkskul', [pembinaController::class, 'saveDataInformasiEkskul'])->name('saveDataInformasiEkskul');
 Route::get('/dataStrukturEskul', [pembinaController::class, 'getDataStrukturEskul']);
 // Role Pembina END
 
 // Role Pengurus START
 Route::get('/pengurusDashboard', [pengurusController::class, 'getDashboardPengurus']);
+// Route::get('/dataBlogs', [pengurusController::class, 'landingPage']);
 // Role Pengurus END
 
 // Dashboard Users
-Route::get('/mainEkskul', function () {
-    return view('users/mainEkskul');
-})->name('mainEkskul');
+Route::get('/mainEkskul',[blogsController::class, 'landingPage'])->name('mainEkskul');
 
 Route::get('/dataEkskul', function () {
     return view('users/dataEkskul');
@@ -69,6 +70,10 @@ Route::get('/dataEkskul', function () {
 Route::get('/listEkskul', function () {
     return view('users/listEkskul');
 })->name('listEkskul');
+
+Route::get('/mainBlog', function () {
+    return view('users/mainBlog');
+})->name('Berita');
 
 Route::get('/tentangWebsite', function () {
     return view('users/tentangWebsite');
