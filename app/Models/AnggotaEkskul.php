@@ -22,19 +22,19 @@ class AnggotaEkskul extends Authenticatable
      * @var array<int, string>
      */
     protected $fillable = [
+        'id_ekskul',
         'name',
         'nis',
         'jurusan',
         'email',
         'no_hp',
         'pp',
-        'id_pembina',
     ];
 
-    // Relasi ke User (Pembina)
-    public function pembina(): BelongsTo
+    // Relasi ke ekskul
+    public function ekskul() : BelongsTo
     {
-        return $this->belongsTo(User::class, 'id_pembina');
+        return $this->belongsTo(Ekskuls::class, 'id_ekskul');
     }
 
     /**

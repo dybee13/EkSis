@@ -13,13 +13,13 @@ return new class extends Migration
     {
         Schema::create('data_anggota_ekskul', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('id_ekskul')->constrained('ekskuls')->onDelete('cascade');
             $table->string('name');
             $table->string('nis')->nullable()->unique();
             $table->string('jurusan')->nullable();
             $table->string('no_hp')->unique();
             $table->string('email')->unique();
             $table->string('pp')->nullable();
-            $table->foreignId('id_pembina')->constrained('users')->onDelete('cascade')->nullable();
             $table->timestamp('email_verified_at')->nullable();
             $table->rememberToken();
             $table->timestamps();

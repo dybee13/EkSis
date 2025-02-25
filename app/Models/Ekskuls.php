@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Ekskuls extends Model
 {
@@ -23,6 +24,20 @@ class Ekskuls extends Model
     public function ekskulUsers()
     {
         return $this->hasMany(EkskulUsers::class, 'ekskul_id');
+    }
+
+    public function strukturEkskul(): HasMany
+    {
+        return $this->hasMany(StrukturEkskul::class, 'id_ekskul');
+    }
+
+    public function informasiEkskul(): HasMany
+    {
+        return $this->hasMany(InformasiEkskul::class, 'id_ekskul');
+    }
+    public function anggotaEkskul(): HasMany
+    {
+        return $this->hasMany(AnggotaEkskul::class, 'id_ekskul');
     }
 
 }

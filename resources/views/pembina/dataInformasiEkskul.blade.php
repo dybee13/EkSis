@@ -10,7 +10,7 @@
                 <div
                     class="w-10/12 h-40 mx-auto my-4 border border-gray-300 bg-cover rounded-xl shadow-md
                  shadow-gray-700 animation duration-300 md:h-48 lg:h-60 lg:my-6 xl:w-6/12 xl:ml-0 hover:scale-105">
-                    <img src="{{ asset('assets/images/ekstrakulikuler/badminton.jpg') }}" alt="profile-eskul"
+                    <img src="{{ asset('assets/images/ekstrakulikuler/badminton.jpg') }}" loading="lazy" alt="profile-eskul"
                         class="w-full h-full object-cover rounded-xl">
                 </div>
                 <section class="xl:-ml-40">
@@ -27,7 +27,7 @@
                             <th class="">Tanggal Berdiri :</th>
                         <tr>
                             <td class="pl-3">
-                                {{ $ekskuls->first()->created_at->format('H F Y') ?? 'Belum memiliki ekskul' }}</td>
+                                {{ 'Belum memiliki ekskul' }}</td>
                         </tr>
                         </tr>
                         <tr>
@@ -48,8 +48,8 @@
                         </tr>
                     </table>
                     {{-- Button Ubah --}}
-                    <button id="btnEdit"
-                        class="px-4 py-2 m-2 ml-48 md:ml-64 lg:ml-96 xl:ml-72 bg-blue-500 text-white rounded">Ubah</button>
+                    <button id="btnTambahInformasi"
+                        class="px-4 py-2 m-2 ml-48 md:ml-64 lg:ml-96 xl:ml-72 bg-blue-500 text-white rounded">Tambah</button>
                 </section>
             </article>
             <article class="w-full p-3 border border-gray-400 shadow-md rounded-md shadow-gray-400 xl:w-8/12">
@@ -90,19 +90,22 @@
                 </table>
             </article>
         </section>
-        {{-- Modal Ubah Data --}}
+        {{-- Modal Form Tambah Informasi --}}
         <div id="dataModal"
-            class="fixed inset-0 overflow-y-scroll bg-black bg-opacity-50 z-50 flex justify-center items-center">
-            <form method="POST" id="dataForm" class="w-11/12 mx-auto md:w-6/12 lg:w-4/12">
+            class="fixed inset-0 overflow-y-scroll bg-black bg-opacity-50 z-0 flex justify-center items-center">
+            <form method="POST" id="dataForm" action="{{ route('saveDataInformasiEkskul') }}"
+                class="w-11/12 mx-auto md:w-6/12 lg:w-4/12">
                 @csrf
                 <div id="methodField"></div>
                 <div class="bg-white p-6 rounded-lg shadow-lg mt-40 md:mt-36 lg:mt-32 xl:mt-12">
                     <h2 class="text-lg font-semibold mb-4" id="modalTitle">Edit Informasi Eskul</h2>
-                    <label class="block text-sm font-medium text-gray-700">Nama Eskul</label>
+                    <input type="number" name="id_ekskul" hidden>
+                    <input type="number" name="id_struktur" hidden>
+                    {{-- <label class="block text-sm font-medium text-gray-700">Nama Eskul</label>
                     <input type="text" id="namaEskul" name="nama_ekskul"
-                        class="w-full mt-1 mb-4 p-2 border border-gray-300 rounded-md">
+                        class="w-full mt-1 mb-4 p-2 border border-gray-300 rounded-md"> --}}
                     <label class="block text-sm font-medium text-gray-700">Tanggal Berdiri</label>
-                    <input type="date" id="tanggalBerdiri" name="tanggal_berdiri"
+                    <input type="date" id="tanggalBerdiri" name="tgl_berdiri"
                         class="w-full mt-1 mb-4 p-2 border border-gray-300 rounded-md">
                     <label class="block text-sm font-medium text-gray-700">Deskripsi</label>
                     <textarea id="deskripsiEskul" name="deskripsi" class="w-full mt-1 mb-4 p-2 border border-gray-300 rounded-md"></textarea>
@@ -110,10 +113,10 @@
                     <input type="text" id="jadwalLatihan" name="jadwal"
                         class="w-full mt-1 mb-4 p-2 border border-gray-300 rounded-md">
                     <label class="block text-sm font-medium text-gray-700">Foto Eskul</label>
-                    <input type="file" id="fotoEskul" name="foto"
+                    <input type="file" id="fotoEskul" name="logo"
                         class="w-full mt-1 mb-4 p-2 border border-gray-300 rounded-md">
                     <div class="flex justify-end space-x-2">
-                        <button id="btnBatal" type="button"
+                        <button id="btnBatalTambah" type="button"
                             class="px-4 py-2 bg-red-600 text-white rounded-md hover:bg-red-700">Batal</button>
                         <button type="submit" id="btnSimpan"
                             class="px-4 py-2 bg-green-600 text-white rounded-md hover:bg-green-700">Simpan</button>
@@ -122,11 +125,12 @@
             </form>
         </div>
     </section>
-    <script>
+    {{-- <script>
         document.addEventListener("DOMContentLoaded", function() {
             const btnEdit = document.getElementById("btnEdit");
             const dataModal = document.getElementById("dataModal");
             const btnBatal = document.getElementById("btnBatal");
+            
             const dataForm = document.getElementById("dataForm");
             const methodField = document.getElementById("methodField");
 
@@ -170,6 +174,54 @@
                     alert("Harap isi semua kolom yang diperlukan!");
                     event.preventDefault();
                 }
+            });
+        });
+    </script> --}}
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const tambahEskulModal = document.getElementById("tambahEskulModal");
+            const btnTambahInformasi = document.getElementById("btnTambahInformasi");
+            const tambahEskulForm = document.getElementById("tambahEskulForm");
+            const ModalTambah = document.getElementById('dataModal');
+            const btnBatalTambah = document.getElementById("btnBatalTambah");
+
+            // Event untuk membuka modal tambah informasi
+            btnTambahInformasi.addEventListener('click', () => {
+                ModalTambah.classList.remove('hidden');
+            })
+            // Event untuk menutup modal tambah ekskul
+            btnBatalTambah.addEventListener("click", function() {
+                ModalTambah.classList.add("hidden");
+            });
+
+            // Event untuk menutup modal dengan klik di luar form
+            ModalTambah.addEventListener("click", function(event) {
+                if (event.target === ModalTambah) {
+                    ModalTambah.classList.add("hidden");
+                }
+            });
+            // Handle submit form dengan AJAX
+            tambahEskulForm.addEventListener("submit", function(event) {
+                event.preventDefault();
+                let formData = new FormData(this);
+
+                fetch("{{ route('saveDataInformasiEkskul') }}", {
+                        method: "POST",
+                        body: formData,
+                        headers: {
+                            "X-CSRF-TOKEN": document.querySelector("meta[name='csrf-token']").content
+                        }
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.success) {
+                            alert("Eskul berhasil ditambahkan!");
+                            location.reload();
+                        } else {
+                            alert("Terjadi kesalahan, coba lagi.");
+                        }
+                    })
+                    .catch(error => console.error("Error:", error));
             });
         });
     </script>

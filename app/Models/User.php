@@ -56,6 +56,10 @@ class User extends Authenticatable
         return $this->hasMany(AnggotaEkskul::class, 'id_pembina');
     }
 
+    public function strukturEkskuls(): HasMany
+    {
+        return $this->hasMany(StrukturEkskul::class, 'id_user');
+    }
     /**
      * The attributes that should be hidden for serialization.
      *

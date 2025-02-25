@@ -3,6 +3,8 @@
 namespace Database\Seeders;
 
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+
+use App\Models\AnggotaEkskul;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -15,9 +17,11 @@ class DatabaseSeeder extends Seeder
         // \App\Models\User::factory()->create();
 
         $this->call([
-            // UsersTableSeeder::class,
-            // EkskulTableSeeder::class,
-            EkskulUserSeeder::class,
+            UsersTableSeeder::class,
+            EkskulTableSeeder::class,
+            InformasiEkskulSeeder::class,
+            DataAnggotaSeeder::class,
+            StrukturEkskulSeeder::class,
         ]);
         // \App\Models\User::factory()->create([
         //     'name' => 'Test User',
