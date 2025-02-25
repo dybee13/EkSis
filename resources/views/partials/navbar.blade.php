@@ -12,7 +12,7 @@
                 <img class="w-8 h-8 rounded-full" src="./assets/images/PROFILE.png" alt="user photo">
             </button>
             <!-- Dropdown menu -->
-            <div class="hidden absolute mb-6 translate-y-28 right-0 w-48 bg-white divide-y divide-gray-100 rounded-lg shadow-lg dark:bg-gray-700 dark:divide-gray-600" id="user-dropdown">
+            <div class="hidden absolute mb-6 translate-y-[60px] right-0 w-48 bg-white divide-y divide-gray-100 rounded-lg shadow-lg dark:bg-gray-700 dark:divide-gray-600" id="user-dropdown">
                 <div class="px-4 py-3">
                     <span class="block text-sm text-white">
                         {{ Session::get('user')['name'] }}
@@ -23,8 +23,13 @@
                 </div>
                 <ul class="py-2" aria-labelledby="user-menu-button">
                     @if (Session::has('user'))
+                    @if (Auth::user()->role === 'pengurus')
                     <li>
-                        <a href="#" class="block px-4 py-2 text-sm text-white">Keluar</a>
+                        <a href="/pengurusDashboard" class="block px-4 py-2 text-sm text-white">Dashboard</a>
+                    </li>
+                    @endif
+                    <li>
+                        <a href="/logout" class="block px-4 py-2 text-sm text-white">Keluar</a>
                     </li>
                     @elseif (!Session::has('user'))
                     <li>

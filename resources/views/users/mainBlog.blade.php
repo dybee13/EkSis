@@ -18,7 +18,7 @@
 </div>
 
 
-<div class="flex justify-start px-[34px] py-6 mx-24 mb-10 bg-black -translate-y-32">
+<div class="flex justify-start px-[34px] py-6 mx-24 mb-10 bg-black -translate-y-16">
     <ul>
         <a href="/mainEkskul" class="flex flex-col items-center text-center rounded-sm md:p-0 {{ request()->is('mainEkskul') ? 'text-white bg-blue-700 md:bg-transparent md:text-blue-700 md:dark:text-blue-500' : 'text-gray-900 hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white' }}">
             <svg class="w-6 h-6 mb-1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">

@@ -56,6 +56,7 @@ Route::get('/dataStrukturEskul', [pembinaController::class, 'getDataStrukturEsku
 
 // Role Pengurus START
 Route::get('/pengurusDashboard', [pengurusController::class, 'getDashboardPengurus']);
+Route::get('/dataBlogs', [pengurusController::class, 'getDataBlogs']);
 // Role Pengurus END
 
 // Dashboard Users
