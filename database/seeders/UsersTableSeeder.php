@@ -13,7 +13,7 @@ class UsersTableSeeder extends Seeder
         DB::table('users')->insert([
             [
                 'name' => 'Admin Master',
-                'email' => 'master@gmail.com',
+                'email' => 'master@mail.com',
                 'no_hp' => '08123123123',
                 'nip' => null,
                 'nis' => null,

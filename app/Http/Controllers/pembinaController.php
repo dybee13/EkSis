@@ -118,10 +118,7 @@ class pembinaController extends Controller
                 'pp' => 'profile.png', // Foto profil default
             ]);
 
-            return response()->json([
-                'success' => true,
-                'message' => 'Anggota berhasil ditambahkan!'
-            ]);
+            return back()->with('success', 'User berhasil ditambah!');
 
         } catch (\Exception $e) {
             return response()->json([

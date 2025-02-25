@@ -19,7 +19,7 @@ return new class extends Migration
             $table->string('no_hp')->unique();
             $table->string('email')->unique();
             $table->string('pp')->nullable();
-            $table->foreignId('id_pembina')->constrained('users')->onDelete('cascade')->nullable();
+            $table->foreignId('id_ekskul')->constrained('users')->onDelete('cascade')->nullable();
             $table->timestamp('email_verified_at')->nullable();
             $table->rememberToken();
             $table->timestamps();

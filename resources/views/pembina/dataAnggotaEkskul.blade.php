@@ -66,7 +66,7 @@
 
     <!-- Modal Detail -->
     <div id="detailModal" class="fixed inset-0 flex items-center justify-center bg-gray-800 bg-opacity-50 hidden">
-        <div class="bg-white p-6 rounded-lg w-96">
+        <div class="bg-white p-6 rounded-lg w-[860px]">
             <div class="flex justify-between items-center mb-4">
                 <h2 class="text-lg font-bold">Detail Anggota</h2>
                 <button id="closeDetailModal" class="text-gray-500 hover:text-gray-700">

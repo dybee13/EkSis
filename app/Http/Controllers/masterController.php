@@ -9,12 +9,13 @@ use App\Models\EkskulUsers;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Validation\Rule;
+use Illuminate\Support\Facades\Log;
 
 class masterController extends Controller
 {
     public function getUsers()
     {
-        $users = User::where('role', 'pembina')->get(); // Ambil hanya guru pembina
+        $users = User::whereIn('role', ['pembina', 'pengurus'])->get(); // Ambil pembina dan pengurus
         return response()->json($users);
     }
     public function index(){
@@ -280,42 +281,88 @@ class masterController extends Controller
 
     public function dataEdit($id)
     {
-        $ekskul = Ekskuls::with(['users'])->findOrFail($id);
-        
-        // Pisahkan pembina dan pengurus berdasarkan role
-        $pembina = $ekskul->users->where('role', 'pembina');
-        $pengurus = $ekskul->users->where('role', 'pengurus');
+        try {
+            $ekskul = Ekskuls::with(['users'])->findOrFail($id);
+            
+            // Pisahkan pembina dan pengurus berdasarkan role
+            $pembina = $ekskul->users->where('role', 'pembina')->values();
+            $pengurus = $ekskul->users->where('role', 'pengurus')->values();
 
-        return response()->json([
-            'ekskul' => $ekskul,
-            'pembina' => $pembina->toArray(),
-            'pengurus' => $pengurus->toArray()
-        ]);
+            $response = [
+                'ekskul' => [
+                    'id' => $ekskul->id,
+                    'nama_ekskul' => $ekskul->nama_ekskul,
+                ],
+                'pembina' => $pembina->isNotEmpty() ? $pembina->toArray() : [],
+                'pengurus' => $pengurus->isNotEmpty() ? $pengurus->toArray() : [],
+            ];
+            
+            return response()->json($response);
+        } catch (\Exception $e) {
+            Log::error("Error fetching dataEdit: " . $e->getMessage());
+            return response()->json(['message' => 'Terjadi kesalahan saat mengambil data ekskul.'], 500);
+        }
     }
-
-
 
     public function updateEkskul(Request $request, $id)
     {
-        $request->validate([
-            'nama_ekskul' => 'required|string|max:255',
-            'users' => 'required|array',
-            'users.*' => 'exists:users,id'
-        ],  [
-            'nama_eskul.required' => 'Nama Eskul wajid diisi',
-        ]);
+        try {
+            $request->validate([
+                'nama_ekskul' => 'required|string|max:255',
+                'users' => 'required|array',
+                'users.*' => 'exists:users,id',
+                'id_pengurus' => 'nullable|array',
+                'id_pengurus.*' => 'exists:users,id'
+            ], [
+                'nama_ekskul.required' => 'Nama Ekskul wajib diisi',
+            ]);
 
-        $ekskul = Ekskuls::findOrFail($id);
+            DB::beginTransaction();
 
-        // Update nama ekskul
-        $ekskul->update([
-            'nama_ekskul' => $request->nama_ekskul
-        ]);
+            $ekskul = Ekskuls::findOrFail($id);
+            $ekskul->update([
+                'nama_ekskul' => $request->nama_ekskul
+            ]);
 
-        // Update hubungan user dengan ekskul (sinkronisasi)
-        $ekskul->users()->sync($request->users);
+            // Sinkronisasi pembina
+            EkskulUsers::where('id_ekskul', $ekskul->id)->whereIn('id_user', $request->users)->delete();
+            foreach ($request->users as $userId) {
+                EkskulUsers::updateOrCreate([
+                    'id_ekskul' => $ekskul->id,
+                    'id_user' => $userId
+                ], [
+                    'id_ekskul' => $ekskul->id,
+                    'id_user' => $userId
+                ]);
+            }
 
-        return response()->json(['message' => 'Ekskul berhasil diperbarui!']);
+            // Sinkronisasi pengurus
+            EkskulUsers::where('id_ekskul', $ekskul->id)->whereIn('id_user', $request->id_pengurus ?? [])->delete();
+            if ($request->has('id_pengurus')) {
+                foreach ($request->id_pengurus as $pengurusId) {
+                    EkskulUsers::updateOrCreate([
+                        'id_ekskul' => $ekskul->id,
+                        'id_user' => $pengurusId
+                    ], [
+                        'id_ekskul' => $ekskul->id,
+                        'id_user' => $pengurusId
+                    ]);
+                }
+            }
+
+            DB::commit();
+
+            return response()->json([
+                'success' => true,
+                'message' => 'Ekskul berhasil diperbarui!'
+            ]);
+        } catch (\Exception $e) {
+            DB::rollback();
+            return response()->json([
+                'success' => false,
+                'message' => 'Terjadi kesalahan: ' . $e->getMessage()
+            ], 500);
+        }
     }
 
 }

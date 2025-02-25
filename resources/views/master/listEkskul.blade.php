@@ -162,6 +162,7 @@
         const ekskulIdInput = document.getElementById('ekskulId');
         const namaEkskulInput = document.getElementById('namaEkskulInput');
         const usersSelect = document.getElementById('users');
+        const pengurusSelect = document.getElementById('pengurus');
         const dataForm = document.getElementById('dataForm');
 
         let currentEkskulId = null; // Simpan ID ekskul yang sedang dibuka
@@ -252,25 +253,42 @@
                     ekskulIdInput.value = data.ekskul.id;
                     namaEkskulInput.value = data.ekskul.nama_ekskul;
 
-                    // Reset opsi pembina dan pilih yang sesuai
+                    // Reset opsi pembina dan pengurus
                     usersSelect.innerHTML = '';
+                    pengurusSelect.innerHTML = '';
+
                     fetch('/get-users')
                         .then(response => response.json())
                         .then(users => {
-                            users.forEach(user => {
-                                const option = document.createElement('option');
-                                option.value = user.id;
-                                option.textContent = user.name;
+                            // Filter user berdasarkan peran mereka
+                            const pembinaUsers = users.filter(user => user.role === 'pembina');
+                            const pengurusUsers = users.filter(user => user.role === 'pengurus');
+
+                            pembinaUsers.forEach(user => {
+                                const optionPembina = document.createElement('option');
+                                optionPembina.value = user.id;
+                                optionPembina.textContent = user.name;
 
                                 // Tandai pembina yang sudah terdaftar di ekskul
-                                if (data.ekskul.users.some(u => u.id == user.id)) {
-                                    option.selected = true;
+                                if (data.pembina.some(p => p.id == user.id)) {
+                                    optionPembina.selected = true;
                                 }
+                                usersSelect.appendChild(optionPembina);
+                            });
 
-                                usersSelect.appendChild(option);
+                            pengurusUsers.forEach(user => {
+                                const optionPengurus = document.createElement('option');
+                                optionPengurus.value = user.id;
+                                optionPengurus.textContent = user.name;
+
+                                // Tandai pengurus yang sudah terdaftar di ekskul
+                                if (data.pengurus.some(p => p.id == user.id)) {
+                                    optionPengurus.selected = true;
+                                }
+                                pengurusSelect.appendChild(optionPengurus);
                             });
                         })
-                        .catch(error => console.error('Error mengambil daftar guru:', error));
+                        .catch(error => console.error('Error mengambil daftar pengguna:', error));
 
                     modalData.classList.remove('hidden');
                 })
@@ -292,13 +310,21 @@
             }
             formData.append('nama_ekskul', namaEkskul); // Ubah ke 'nama_ekskul' agar sesuai dengan backend
 
-            // Ambil user yang dipilih
+            // Ambil user pembina yang dipilih
             const selectedUsers = Array.from(usersSelect.selectedOptions).map(option => option.value);
             if (selectedUsers.length === 0) {
                 alert("Minimal pilih 1 pembina!");
                 return;
             }
             selectedUsers.forEach(user => formData.append('users[]', user));
+
+            // Ambil user pengurus yang dipilih
+            const selectedPengurus = Array.from(pengurusSelect.selectedOptions).map(option => option.value);
+            selectedPengurus.forEach(pengurus => formData.append('id_pengurus[]', pengurus));
+
+            // Debugging: Cek data yang akan dikirim ke backend
+            console.log("Data yang dikirim ke backend:");
+            console.log([...formData.entries()]); // Menampilkan semua data dalam FormData
 
             let url = "/saveEkskul";
             let method = "POST"; // Default untuk tambah ekskul
@@ -317,12 +343,14 @@
                 })
                 .then(response => response.json())
                 .then(data => {
+                    console.log("Response dari backend:", data); // Debugging respons backend
                     alert(data.message);
                     modalData.classList.add('hidden');
                     location.reload(); // Refresh halaman setelah update
                 })
-                .catch(error => console.error('Error:', error));
+                .catch(error => console.error('Terjadi kesalahan dalam request:', error));
         });
+
 
         //hapus data
         document.getElementById('btnHapus').addEventListener('click', function() {
