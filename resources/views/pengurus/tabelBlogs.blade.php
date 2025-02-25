@@ -94,6 +94,10 @@
                 <textarea id="editDescription" name="editDescription" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm" required></textarea>
             </div>
             <div class="mb-4">
+                <label for="editDescription" class="block text-sm font-medium text-gray-700">Deskripsi 2</label>
+                <textarea id="editDescription" name="editDescription" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm" required></textarea>
+            </div>
+            <div class="mb-4">
                 <label for="editDate" class="block text-sm font-medium text-gray-700">Tanggal</label>
                 <input type="date" id="editDate" name="editDate" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm" required />
             </div>
@@ -135,5 +139,15 @@
     closeEditModal.addEventListener('click', () => {
         editBlogModal.classList.add('hidden');
         editBlogForm.reset(); // Reset form saat modal edit ditutup
+    });
+
+    // Fungsi Hapus Blog
+    document.querySelectorAll('.deleteButton').forEach(button => {
+        button.addEventListener('click', (event) => {
+            const row = event.target.closest('tr'); // Cari elemen tr terdekat
+            if (confirm("Apakah Anda yakin ingin menghapus blog ini?")) {
+                row.remove(); // Hapus baris tabel jika user konfirmasi
+            }
+        });
     });
 </script>
