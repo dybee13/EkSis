@@ -50,6 +50,7 @@ Route::put('/updateAnggota/{id}', [pembinaController::class, 'updateAnggota'])->
 Route::delete('/hapusAnggota/{id}', [pembinaController::class, 'deleteAnggota']);
 Route::get('/api/jurusan', [pembinaController::class, 'getJurusan']);
 Route::get('/dataInformasiEskul', [pembinaController::class, 'getDataInformasiEskul']);
+Route::post('/saveDataInformasiEkskul', [pembinaController::class, 'saveDataInformasiEkskul'])->name('saveDataInformasiEkskul');
 Route::get('/dataStrukturEskul', [pembinaController::class, 'getDataStrukturEskul']);
 // Role Pembina END
 
