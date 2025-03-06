@@ -69,6 +69,6 @@ class authController extends Controller
     public function logout(){
         Auth::logout(); // Logout user dari sistem
         Session::forget('user'); // Hapus session user
-        return redirect()->to('/');
+        return redirect()->to('/login');
     }
 }

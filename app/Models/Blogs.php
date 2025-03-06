@@ -17,7 +17,7 @@ class Blogs extends Model {
         'keterangan'
     ];
 
-    public function images() {
+    public function blogImages() {
         return $this->hasMany(BlogImages::class, 'blog_id');
     }
 }

@@ -7,9 +7,16 @@ use Illuminate\Http\Request;
 
 class blogsController extends Controller
 {
-    public function landingPage()
+    public function Blogs()
     {
-        $blogs = Blogs::with('images')->get();
-        return view('users.mainEkskul', compact('blogs'));
+        $blogs = Blogs::with('blogImages')
+                ->whereIn('keterangan', ['activities', 'achievments'])
+                ->get();
+
+        $blogsachi = Blogs::with('blogImages')
+                ->where('keterangan', 'achievments')
+                ->get();
+
+        return view('users.mainEkskul', compact('blogs', 'blogsachi'));
     }
 }

@@ -19,7 +19,7 @@ use Illuminate\Support\Facades\Route;
 */
 
 // Auth Route
-Route::get('/', [authController::class, 'index'])->name('login');
+Route::get('/login', [authController::class, 'index'])->name('login');
 Route::post('/loginn', [authController::class, 'login']);
 //logout
 Route::get('/logout', [authController::class, 'logout']);
@@ -57,11 +57,12 @@ Route::get('/dataStrukturEskul', [pembinaController::class, 'getDataStrukturEsku
 
 // Role Pengurus START
 Route::get('/pengurusDashboard', [pengurusController::class, 'getDashboardPengurus']);
-// Route::get('/dataBlogs', [pengurusController::class, 'landingPage']);
+Route::get('/dataBlogs', [pengurusController::class, 'Blogs']);
+Route::post('/saveBlog', [pengurusController::class, 'store']);
 // Role Pengurus END
 
 // Dashboard Users
-Route::get('/mainEkskul',[blogsController::class, 'landingPage'])->name('mainEkskul');
+Route::get('/',[blogsController::class, 'Blogs'])->name('mainEkskul');
 
 Route::get('/dataEkskul', function () {
     return view('users/dataEkskul');

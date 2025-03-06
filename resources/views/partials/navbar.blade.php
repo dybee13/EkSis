@@ -42,7 +42,7 @@
                     </li>
                     @elseif (!Session::has('user'))
                     <li>
-                        <a href="/" class="block px-4 py-2 text-sm text-white">Login</a>
+                        <a href="/login" class="block px-4 py-2 text-sm text-white">Login</a>
                     </li>
                     @endif
                 </ul>
@@ -51,7 +51,7 @@
         <div class="items-center justify-between hidden w-full md:flex md:w-auto md:order-1" id="navbar-user">
             <ul class="flex flex-col font-medium p-4 md:p-0 mt-4 border border-gray-100 rounded-lg bg-gray-50 md:space-x-8 rtl:space-x-reverse md:flex-row md:mt-0 md:border-0 md:bg-white dark:bg-gray-800 md:dark:bg-gray-900 dark:border-gray-700">
                 <li>
-                    <a href="/mainEkskul" class="flex items-center gap-2 block py-2 px-3 rounded-sm md:p-0 {{ request()->is('mainEkskul') ? 'text-white bg-blue-700 md:bg-transparent md:text-blue-700 md:dark:text-blue-500' : 'text-gray-900 hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white' }}">
+                    <a href="/" class="flex items-center gap-2 block py-2 px-3 rounded-sm md:p-0 {{ request()->is('mainEkskul') ? 'text-white bg-blue-700 md:bg-transparent md:text-blue-700 md:dark:text-blue-500' : 'text-gray-900 hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white' }}">
                         <svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
                             <path d="M10.2 2.4a2.25 2.25 0 0 1 3.6 0l7.5 10A2.25 2.25 0 0 1 19.5 15H18v5.25A2.25 2.25 0 0 1 15.75 22h-2.25a.75.75 0 0 1-.75-.75V16.5a.75.75 0 0 0-.75-.75H12a.75.75 0 0 0-.75.75v4.75a.75.75 0 0 1-.75.75H8.25A2.25 2.25 0 0 1 6 20.25V15H4.5a2.25 2.25 0 0 1-1.8-3.6l7.5-10Z" />
                         </svg>

@@ -13,24 +13,40 @@ class BlogsSeeder extends Seeder
      */
     public function run(): void
     {
-        DB::table('blogs')->insert([
-            [
-                'title' => 'Job Fair NeMo',
-                'slug' => 'job-fair',
-                'body' => 'Mengisi acara JOB FAIR yang di adakan sekolah',
-                'keterangan' => 'activities',
-                'id_ekskul' => '1',
-                'created_at' => now(),
-                'updated_at' => now(),
-            ]
-        ]);
+        // DB::table('blogs')->insert([
+        //     [
+        //         'title' => 'Memenangkan Kejuaraan Provinsi',
+        //         'slug' => 'memenangkan-kejuaraan-provinsi',
+        //         'body' => 'bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb',
+        //         'keterangan' => 'achievments',
+        //         'id_ekskul' => '1',
+        //         'created_at' => now(),
+        //         'updated_at' => now(),
+        //     ],
+        //     [
+        //         'title' => 'Acara HUT NEPER',
+        //         'slug' => 'acara-hut-neper',
+        //         'body' => 'ssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssss',
+        //         'keterangan' => 'activities',
+        //         'id_ekskul' => '1',
+        //         'created_at' => now(),
+        //         'updated_at' => now(),
+        //     ],
+        // ]);
+
         DB::table('blog_images')->insert([
             [
-                'blog_id' => '1',
-                'image_path' => 'nemo_blogs.png',
+                'blog_id' => '4',
+                'image_path' => 'nemo_achi.png',
                 'created_at' => now(),
                 'updated_at' => now(),
-            ]
+            ],
+            [
+                'blog_id' => '5',
+                'image_path' => 'nemo_acti2.png',
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],
         ]);
     }
 }

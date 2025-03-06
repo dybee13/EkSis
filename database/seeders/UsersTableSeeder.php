@@ -12,10 +12,10 @@ class UsersTableSeeder extends Seeder
     {
         DB::table('users')->insert([
             [
-                'name' => 'Pembina',
-                'email' => 'pembina@gmail.com',
-                'no_hp' => '081231231232',
-                'nip' => '111111111111111111',
+                'name' => 'Pembina2',
+                'email' => 'pembina2@gmail.com',
+                'no_hp' => '081231231233',
+                'nip' => '111111111111111112',
                 'nis' => null,
                 'jurusan' => null,
                 'pp' => 'profile.png',
@@ -26,11 +26,11 @@ class UsersTableSeeder extends Seeder
                 'created_at' => now(),
                 'updated_at' => now(),
             ],[
-                'name' => 'Pengurus',
-                'email' => 'pengurus@gmail.com',
-                'no_hp' => '081231231332',
+                'name' => 'Pengurus2',
+                'email' => 'pengurus2@gmail.com',
+                'no_hp' => '081231231333',
                 'nip' => null,
-                'nis' => '22222222',
+                'nis' => '22222223',
                 'jurusan' => null,
                 'pp' => 'profile.png',
                 'role' => 'pengurus',

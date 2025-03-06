@@ -106,18 +106,14 @@
             <div class="relative w-full">
                 <div class="overflow-hidden relative">
                     <div class="flex transition-transform duration-500 ease-in-out" id="slider">
+                    @foreach ($blogsachi as $blog)
                         <div class="w-full flex-shrink-0">
-                            <img src="./assets/images/ekskul.png" alt="Slide 1" class="w-96 h-64 md:ml-12 rounded-lg items-center">
-                            <p class="bg-white p-4 rounded-lg mt-2 shadow text-center font-semibold">SMKN 1 Cirebon Gondol Juara Turnamen Petanque</p>
+                        @foreach($blog->blogImages as $image)
+                        <img src="{{ asset('storage/blogs/' . $image->image_path) }}" alt="Gambar 1" class="w-full h-48 object-cover">
+                        @endforeach
+                            <p class="bg-white p-4 rounded-lg mt-2 shadow text-center font-semibold">{{ $blog->title }}</p>
                         </div>
-                        <div class="w-full flex-shrink-0">
-                            <img src="./assets/images/ekskul.png" alt="Slide 2" class="w-96 h-64 md:ml-12 items-center rounded-lg">
-                            <p class="bg-white p-4 rounded-lg mt-2 shadow text-center font-semibold">Tim Basket Menang di Kejuaraan Daerah</p>
-                        </div>
-                        <div class="w-full flex-shrink-0">
-                            <img src="./assets/images/ekskul.png" alt="Slide 3" class="w-96 h-64 md:ml-12 rounded-lg items-center">
-                            <p class="bg-white p-4 rounded-lg mt-2 shadow text-center font-semibold">Juara Lomba Voli Antar Sekolah</p>
-                        </div>
+                    @endforeach
                     </div>
                 </div>
                 <!-- Navigasi -->
@@ -188,8 +184,8 @@
         @foreach ($blogs as $blog)
             <!-- Card 1 -->
         <a href="/mainBlog" class="bg-white shadow-lg rounded-xl overflow-hidden w-80 block">
-            @foreach($blog->images as $image)
-            <img src="assets/images/blogs/{{ $image->image_path }}" alt="Gambar 1" class="w-full h-48 object-cover">
+            @foreach($blog->blogImages as $image)
+            <img src="{{ asset('storage/blogs/' . $image->image_path) }}" alt="Gambar 1" class="w-full h-48 object-cover">
             @endforeach
             <div class="p-4">
                 <span class="bg-green-600 text-white text-sm px-3 py-1 rounded-lg inline-block mb-2 -translate-y-[200px]">{{ $blog->keterangan }}</span>
