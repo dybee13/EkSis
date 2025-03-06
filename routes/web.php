@@ -79,6 +79,10 @@ Route::get('/mainBlog', function () {
 Route::get('/tentangWebsite', function () {
     return view('users/tentangWebsite');
 })->name('tentangWebsite');
+
+Route::get('/semuaBerita', function () {
+    return view('users/semuaBerita');
+})->name('semuaBerita');
 // end Dashboard Users
 
 Route::get('/dataPembina', function () {
