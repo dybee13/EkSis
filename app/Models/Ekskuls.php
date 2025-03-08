@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 
 class Ekskuls extends Model
 {
@@ -26,14 +27,14 @@ class Ekskuls extends Model
         return $this->hasMany(EkskulUsers::class, 'ekskul_id');
     }
 
-    public function strukturEkskul(): HasMany
+    public function strukturEkskul(): HasOne
     {
-        return $this->hasMany(StrukturEkskul::class, 'id_ekskul');
+        return $this->hasOne(StrukturEkskul::class, 'id_ekskul');
     }
 
-    public function informasiEkskul(): HasMany
+    public function informasiEkskul(): HasOne
     {
-        return $this->hasMany(InformasiEkskul::class, 'id_ekskul');
+        return $this->hasOne(InformasiEkskul::class, 'id_ekskul');
     }
     public function anggotaEkskul(): HasMany
     {

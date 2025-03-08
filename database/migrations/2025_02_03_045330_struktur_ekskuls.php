@@ -17,7 +17,6 @@ return new class extends Migration
             $table->foreignId('id_ekskul')->constrained('ekskuls')->onDelete('cascade');
             $table->enum('keterangan', ['ketua_ekskul', 'waketu_ekskul', 'bendahara', 'sekretaris', 'anggota']);
             $table->timestamps();
-
         });
     }
 

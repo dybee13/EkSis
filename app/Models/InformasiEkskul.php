@@ -11,6 +11,10 @@ class InformasiEkskul extends Model
     protected $table = 'informasi_ekskuls';
     protected $fillable = ['id_ekskul', 'id_struktur','tgl_berdiri', 'logo', 'jadwal', 'deskripsi']; 
     use HasFactory;
+    
+    protected $casts = [
+        'tgl_berdiri' => 'date', // Konversi otomatis ke objek Carbon
+    ];
 
     public function ekskul() : BelongsTo
     {

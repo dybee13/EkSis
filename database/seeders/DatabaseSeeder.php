@@ -22,6 +22,7 @@ class DatabaseSeeder extends Seeder
             InformasiEkskulSeeder::class,
             DataAnggotaSeeder::class,
             StrukturEkskulSeeder::class,
+            EkskulUserSeeder::class,
         ]);
         // \App\Models\User::factory()->create([
         //     'name' => 'Test User',
