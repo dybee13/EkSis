@@ -19,9 +19,10 @@ class DatabaseSeeder extends Seeder
         $this->call([
             UsersTableSeeder::class,
             EkskulTableSeeder::class,
-            InformasiEkskulSeeder::class,
+            // InformasiEkskulSeeder::class,
             DataAnggotaSeeder::class,
             StrukturEkskulSeeder::class,
+            EkskulUserSeeder::class,
         ]);
         // \App\Models\User::factory()->create([
         //     'name' => 'Test User',

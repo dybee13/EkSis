@@ -7,6 +7,7 @@ use App\Models\Ekskuls;
 use App\Models\EkskulUsers;
 use Illuminate\Http\Request;
 use App\Models\AnggotaEkskul;
+use App\Models\StrukturEkskul;
 use App\Models\InformasiEkskul;
 use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\DB;
@@ -208,17 +209,19 @@ class pembinaController extends Controller
     // Data Informasi Eskul 
     public function getDataInformasiEskul(User $user, EkskulUsers $ekskulUsers)
     {
-        $user = User::with(['ekskuls', 'strukturEkskuls'])->find(Auth::id()); 
-        $ekskuls = $user->ekskuls;
-        $struktur_ekskuls = $user->struktur_ekskuls;
-        // dd($user);
-        // dd($struktur_ekskuls);
-        return view('pembina.dataInformasiEkskul', ['title' => 'Data Informasi Eskul'], compact('ekskuls', 'user', 'struktur_ekskuls'));
+        $userEkskul = EkskulUsers::with(['user', 'ekskul.informasiEkskul', 'ekskul.strukturEkskul', 'ekskul.anggotaEkskul'])->where('id_user', Auth::id())->first(); 
+
+        $ekskul = $userEkskul->ekskul;
+        $informasiEkskul = $ekskul->informasiEkskul;
+        $anggotaEkskul = $ekskul->anggotaEkskul;
+        $strukturEkskul = $ekskul->strukturEkskul;
+        // dd($anggotaEkskul);
+        return view('pembina.dataInformasiEkskul', ['title' => 'Data Informasi Eskul'], compact('ekskul', 'user', 'informasiEkskul', 'anggotaEkskul', 'strukturEkskul'));
     }
+
     public function saveDataInformasiEkskul(Request $request)
     {
         $userId = User::with('ekskuls')->find(Auth::id());
-        // dd($userId->ekskuls);
         if (!$userId) {
             return response()->json(['success' => false, 'message' => 'User tidak ditemukan'], 404);
         }
@@ -230,58 +233,46 @@ class pembinaController extends Controller
         }
         // Validasi data
         $validated = $request->validate([
-            'id_ekskul' => 'nullable|numeric',
-            'id_struktur' => 'nullable|numeric',
-            'tgl_berdiri' => 'required|date',
-            'deskripsi' => 'required|string',
-            'jadwal' => 'required|string',
-            'logo' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'id_ekskul' => 'numeric',
+            'tgl_berdiri' => 'nullable|date',
+            'deskripsi' => 'nullable|string',
+            'jadwal' => 'nullable|string',
+            'logo' => 'nullable|image|mimes:jpeg,png,jpg,gif',
         ]
-        //  [
-            //     'tgl_berdiri.required' => 'Tanggal berdiri wajib diisi.',
-            //     'deskripsi.required' => 'Deskripsi wajib diisi.',
-        //     'jadwal.required' => 'Jadwal wajib diisi.',
-        //     'logo.image' => 'File harus berupa gambar.',
-        //     'logo.mimes' => 'Format gambar harus jpeg, png, jpg, atau gif.',
-        //     'logo.max' => 'Ukuran gambar maksimal 2MB.',
-        // ]
     );
     
-     // Tambahkan id_ekskul secara manual
-     $validated['id_ekskul'] = $eskulId->id;
-    // dd($validated);
-        DB::beginTransaction(); // Mulai transaksi
     
-        try {
-            // Simpan file logo jika diunggah
-            if ($request->hasFile('logo')) {
-                $validated['logo'] = $request->file('logo')->store('logos', 'public');
-            }
+        // Simpan file logo jika diunggah
+        if ($request->hasFile('logo')) {
+            $validated['logo'] = $request->file('logo')->store('images/ekstrakulikuler', 'public');
+        }
+
+        // Tambahkan id_ekskul secara manual
+        $validated['id_ekskul'] = $eskulId->id;
     
             // Simpan ke database
             InformasiEkskul::create($validated);
-    
-            DB::commit(); // Simpan jika semua sukses
-    
-            return response()->json([
-                'success' => true,
-                'message' => 'Informasi ekskul berhasil ditambahkan!'
-            ]);
-        } catch (\Exception $e) {
-            DB::rollback(); // Hapus perubahan jika error
-    
-            return response()->json([
-                'success' => false,
-                'message' => 'Terjadi kesalahan: ' . $e->getMessage()
-            ], 500);
+            return redirect()->back()->with('success', 'Informasi ekskul berhasil disimpan.');
         }
-    }
 
-    // Data Struktur Eskul 
-    public function getDataStrukturEskul()
-    {
-        return view('pembina.dataStrukturEkskul', ['title' => 'Data Struktur Eskul']);
-    }
+   
+        public function saveDataStrukturEkskul(Request $request) {
+            $request->validate([
+                'id_ekskul' => 'exists:ekskuls,id',
+                'ketua_ekskul' => 'nullable|string',
+                'waketu_ekskul' => 'nullable|string',
+                'sekretaris' => 'nullable|string',
+                'bendahara' => 'nullable|string',
+            ]);
+          // Ambil hanya data yang dikirim
+        $data = $request->only(['id_ekskul', 'ketua_ekskul', 'waketu_ekskul', 'sekretaris', 'bendahara']);
+
+                $struktur = StrukturEkskul::create($data);
+                return redirect()->back()->with('success','Struktur ekskul berhasil disimpan.');
+        }
+        
+        
+
 
     public function deleteAnggota($id){
         $User = AnggotaEkskul::findOrFail($id);

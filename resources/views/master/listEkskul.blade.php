@@ -35,16 +35,16 @@
                         <td class="py-2 px-4 text-center">{{ $ekskul->nama_ekskul }}</td>
                         <td class="py-2 px-4 text-center">
                             @forelse ($ekskul->users->where('role', 'pembina') as $pembina)
-                                <span class="badge bg-primary">{{ $pembina->name }}</span>
+                            <span class="badge bg-primary">{{ $pembina->name }}</span>
                             @empty
-                                <span class="text-muted">Belum ada Pembina</span>
+                            <span class="text-muted">Belum ada Pembina</span>
                             @endforelse
                         </td>
                         <td class="py-2 px-4 text-center">
                             @forelse ($ekskul->users->where('role', 'pengurus') as $pembina)
-                                <span class="badge bg-primary">{{ $pembina->name }}</span>
+                            <span class="badge bg-primary">{{ $pembina->name }}</span>
                             @empty
-                                <span class="text-muted">Belum ada Pembina</span>
+                            <span class="text-muted">Belum ada Pembina</span>
                             @endforelse
                         </td>
                         <td class="py-2 px-4 text-center text-green-600 font-semibold">Aktif</td>
@@ -177,7 +177,7 @@
                     .then(response => response.json())
                     .then(data => {
                         console.log("Data diterima:", data); // Debugging
-                        
+
                         if (data && data.ekskul) {
                             currentEkskulId = data.ekskul.id;
                             detailNamaEkskul.textContent = data.ekskul.nama_ekskul;
@@ -235,6 +235,39 @@
 
             modalData.classList.remove('hidden');
         });
+
+        // Event: Batal tambah data dengan konfirmasi
+        btnBatal.addEventListener('click', () => {
+            Swal.fire({
+                title: 'Apakah Anda yakin?',
+                text: "Data yang belum disimpan akan hilang.",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Ya, batal!',
+                cancelButtonText: 'Tidak, lanjutkan'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    // Jika konfirmasi ya, batalkan dan reset form
+                    modalData.classList.add('hidden');
+                    isEditMode = false; // Setel ulang mode ke tambah
+
+                    // Kosongkan input form
+                    namaEkskulInput.value = "";
+
+                    // Kosongkan pilihan pengurus (users[])
+                    const usersSelect = document.getElementById('users');
+                    if (usersSelect) {
+                        Array.from(usersSelect.options).forEach(option => option.selected = false); // Unselect semua opsi
+                    }
+
+                    // Reset modal title jika perlu
+                    modalTitle.textContent = "Tambah Ekskul";
+                }
+            });
+        });
+
 
         // Event listener untuk membuka modal edit dari modal detail
         btnEdit.addEventListener('click', () => {
@@ -305,15 +338,23 @@
             // Ambil nilai input nama ekskul
             const namaEkskul = namaEkskulInput.value.trim();
             if (namaEkskul === "") {
-                alert("Nama Ekskul tidak boleh kosong!");
+                Swal.fire({
+                    icon: 'warning',
+                    title: 'Perhatian!',
+                    text: "Nama Ekskul tidak boleh kosong!",
+                });
                 return;
             }
-            formData.append('nama_ekskul', namaEkskul); // Ubah ke 'nama_ekskul' agar sesuai dengan backend
+            formData.append('nama_ekskul', namaEkskul);
 
             // Ambil user pembina yang dipilih
             const selectedUsers = Array.from(usersSelect.selectedOptions).map(option => option.value);
             if (selectedUsers.length === 0) {
-                alert("Minimal pilih 1 pembina!");
+                Swal.fire({
+                    icon: 'warning',
+                    title: 'Perhatian!',
+                    text: "Minimal pilih 1 pembina!",
+                });
                 return;
             }
             selectedUsers.forEach(user => formData.append('users[]', user));
@@ -343,12 +384,22 @@
                 })
                 .then(response => response.json())
                 .then(data => {
-                    console.log("Response dari backend:", data); // Debugging respons backend
-                    alert(data.message);
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Sukses!',
+                        text: data.message,
+                    });
                     modalData.classList.add('hidden');
                     location.reload(); // Refresh halaman setelah update
                 })
-                .catch(error => console.error('Terjadi kesalahan dalam request:', error));
+                .catch(error => {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Oops...',
+                        text: 'Terjadi kesalahan, coba lagi nanti!',
+                    });
+                    console.error('Error:', error);
+                });
         });
 
 
@@ -367,7 +418,11 @@
                     })
                     .then(response => response.json())
                     .then(data => {
-                        alert(data.message);
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'Berhasil!',
+                            text: data.message,
+                        });
                         detailModal.classList.add('hidden'); // Tutup modal setelah hapus
                         location.reload(); // Refresh halaman untuk memperbarui data
                     })
@@ -377,7 +432,19 @@
 
         btnBatal.addEventListener('click', () => {
             modalData.classList.add('hidden');
-            isEditMode = false;
+            isEditMode = false; // Setel ulang mode ke tambah
+
+            // Kosongkan input form
+            namaEkskulInput.value = "";
+
+            // Kosongkan pilihan pengurus (users[])
+            const usersSelect = document.getElementById('users');
+            if (usersSelect) {
+                Array.from(usersSelect.options).forEach(option => option.selected = false); // Unselect semua opsi
+            }
+
+            // Reset modal title jika perlu
+            modalTitle.textContent = "Tambah Ekskul";
         });
 
         document.getElementById('eskul').addEventListener('change', function() {
