@@ -19,14 +19,7 @@ class EkskulTableSeeder extends Seeder
                 'updated_at' => now(),
             ],
             [
-                'nama_ekskul' => 'Japanese Club',
-                'remember_token' => Str::random(10),
-                'published_at' => now(),
-                'created_at' => now(),
-                'updated_at' => now(),
-            ],
-            [
-                'nama_ekskul' => 'Neper King',
+                'nama_ekskul' => 'Badminton',
                 'remember_token' => Str::random(10),
                 'published_at' => now(),
                 'created_at' => now(),

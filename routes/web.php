@@ -58,19 +58,16 @@ Route::get('/dataStrukturEskul', [pembinaController::class, 'getDataStrukturEsku
 // Role Pengurus START
 Route::get('/pengurusDashboard', [pengurusController::class, 'getDashboardPengurus']);
 Route::get('/dataBlogs', [pengurusController::class, 'Blogs']);
-Route::post('/saveBlog', [pengurusController::class, 'store']);
+Route::post('/saveBlog', [pengurusController::class, 'store'])->name('blog.store');
 // Role Pengurus END
 
 // Dashboard Users
 Route::get('/',[blogsController::class, 'Blogs'])->name('mainEkskul');
-
-Route::get('/dataEkskul', function () {
-    return view('users/dataEkskul');
-})->name('dataEkskul');
-
-Route::get('/listEkskul', function () {
-    return view('users/listEkskul');
-})->name('listEkskul');
+Route::get('/semuaBerita',[blogsController::class, 'AllBlogs'])->name('semuaBerita');
+Route::get('/search-blogs', [blogsController::class, 'search'])->name('blogs.search');
+Route::get('/listEkskul', [blogsController::class, 'ekskuls'])->name('ekskuls.all');
+Route::get('/dataEkskul/{id}', [blogsController::class, 'EkskulBlogs'])->name('ekskuls.blogs');
+Route::get('/detailBlog/{id}', [blogsController::class, 'detailBlog'])->name('blogs.detail');
 
 Route::get('/mainBlog', function () {
     return view('users/mainBlog');

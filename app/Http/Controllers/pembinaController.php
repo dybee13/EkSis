@@ -44,9 +44,11 @@ class pembinaController extends Controller
         // Ambil ekskul yang dimiliki oleh pembina
         $ekskuls = $pembina->ekskuls;
 
-        // Ambil semua anggota yang didaftarkan oleh pembina
-        $anggotaEkskul = AnggotaEkskul::where('id_pembina', $pembina->id)
-            ->get();
+        // Ambil ID ekskul yang dimiliki oleh pembina melalui tabel ekskul_users
+        $idEkskulPembina = $pembina->ekskulUsers()->pluck('id_ekskul');
+
+        // Ambil semua anggota yang memiliki id_ekskul yang sesuai dengan ekskul pembina
+        $anggotaEkskul = AnggotaEkskul::whereIn('id_ekskul', $idEkskulPembina)->get();
 
         // Buat array untuk menyimpan ekskul per anggota
         $anggotaEkskulData = $anggotaEkskul->map(function ($anggota) use ($pembina) {
@@ -90,14 +92,10 @@ class pembinaController extends Controller
 
         try {
             // Ambil ID pembina yang sedang login
-            $pembina = Auth::user()->id;
+            $pembina = Auth::user();
 
-            if (!$pembina) {
-                return response()->json([
-                    'success' => false,
-                    'message' => 'User tidak ditemukan!'
-                ], 403);
-            }
+            // Ambil ID ekskul yang dimiliki oleh pembina melalui tabel ekskul_users
+            $idEkskulPembina = $pembina->ekskulUsers()->pluck('id_ekskul')->first();
 
             // Cek apakah anggota sudah ada berdasarkan NIS
             $existingMember = AnggotaEkskul::where('nis', $request->nis)->first();
@@ -116,7 +114,7 @@ class pembinaController extends Controller
                 'email' => $request->email,
                 'no_hp' => $request->noHp,
                 'jurusan' => $request->jurusan,
-                'id_pembina' => $pembina, // Set pembina sesuai dengan yang login
+                'id_ekskul' => $idEkskulPembina, // Set pembina sesuai dengan yang login
                 'pp' => 'profile.png', // Foto profil default
             ]);
 

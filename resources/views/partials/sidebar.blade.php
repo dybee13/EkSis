@@ -32,7 +32,7 @@
                         @if (Auth::user()->role === 'master')
                         <ul class="py-1" role="none">
                             <li>
-                                <a href="/listEkskul" class="block px-4 py-2 text-sm text-gray-200 hover:bg-gray-100"
+                                <a href="/" class="block px-4 py-2 text-sm text-gray-200 hover:bg-gray-100"
                                     role="menuitem">Blogs</a>
                             </li>
                             <li>
@@ -42,7 +42,7 @@
                         @elseif (Auth::user()->role === 'pembina')
                         <ul class="py-1" role="none">
                             <li>
-                                <a href="/listEkskul" class="block px-4 py-2 text-sm text-gray-200 hover:bg-gray-100"
+                                <a href="/" class="block px-4 py-2 text-sm text-gray-200 hover:bg-gray-100"
                                     role="menuitem">Blogs</a>
                             </li>
                             <li>
@@ -52,7 +52,7 @@
                         @elseif (Auth::user()->role === 'pengurus')
                         <ul class="py-1" role="none">
                             <li>
-                                <a href="/listEkskul" class="block px-4 py-2 text-sm text-gray-200 hover:bg-gray-100"
+                                <a href="/" class="block px-4 py-2 text-sm text-gray-200 hover:bg-gray-100"
                                     role="menuitem">Blogs</a>
                             </li>
                             <li>

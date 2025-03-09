@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('blog_id')->constrained('blogs')->onDelete('cascade');
             $table->string('image_path');
+            $table->boolean('is_thumbnail')->default(false);
             $table->timestamps();
         });
     }

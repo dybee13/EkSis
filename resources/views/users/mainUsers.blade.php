@@ -1,3 +1,10 @@
+<style>
+    .slider {
+        display: flex;
+        transition: transform 0.5s ease-in-out;
+    }
+</style>
+
 <section class="bg-gray-900 min-h-screen flex items-center justify-center relative top-0 z-30">
     <div class="py-8 px-4 mx-auto max-w-screen-lg text-center lg:py-16 relative z-30">
         <h1 class="mb-4 text-4xl font-extrabold tracking-tight leading-none text-gray-900 md:text-5xl lg:text-6xl dark:text-white">
@@ -108,9 +115,18 @@
                     <div class="flex transition-transform duration-500 ease-in-out" id="slider">
                     @foreach ($blogsachi as $blog)
                         <div class="w-full flex-shrink-0">
-                        @foreach($blog->blogImages as $image)
-                        <img src="{{ asset('storage/blogs/' . $image->image_path) }}" alt="Gambar 1" class="w-full h-48 object-cover">
-                        @endforeach
+                        @if ($blog->blogImages->isNotEmpty())
+                        @php
+                            $thumbnail = $blog->blogImages()->where('is_thumbnail', true)->first() ?? $blog->blogImages->first();
+                        @endphp
+                        @if ($thumbnail)
+                        <td class="px-4 py-2">
+                            <img src="{{ asset('storage/blogs/' . $thumbnail->image_path) }}" class="w-full h-48 object-cover" alt="">
+                        </td>
+                        @endif
+                        @else
+                            <td class="px-4 py-2 text-gray-500 italic">Tidak ada gambar</td>
+                        @endif
                             <p class="bg-white p-4 rounded-lg mt-2 shadow text-center font-semibold">{{ $blog->title }}</p>
                         </div>
                     @endforeach
@@ -136,34 +152,25 @@
         <path fill="#f3f4f5" fill-opacity="1" filter="url(#shadow)" d="M0,224L120,192C240,160,480,96,720,96C960,96,1200,160,1320,192L1440,224L1440,0L1320,0C1200,0,960,0,720,0C480,0,240,0,120,0L0,0Z"></path>
     </svg>
 
-    <p class="text-3xl text-center font-semibold">Ekstrakulikuler</p>
-    <div class="w-full flex items-center justify-center py-2 ">
-        <div class="flex w-4/5 gap-10">
-            <div class="w-1/2 relative overflow-hidden mt-36">
-                <div class="relative w-full">
-                    <div class="overflow-hidden relative">
-                        <div class="flex transition-transform duration-500 ease-in-out" id="slider2">
-                            <div class="w-full flex-shrink-0">
-                                <img src="./assets/images/ekskul.png" alt="Slide 1" class="w-96 h-64 md:ml-12 rounded-lg items-center">
-                                <p class="p-4 rounded-lg mt-2 shadow text-center font-semibold">Badminton</p>
-                            </div>
-                            <div class="w-full flex-shrink-0">
-                                <img src="./assets/images/ekskul.png" alt="Slide 2" class="w-96 h-64 md:ml-12 items-center rounded-lg">
-                                <p class="p-4 rounded-lg mt-2 shadow text-center font-semibold">Nemo Band</p>
-                            </div>
-                            <div class="w-full flex-shrink-0">
-                                <img src="./assets/images/ekskul.png" alt="Slide 3" class="w-96 h-64 md:ml-12 rounded-lg items-center">
-                                <p class="p-4 rounded-lg mt-2 shadow text-center font-semibold">Silat</p>
-                            </div>
-                        </div>
-                    </div>
-                    <button id="prev2" class="absolute top-1/2 left-0 transform -translate-y-1/2 bg-blue-500 text-white p-2 rounded-full shadow-lg">&#10094;</button>
-                    <button id="next2" class="absolute top-1/2 right-0 transform -translate-y-1/2 bg-blue-500 text-white p-2 rounded-full shadow-lg">&#10095;</button>
+    <p class="text-3xl text-center font-semibold translate-y-14">Ekstrakulikuler</p>
+    <div class="bg-white flex items-center justify-center min-h-screen">
+        <div class="relative w-full max-w-6xl flex flex-col items-center text-center overflow-hidden rounded-lg shadow-lg">
+            <div id="slider2" class="slider w-full flex">
+                <div class="w-full flex-shrink-0 flex flex-col items-center">
+                    <img src="./assets/images/ekstrakulikuler/badminton.jpg" class="w-full h-96 object-cover">
+                    <p class="text-center text-xl font-semibold p-4 bg-white w-full">Badminton</p>
+                </div>
+                <div class="w-full flex-shrink-0 flex flex-col items-center">
+                    <img src="./assets/images/ekstrakulikuler/nemo.jpg" class="w-full h-96 object-cover">
+                    <p class="text-center text-xl font-semibold p-4 bg-white w-full">Nemo Band</p>
+                </div>
+                <div class="w-full flex-shrink-0 flex flex-col items-center">
+                    <img src="./assets/images/ekstrakulikuler/basket.jpg" class="w-full h-96 object-cover">
+                    <p class="text-center text-xl font-semibold p-4 bg-white w-full">Basket</p>
                 </div>
             </div>
-            <div class="w-1/2 flex justify-center mt-20">
-                <img src="./assets/images/kejuaraan.png" class="w-86 h-86 ">
-            </div>
+            <button id="prev2" class="absolute top-1/2 left-2 transform -translate-y-1/2 bg-blue-500 text-white p-2 rounded-full">&#10094;</button>
+            <button id="next2" class="absolute top-1/2 right-2 transform -translate-y-1/2 bg-blue-500 text-white p-2 rounded-full">&#10095;</button>
         </div>
     </div>
     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320">
@@ -183,10 +190,19 @@
     <div id="post-container" class="flex justify-center gap-6 px-4 flex-wrap">
         @foreach ($blogs as $blog)
             <!-- Card 1 -->
-        <a href="/mainBlog" class="bg-white shadow-lg rounded-xl overflow-hidden w-80 block">
-            @foreach($blog->blogImages as $image)
-            <img src="{{ asset('storage/blogs/' . $image->image_path) }}" alt="Gambar 1" class="w-full h-48 object-cover">
-            @endforeach
+        <a href="/detailBlog/{{ $blog->id }}" class="bg-white shadow-lg rounded-xl overflow-hidden w-80 block">
+            @if ($blog->blogImages->isNotEmpty())
+                @php
+                    $thumbnail = $blog->blogImages()->where('is_thumbnail', true)->first() ?? $blog->blogImages->first();
+                @endphp
+                @if ($thumbnail)
+                <td class="px-4 py-2">
+                    <img src="{{ asset('storage/blogs/' . $thumbnail->image_path) }}" class="w-full h-48 object-cover" alt="">
+                </td>
+                @endif
+            @else
+                <td class="px-4 py-2 text-gray-500 italic">Tidak ada gambar</td>
+            @endif
             <div class="p-4">
                 <span class="bg-green-600 text-white text-sm px-3 py-1 rounded-lg inline-block mb-2 -translate-y-[200px]">{{ $blog->keterangan }}</span>
                 <p class="font-semibold text-lg">{{ $blog->title }}</p>
@@ -196,7 +212,7 @@
     </div>
 
     <div class="text-center mt-6">
-        <button id="load-more" class="border border-green-600 text-green-600 px-6 py-2 rounded-full hover:bg-green-600 hover:text-white transition">LEBIH BANYAK</button>
+        <a id="load-more" href="/semuaBerita" class="border border-green-600 text-green-600 px-6 py-2 rounded-full hover:bg-green-600 hover:text-white transition">LEBIH BANYAK</a>
     </div>
 
     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320" class="-translate-y-86">
@@ -280,6 +296,7 @@
     // Auto slide every 3 seconds
     setInterval(nextSlide, 3000);
 
+
     let currentIndex2 = 0;
     const slides2 = document.querySelectorAll('#slider2 > div');
     const totalSlides2 = slides2.length;
@@ -307,19 +324,19 @@
 
 
     // load more
-    document.getElementById('load-more').addEventListener('click', function() {
-        const container = document.getElementById('post-container');
-        for (let i = 0; i < 3; i++) {
-            let newCard = document.createElement('div');
-            newCard.className = "bg-white shadow-lg rounded-xl overflow-hidden w-80";
-            newCard.innerHTML = `
-                <img src="image-placeholder.jpg" alt="Gambar Baru" class="w-full h-48 object-cover">
-                <div class="p-4">
-                    <span class="bg-green-600 text-white text-sm px-3 py-1 rounded-lg inline-block mb-2 -translate-y-[200px]">Admin</span>
-                    <p class="font-semibold text-lg">Konten...</p>
-                </div>
-            `;
-            container.appendChild(newCard);
-        }
-    });
+    // document.getElementById('load-more').addEventListener('click', function() {
+    //     const container = document.getElementById('post-container');
+    //     for (let i = 0; i < 3; i++) {
+    //         let newCard = document.createElement('div');
+    //         newCard.className = "bg-white shadow-lg rounded-xl overflow-hidden w-80";
+    //         newCard.innerHTML = `
+    //             <img src="image-placeholder.jpg" alt="Gambar Baru" class="w-full h-48 object-cover">
+    //             <div class="p-4">
+    //                 <span class="bg-green-600 text-white text-sm px-3 py-1 rounded-lg inline-block mb-2 -translate-y-[200px]">Admin</span>
+    //                 <p class="font-semibold text-lg">Konten...</p>
+    //             </div>
+    //         `;
+    //         container.appendChild(newCard);
+    //     }
+    // });
 </script>

@@ -2,8 +2,9 @@
 
 <div class="container min-h-screen bg-gradient-to-b from-white via-blue-300 to-purple-200">
     <div class="m-8 ">
-        <div class="flex items-center justify-center mt-20">
+        <div class="flex flex-col items-center justify-center mt-20">
             <img src=".\assets\images\ekskul.png" class="w-24 h-24">
+            <p>{{ $ekskul->nama_ekskul }}</p>
         </div>
 
     </div>
@@ -13,32 +14,59 @@
         <div class="flex space-x-12 gap-40 mb-4 w-full items-center justify-center">
             <button onclick="showTab('announcements')" class="font-bold tab-button text-blue-700" id="btn-announcements">Announcements</button>
             <button onclick="showTab('achievements')" class="font-bold tab-button text-black" id="btn-achievements">Achievements</button>
-            <button onclick="showTab('blogs')" class="font-bold tab-button text-black" id="btn-blogs">Blogs</button>
+            <button onclick="showTab('activities')" class="font-bold tab-button text-black" id="btn-acti">Activities</button>
             <button onclick="showTab('struktur')" class="font-bold tab-button text-black" id="btn-struktur">Struktur</button>
         </div>
         <!-- <img src=".\assets\images\ekskul.png" alt="Badminton" class="w-full"> -->
         <!-- Announcements Section -->
         <div id="announcements" class="grid grid-cols-4  gap-4">
-            <div class="border p-6 m-2">Lorem ipsum dolor sit amet consectetur adipisicing elit.</div>
-            <div class="border p-6 m-2">Lorem ipsum dolor sit, amet consectetur adipisicing elit. Sed, fugit?</div>
-            <div class="border p-6 m-2">Lorem ipsum, dolor sit amet consectetur adipisicing elit. Magni aliquam est facere.</div>
-            <div class="border p-6 m-2">Lorem ipsum dolor, sit amet consectetur adipisicing elit. Magni omnis pariatur molestiae nobis a voluptatum mollitia, debitis hic ullam ducimus.</div>
+            @foreach ($announcements as $announc)
+                <div class="border p-6 m-2">{{ $announc->title }}{{ Str::limit($announc->body, 100) }}</div>
+            @endforeach
         </div>
 
         <!-- Achievements Section -->
         <div id="achievements" class="grid grid-cols-4 gap-4 hidden">
-            <div class="border p-6 m-2"><img src=".\assets\images\ekskul.png" alt="Trophy" class="w-full">Lorem ipsum dolor sit amet.</div>
-            <div class="border p-6 m-2"><img src=".\assets\images\ekskul.png" alt="Trophy" class="w-full">Lorem ipsum dolor sit amet consectetur adipisicing elit. Tenetur, cupiditate.</div>
-            <div class="border p-6 m-2"><img src=".\assets\images\ekskul.png" alt="Trophy" class="w-full">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Neque, autem! In explicabo quaerat omnis autem?</div>
-            <div class="border p-6 m-2"><img src=".\assets\images\ekskul.png" alt="Trophy" class="w-full">Lorem ipsum dolor sit amet consectetur adipisicing elit. Repudiandae neque quibusdam temporibus illo adipisci necessitatibus. Dolores perferendis delectus rem dolor.</div>
+            @foreach ($achievments as $achiev)
+                <div class="border p-6 m-2">
+                @if ($achiev->blogImages->isNotEmpty())
+                @php
+                    $thumbnail = $achiev->blogImages()->where('is_thumbnail', true)->first() ?? $achiev->blogImages->first();
+                @endphp
+                @if ($thumbnail)
+                <td class="px-4 py-2">
+                    <img src="{{ asset('storage/blogs/' . $thumbnail->image_path) }}" class="w-full h-48 object-cover" alt="">
+                </td>
+                @endif
+                @else
+                    <td class="px-4 py-2 text-gray-500 italic">Tidak ada gambar</td>
+                @endif
+                <h3 class="berita-title text-lg font-semibold mt-2">{{ $achiev->title }}</h3>
+                <p class="text-gray-600 text-sm mt-1">{{ Str::limit($achiev->body, 60) }}</p>
+                </div>
+            @endforeach
         </div>
 
         <!-- Blogs Section -->
-        <div id="blogs" class="grid grid-cols-4 gap-4 hidden">
-            <div class="border p-6 m-2"><img src=".\assets\images\ekskul.png" alt="Writing" class="w-full">Lorem ipsum dolor sit amet consectetur adipisicing elit. Fugiat consequuntur odit reiciendis vero, perferendis voluptatem.</div>
-            <div class="border p-6 m-2"><img src=".\assets\images\ekskul.png" alt="Writing" class="w-full">Lorem ipsum dolor sit amet consectetur adipisicing elit. Excepturi autem facere veritatis molestiae dolorum consectetur error facilis debitis odit illo!</div>
-            <div class="border p-6 m-2"><img src=".\assets\images\ekskul.png" alt="Writing" class="w-full">Lorem ipsum dolor sit, amet consectetur adipisicing elit. Nostrum, aspernatur exercitationem doloremque odio dignissimos consequatur animi non voluptates officiis aliquam sunt beatae assumenda voluptatem soluta!</div>
-            <div class="border p-6 m-2"><img src=".\assets\images\ekskul.png" alt="Writing" class="w-full">Lorem, ipsum dolor sit amet consectetur adipisicing elit. Voluptates, corporis a atque obcaecati officiis explicabo reiciendis in nostrum culpa nam exercitationem tempore iure consequuntur aut saepe, eius beatae consectetur ducimus?</div>
+        <div id="activities" class="grid grid-cols-4 gap-4 hidden">
+            @foreach ($activities as $activ)
+                <div class="border p-6 m-2">
+                    @if ($activ->blogImages->isNotEmpty())
+                    @php
+                        $thumbnail = $activ->blogImages()->where('is_thumbnail', true)->first() ?? $activ->blogImages->first();
+                    @endphp
+                    @if ($thumbnail)
+                    <td class="px-4 py-2">
+                        <img src="{{ asset('storage/blogs/' . $thumbnail->image_path) }}" class="w-full h-48 object-cover" alt="">
+                    </td>
+                    @endif
+                    @else
+                        <td class="px-4 py-2 text-gray-500 italic">Tidak ada gambar</td>
+                    @endif
+                    <h3 class="berita-title text-lg font-semibold mt-2">{{ $activ->title }}</h3>
+                    <p class="text-gray-600 text-sm mt-1">{{ Str::limit($activ->body, 60) }}</p>
+                </div>
+            @endforeach
         </div>
 
         <!-- Struktur -->
@@ -59,8 +87,8 @@
 
     <script>
         function showTab(tabName) {
-            let sections = ['announcements', 'achievements', 'blogs', 'struktur'];
-            let buttons = ['btn-announcements', 'btn-achievements', 'btn-blogs', 'btn-struktur'];
+            let sections = ['announcements', 'achievements', 'activities', 'struktur'];
+            let buttons = ['btn-announcements', 'btn-achievements', 'btn-acti', 'btn-struktur'];
 
             sections.forEach(section => {
                 document.getElementById(section).classList.add('hidden');

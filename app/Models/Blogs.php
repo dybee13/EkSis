@@ -14,10 +14,15 @@ class Blogs extends Model {
         'title',
         'slug',
         'body',
-        'keterangan'
+        'keterangan',
+        'id_ekskul'
     ];
 
     public function blogImages() {
-        return $this->hasMany(BlogImages::class, 'blog_id');
+        return $this->hasMany(BlogImages::class, 'blog_id', 'id');
+    }
+
+    public function ekskul() {
+        return $this->belongsTo(Ekskuls::class, 'id_ekskul');
     }
 }

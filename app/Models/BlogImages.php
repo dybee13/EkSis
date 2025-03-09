@@ -10,7 +10,7 @@ class BlogImages extends Model {
 
     protected $table = 'blog_images';
 
-    protected $fillable = ['blog_id', 'image_path'];
+    protected $fillable = ['blog_id', 'image_path', 'is_thumbnail'];
 
     public function blog() {
         return $this->belongsTo(Blogs::class, 'blog_id');

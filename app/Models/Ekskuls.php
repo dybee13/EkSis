@@ -39,5 +39,9 @@ class Ekskuls extends Model
     {
         return $this->hasMany(AnggotaEkskul::class, 'id_ekskul');
     }
+    public function blogs(): HasMany
+    {
+        return $this->hasMany(Blogs::class, 'id_ekskul');
+    }
 
 }

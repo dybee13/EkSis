@@ -32,11 +32,15 @@
                 </div>
                 <ul class="py-2" aria-labelledby="user-menu-button">
                     @if (Session::has('user'))
-                    @if (Auth::user()->role === 'pengurus')
-                    <li>
-                        <a href="/pengurusDashboard" class="block px-4 py-2 text-sm text-white">Dashboard</a>
-                    </li>
-                    @endif
+                        @if (Auth::user()->role === 'pengurus')
+                        <li>
+                            <a href="/pengurusDashboard" class="block px-4 py-2 text-sm text-white">Dashboard</a>
+                        </li>
+                        @elseif (Auth::user()->role === 'pembina')
+                        <li>
+                            <a href="/pembinaDashboard" class="block px-4 py-2 text-sm text-white">Dashboard</a>
+                        </li>
+                        @endif
                     <li>
                         <a href="/logout" class="block px-4 py-2 text-sm text-white">Keluar</a>
                     </li>
@@ -64,6 +68,17 @@
                             <path fill-rule="evenodd" d="M4.5 6.75A.75.75 0 0 1 5.25 6h13.5a.75.75 0 0 1 0 1.5H5.25a.75.75 0 0 1-.75-.75ZM4.5 12a.75.75 0 0 1 .75-.75h13.5a.75.75 0 0 1 0 1.5H5.25A.75.75 0 0 1 4.5 12ZM5.25 17.25a.75.75 0 0 0 0 1.5h13.5a.75.75 0 0 0 0-1.5H5.25Z" clip-rule="evenodd" />
                         </svg>
                         Semua Ekstrakurikuler
+                    </a>
+                </li>
+                <li>
+                    <a href="semuaBerita" class="flex items-center gap-2 block py-2 px-3 rounded-sm md:p-0 {{ request()->is('semuaBerita') ? 'text-white bg-blue-700 md:bg-transparent md:text-blue-700 md:dark:text-blue-500' : 'text-gray-900 hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white' }}">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="w-5 items-center" viewBox="0 0 512 512">
+                            <path d="M368 415.86V72a24.07 24.07 0 00-24-24H72a24.07 24.07 0 00-24 24v352a40.12 40.12 0 0040 40h328" fill="none" stroke="currentColor" stroke-linejoin="round" stroke-width="16" />
+                            <path d="M416 464h0a48 48 0 01-48-48V128h72a24 24 0 0124 24v264a48 48 0 01-48 48z" fill="black" stroke="currentColor" stroke-linejoin="round" stroke-width="16" />
+                            <path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="16" d="M240 128h64M240 192h64M112 256h192M112 320h192M112 384h192" />
+                            <path d="M176 208h-64a16 16 0 01-16-16v-64a16 16 0 0116-16h64a16 16 0 0116 16v64a16 16 0 01-16 16z" fill="black" />
+                        </svg>
+                        Semua Berita
                     </a>
                 </li>
             </ul>

@@ -1,6 +1,5 @@
 @extends('layouts.main')
 @section('container')
-@include('pengurus.tabelBlogs')
 <!-- Tombol Tambah Blog -->
 <button type="button" class="text-white whitespace-nowrap ml-[1080px] mt-20 bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 focus:outline-none" id="openModal">
     + Tambahkan Blogs
@@ -10,12 +9,12 @@
 <div id="tambahBlogs" class="fixed inset-0 z-50 hidden bg-gray-500 bg-opacity-75 flex items-center justify-center">
     <div class="bg-white rounded-lg p-6 md:w-[960px]">
         <h2 class="text-lg font-semibold mb-4">Tambah Blog</h2>
-        <form id="addBlogForm" method="POST" action="/saveBlog" enctype="multipart/form-data">
+        <form id="addBlogForm" method="POST" action="{{ route('blog.store') }}" enctype="multipart/form-data">
             @csrf
             <!-- Gambar Input -->
             <div class="mb-4">
                 <label for="image" class="block text-sm font-medium text-gray-700">Gambar</label>
-                <input type="file" id="image" name="images[]" multiple class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500" />
+                <input type="file" id="images" name="images[]" accept="image/*" multiple class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500" />
             </div>
             <!-- Preview Gambar -->
             <div id="imagePreview" class="mb-4 flex flex-wrap gap-2"></div>
@@ -51,7 +50,7 @@
 </div>
 
 <!-- Table -->
-<table class="w-5xl text-sm text-left text-gray-500 ml-[230px] mt-2">
+<table class="w-5xl text-sm text-left text-gray-500 ml-[320px] mt-2">
     <thead class="text-xs text-gray-700 uppercase bg-gray-50">
         <tr>
             <th class="px-4 py-1">No</th>
@@ -62,14 +61,23 @@
         </tr>
     </thead>
     <tbody>
-        @foreach ($blogs as $blog)
+        @foreach ($blogs as $index => $blog)
         <tr class="bg-white border-b border-gray-200">
-            <td class="px-4 py-3 font-medium text-gray-900 whitespace-normal">1</td>
-            @foreach ($blog->blogImages as $image)
-            <td class="px-4 py-2"><img src="{{ asset('storage/blogs/' . $image->image_path) }}" class="w-15 h-15" alt=""></td>
-            @endforeach
+        <td class="px-4 py-3 font-medium text-gray-900 whitespace-normal">{{ $index + 1 }}</td>
+            @if ($blog->blogImages->isNotEmpty())
+                @php
+                    $thumbnail = $blog->blogImages()->where('is_thumbnail', true)->first() ?? $blog->blogImages->first();
+                @endphp
+                @if ($thumbnail)
+                <td class="px-4 py-2">
+                    <img src="{{ asset('storage/blogs/' . $thumbnail->image_path) }}" class="w-15 h-15" alt="">
+                </td>
+                @endif
+            @else
+                <td class="px-4 py-2 text-gray-500 italic">Tidak ada gambar</td>
+            @endif
             <td class="px-4 py-2">{{ $blog->title }}</td>
-            <td class="px-4 py-2">{{ $blog->created_at }}</td>
+            <td class="px-4 py-2">{{ \Carbon\Carbon::parse($blog->created_at)->format('d-m-Y') }}</td>
             <td class="px-4 py-2 flex items-center space-x-4">
                 <button class="editButton text-green-500 hover:text-green-700 mt-4">
                     <i class="fas fa-edit text-2xl"></i>
