@@ -72,25 +72,25 @@
                         <th class="">Nama Ketua Eskul :</th>
                     </tr>
                     <tr>
-                        <td class="pl-3">Anonim</td>
+                        <td class="pl-3">{{ $strukturEkskul->ketua_ekskul ?? 'Belum memiliki ketua eskul' }}</td>
                     </tr>
                     <tr class="">
                         <th class="">Nama Wakil Ketua Eskul :</th>
                     </tr>
                     <tr>
-                        <td class="pl-3">Anonim</td>
+                        <td class="pl-3">{{ $strukturEkskul->waketu_ekskul ?? 'Belum memiliki wakil ketua eskul' }}</td>
                     </tr>
                     <tr class="">
-                        <th class="">Nama Sekertaris Eskul :</th>
+                        <th class="">Nama Sekretaris Eskul :</th>
                     </tr>
                     <tr>
-                        <td class="pl-3">Anonim</td>
+                        <td class="pl-3">{{ $strukturEkskul->sekretaris ?? 'Belum memiliki sekretaris eskul' }}</td>
                     </tr>
                     <tr class="">
                         <th class="">Nama Bendahara Eskul :</th>
                     </tr>
                     <tr>
-                        <td class="pl-3">Anonim</td>
+                        <td class="pl-3">{{ $strukturEkskul->bendahara ?? 'Belum memiliki bendahara eskul' }}</td>
                     </tr>
                 </table>
                 {{-- Button Tambah / Ubah Struktur --}}
@@ -146,40 +146,40 @@
 
                     <!-- Ketua Ekskul -->
                     <label>Nama Ketua Ekskul:
-                        <select name="struktur[ketua_ekskul]">
+                        <select name="ketua_ekskul">
                             <option value="" selected disabled>Nama Anggota eskul</option>
                             @foreach ($anggotaEkskul as $anggota)
-                                <option value="{{ $anggota->id }}">{{ $anggota->name }}</option>
+                                <option value="{{ $anggota->name }}">{{ $anggota->name }}</option>
                             @endforeach
                         </select>
                     </label><br>
 
                     <!-- Wakil Ketua Ekskul -->
                     <label>Nama Wakil Ketua Ekskul:
-                        <select name="struktur[waketu_ekskul]">
+                        <select name="waketu_ekskul">
                             <option value="" selected disabled>Nama Anggota eskul</option>
                             @foreach ($anggotaEkskul as $anggota)
-                                <option value="{{ $anggota->id }}">{{ $anggota->name }}</option>
+                                <option value="{{ $anggota->name }}">{{ $anggota->name }}</option>
                             @endforeach
                         </select>
                     </label><br>
 
                     <!-- Sekretaris -->
                     <label>Nama Sekretaris:
-                        <select name="struktur[sekretaris]">
+                        <select name="sekretaris">
                             <option value="" selected disabled>Nama Anggota eskul</option>
                             @foreach ($anggotaEkskul as $anggota)
-                                <option value="{{ $anggota->id }}">{{ $anggota->name }}</option>
+                                <option value="{{ $anggota->name }}">{{ $anggota->name }}</option>
                             @endforeach
                         </select>
                     </label><br>
 
                     <!-- Bendahara -->
                     <label>Nama Bendahara:
-                        <select name="struktur[bendahara]">
+                        <select name="bendahara">
                             <option value="" selected disabled>Nama Anggota eskul</option>
                             @foreach ($anggotaEkskul as $anggota)
-                                <option value="{{ $anggota->id }}">{{ $anggota->name }}</option>
+                                <option value="{{ $anggota->name }}">{{ $anggota->name }}</option>
                             @endforeach
                         </select>
                     </label><br>

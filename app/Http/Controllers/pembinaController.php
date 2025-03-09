@@ -218,8 +218,8 @@ class pembinaController extends Controller
 
         $ekskul = $userEkskul->ekskul;
         $informasiEkskul = $ekskul->informasiEkskul;
-        $strukturEkskul = $ekskul->strukturEkskul;
         $anggotaEkskul = $ekskul->anggotaEkskul;
+        $strukturEkskul = $ekskul->strukturEkskul;
         // dd($anggotaEkskul);
         return view('pembina.dataInformasiEkskul', ['title' => 'Data Informasi Eskul'], compact('ekskul', 'user', 'informasiEkskul', 'anggotaEkskul', 'strukturEkskul'));
     }
@@ -282,8 +282,10 @@ class pembinaController extends Controller
     // Validasi data
     $request->validate([
         'id_ekskul' => 'required|exists:ekskuls,id',
-        'struktur' => 'required|array',
-        'struktur.*' => 'exists:data_anggota_ekskul,id',
+        'ketua_ekskul' => 'string',
+        'waketu_ekskul' => 'string',
+        'sekretaris' => 'string',
+        'bendahara' => 'string',
     ]);
 
     // Ambil ekskul pengguna
@@ -295,23 +297,15 @@ class pembinaController extends Controller
 
     $ekskul = $userEkskul->ekskul;
     $ekskulId = $ekskul->id;
-    $anggotaIds = $ekskul->anggotaEkskul->pluck('id')->toArray(); // Ambil semua anggota ekskul
 
-    if (empty($anggotaIds)) {
-        return redirect()->back()->with('error', 'Anggota ekskul tidak ditemukan.');
-    }
-
-    // Simpan data ke StrukturEkskul
-    foreach ($request->input('struktur') as $keterangan) {
-        foreach ($anggotaIds as $anggotaId) {
-            StrukturEkskul::create([
+           $result = StrukturEkskul::create([
                 'id_ekskul' => $ekskulId,
-                'id_anggota_ekskul' => $anggotaId,
-                'keterangan' => $keterangan,
+                'ketua_ekskul' => $request->ketua_ekskul,
+                'waketu_ekskul'  => $request->waketu_ekskul,
+                'sekretaris'  => $request->sekretaris,
+                'bendahara'  => $request->bendahara
             ]);
-        }
-    }
-
+       
     return redirect()->back()->with('success', 'Struktur ekskul berhasil disimpan.');
 }
 

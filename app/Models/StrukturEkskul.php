@@ -10,7 +10,6 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 class StrukturEkskul extends Model
 {
     protected $table = 'struktur_ekskuls';
-    protected $fillable = ['id_anggota_ekskul','id_ekskul','keterangan']; 
     use HasFactory;
 
     public function user() : BelongsTo
