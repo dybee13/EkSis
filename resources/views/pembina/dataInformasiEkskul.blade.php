@@ -5,68 +5,68 @@
         <h1 class="text-2xl font-serif font-bold mt-4 mb-3 xl:text-3xl">Informasi Eskul</h1>
         <section class="flex flex-col gap-4 xl:flex-row xl:justify-between">
             <article
-                class="flex flex-col items-start gap-2 border border-gray-400 shadow-md rounded-md shadow-gray-400
-              xl:flex-row  xl:w-full xl:px-6">
+                class="flex flex-col gap-2 py-2 px-2 border border-gray-400 shadow-md rounded-md shadow-gray-400
+              xl:flex-row  xl:w-full">
                 <div
                     class="w-10/12 h-40 mx-auto my-4 border border-gray-300 bg-cover rounded-xl shadow-md
                  shadow-gray-700 animation duration-300 md:h-48 lg:h-60 lg:my-6 xl:w-6/12 xl:ml-0 hover:scale-105">
                     <img src="{{ optional($informasiEkskul)->logo ? asset('storage/' . $informasiEkskul->logo) : 'ga ada' }}"
                         loading="lazy" alt="profile-eskul" class="w-full h-full object-cover rounded-xl">
                 </div>
-                <section class="xl:-ml-24">
+                <section class="relative xl:-ml-24">
                     <table
-                        class="table-auto border-separate border-spacing-x-3 border-spacing-y-1 text-left
+                        class=" table-auto border-separate border-spacing-x-3 border-spacing-y-1 text-left mb-12
                      md:border-spacing-x-6 lg:border-spacing-x-10 xl:border-spacing-x-28 xl:border-spacing-y-4 ">
                         <tr>
                             <th class="">Nama Eskul :</th>
-                        <tr>
-                            <td class="pl-3">{{ $ekskul->nama_ekskul ?? 'Belum ada nama eskul' }}</td>
                         </tr>
+                        <tr>
+                            <td class="pl-3">{{ $ekskul->nama_ekskul ?? 'Belum memiliki nama eskul' }}</td>
                         </tr>
                         <tr>
                             <th class="">Nama Pembina :</th>
+                        </tr>
                         <tr>
                             <td class="pl-3">{{ $user->name ?? 'Belum memiliki pembina' }}</td>
                         </tr>
-                        </tr>
                         <tr>
                             <th class="">Tanggal Berdiri :</th>
+                        </tr>
                         <tr>
                             <td class="pl-3">
-                                {{ optional($informasiEkskul)->tgl_berdiri ? $informasiEkskul->tgl_berdiri->format('d F Y') : 'Belum ada tanggal berdiri' }}
+                                {{ optional($informasiEkskul)->tgl_berdiri ? $informasiEkskul->tgl_berdiri->format('d F Y') : 'Belum memiliki tanggal berdiri' }}
                             </td>
-                        </tr>
                         </tr>
                         <tr>
                             <th class="">Deskripsi :</th>
+                        </tr>
                         <tr>
-                            <td class="pl-3">{{ $informasiEkskul->deskripsi ?? 'Belum ada deskripsi' }}
+                            <td class="pl-3">{{ $informasiEkskul->deskripsi ?? 'Belum memiliki deskripsi' }}
                             </td>
                         </tr>
-                        </tr>
-                        <tr class="">
+                        <tr>
                             <th class="">Jadwal Latihan :</th>
+                        </tr>
                         <tr>
                             <td class="pl-3">
-                                {{ $informasiEkskul->jadwal ?? 'Belum ada jadwal' }}
+                                {{ $informasiEkskul->jadwal ?? 'Belum memiliki jadwal' }}
                             </td>
-                        </tr>
                         </tr>
                     </table>
                     {{-- Button Ubah --}}
                     @if ($informasiEkskul)
                         <button id="btnUbahInformasi"
-                            class="px-4 py-2 m-2 ml-48 md:ml-64 lg:ml-96 xl:ml-72 bg-blue-500 text-white rounded">Ubah</button>
+                            class="absolute bottom-0 right-0 px-4 py-2 bg-blue-500 text-white rounded">Ubah</button>
                     @else
                         <button id="btnTambahInformasi"
-                            class="px-4 py-2 m-2 ml-48 md:ml-64 lg:ml-96 xl:ml-72 bg-blue-500 text-white rounded">Tambah</button>
+                            class="absolute bottom-0 right-0 px-4 py-2 bg-blue-500 text-white rounded">Tambah</button>
                     @endif
                 </section>
             </article>
-            <article class="w-full p-3 border border-gray-400 shadow-md rounded-md shadow-gray-400 xl:w-8/12">
+            <article class="relative w-full p-3 border border-gray-400 shadow-md rounded-md shadow-gray-400 xl:w-8/12">
                 <h1 class="text-xl font-semibold mb-2 xl:mb-2 xl:text-2xl">Struktur Organisasi</h1>
                 <table
-                    class="table-auto border-separate border-spacing-x-1 border-spacing-y-1 text-left
+                    class="table-auto border-separate border-spacing-x-1 border-spacing-y-1 text-left mb-12
              md:border-spacing-x-6 lg:border-spacing-x-6 xl:border-spacing-x-4 xl:border-spacing-y-2">
                     <tr class="">
                         <th class="">Nama Ketua Eskul :</th>
@@ -96,10 +96,10 @@
                 {{-- Button Tambah / Ubah Struktur --}}
                 @if (!$strukturEkskul)
                     <button id="btnTambahStruktur"
-                        class="px-4 py-2 m-2 ml-48 md:ml-64 lg:ml-96 xl:ml-72 bg-blue-500 text-white rounded">Tambah</button>
+                        class="absolute bottom-0 right-0 px-4 py-2 m-2 ml-40 bg-blue-500 text-white rounded">Tambah</button>
                 @else
                     <button id="btnUbahStruktur"
-                        class="px-4 py-2 m-2 ml-48 md:ml-64 lg:ml-96 xl:ml-72 bg-blue-500 text-white rounded">Ubah</button>
+                        class="absolute bottom-0 right-0 px-4 py-2 m-2 ml-40 bg-blue-500 text-white rounded">Ubah</button>
                 @endif
             </article>
         </section>
@@ -135,54 +135,54 @@
         </div>
         {{-- Modal Form Tambah Struktur --}}
         <div id="dataModalTambahStruktur"
-            class="hidden fixed inset-0 overflow-y-scroll bg-black bg-opacity-50 z-0 flex justify-center items-center">
+            class=" fixed inset-0 overflow-y-scroll bg-black bg-opacity-50 z-0 flex justify-center items-center">
             <form method="POST" id="dataFormStruktur" action="{{ route('saveDataStrukturEkskul') }}"
                 enctype="multipart/form-data">
                 @csrf
                 <div id="methodField"></div>
-                <div class="bg-white p-6 rounded-lg shadow-lg mt-40 md:mt-36 lg:mt-32 xl:mt-12">
+                <div class="flex flex-col gap-2 border bg-white p-6 rounded-lg shadow-lg mt-40 md:mt-36 lg:mt-32 xl:mt-12">
                     <h2 class="text-lg font-semibold mb-4" id="modalTitle">Tambah Struktur Eskul</h2>
-                    <input type="hidden" name="id_ekskul" value="1"> <!-- Ubah sesuai id ekskul -->
+                    <input type="hidden" name="id_ekskul"> <!-- Ubah sesuai id ekskul -->
 
                     <!-- Ketua Ekskul -->
-                    <label>Nama Ketua Ekskul:
+                    <label class="border p-2 border-gray-500 rounded-lg">Nama Ketua Ekskul:
                         <select name="ketua_ekskul">
-                            <option value="" selected disabled>Nama Anggota eskul</option>
+                            <option value="" selected>Nama Anggota eskul</option>
                             @foreach ($anggotaEkskul as $anggota)
                                 <option value="{{ $anggota->name }}">{{ $anggota->name }}</option>
                             @endforeach
                         </select>
-                    </label><br>
+                    </label>
 
                     <!-- Wakil Ketua Ekskul -->
-                    <label>Nama Wakil Ketua Ekskul:
+                    <label class="border p-2 border-gray-500 rounded-lg">Nama Wakil Ketua Ekskul:
                         <select name="waketu_ekskul">
-                            <option value="" selected disabled>Nama Anggota eskul</option>
+                            <option value="" selected>Nama Anggota eskul</option>
                             @foreach ($anggotaEkskul as $anggota)
                                 <option value="{{ $anggota->name }}">{{ $anggota->name }}</option>
                             @endforeach
                         </select>
-                    </label><br>
+                    </label>
 
                     <!-- Sekretaris -->
-                    <label>Nama Sekretaris:
+                    <label class="border p-2 border-gray-500 rounded-lg">Nama Sekretaris:
                         <select name="sekretaris">
-                            <option value="" selected disabled>Nama Anggota eskul</option>
+                            <option value="" selected>Nama Anggota eskul</option>
                             @foreach ($anggotaEkskul as $anggota)
                                 <option value="{{ $anggota->name }}">{{ $anggota->name }}</option>
                             @endforeach
                         </select>
-                    </label><br>
+                    </label>
 
                     <!-- Bendahara -->
-                    <label>Nama Bendahara:
+                    <label class="border p-2 border-gray-500 rounded-lg">Nama Bendahara:
                         <select name="bendahara">
-                            <option value="" selected disabled>Nama Anggota eskul</option>
+                            <option value="" selected>Nama Anggota eskul</option>
                             @foreach ($anggotaEkskul as $anggota)
                                 <option value="{{ $anggota->name }}">{{ $anggota->name }}</option>
                             @endforeach
                         </select>
-                    </label><br>
+                    </label>
 
                     <div class="flex justify-end space-x-2">
                         <button id="btnBatalTambahStruktur" type="button"
@@ -354,7 +354,7 @@
             const btnBatalTambahInformasi = document.getElementById("btnBatalTambahInformasi");
             const btnBatalTambahStruktur = document.getElementById("btnBatalTambahStruktur");
             const tambahEskulForm = document.getElementById("tambahEskulForm");
-            const editEskulForm = document.getElementById("editEskulForm"); // Pastikan ada di HTML
+            const editEskulForm = document.getElementById("editEskulForm"); // Pastikan memiliki di HTML
 
             // Fungsi untuk membuka modal
             const showModal = (modal) => modal?.classList.remove('hidden');

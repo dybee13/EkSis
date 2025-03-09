@@ -305,7 +305,7 @@ class pembinaController extends Controller
                 'sekretaris'  => $request->sekretaris,
                 'bendahara'  => $request->bendahara
             ]);
-       
+       dd($result);
     return redirect()->back()->with('success', 'Struktur ekskul berhasil disimpan.');
 }
 
