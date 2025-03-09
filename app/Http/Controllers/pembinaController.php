@@ -238,10 +238,10 @@ class pembinaController extends Controller
         }
         // Validasi data
         $validated = $request->validate([
-            'id_ekskul' => 'nullable|numeric',
-            'tgl_berdiri' => 'required|date',
-            'deskripsi' => 'required|string',
-            'jadwal' => 'required|string',
+            'id_ekskul' => 'numeric',
+            'tgl_berdiri' => 'nullable|date',
+            'deskripsi' => 'nullable|string',
+            'jadwal' => 'nullable|string',
             'logo' => 'nullable|image|mimes:jpeg,png,jpg,gif',
         ]
     );

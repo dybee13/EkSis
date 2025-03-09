@@ -117,17 +117,18 @@
                 <div id="methodField"></div>
                 <div class="bg-white p-6 rounded-lg shadow-lg mt-40 md:mt-36 lg:mt-32 xl:mt-12">
                     <h2 class="text-lg font-semibold mb-4" id="modalTitle">Tambah Informasi Eskul</h2>
-                    <input type="number" name="id_ekskul" hidden>
+                    <input type="number" name="id_ekskul" id="id_ekskul" value="{{ $ekskul->id }}" hidden>
                     <label class="block text-sm font-medium text-gray-700">Tanggal Berdiri</label>
-                    <input type="date" id="tanggalBerdiri" name="tgl_berdiri"
+                    <input type="date" id="tanggalBerdiri" name="tgl_berdiri" id="tgl_berdiri"
                         class="w-full mt-1 mb-4 p-2 border border-gray-300 rounded-md">
                     <label class="block text-sm font-medium text-gray-700">Deskripsi</label>
-                    <textarea id="deskripsiEskul" name="deskripsi" class="w-full mt-1 mb-4 p-2 border border-gray-300 rounded-md"></textarea>
+                    <textarea id="deskripsiEskul" name="deskripsi" id="deskripsi"
+                        class="w-full mt-1 mb-4 p-2 border border-gray-300 rounded-md"></textarea>
                     <label class="block text-sm font-medium text-gray-700">Jadwal Latihan</label>
-                    <input type="text" id="jadwalLatihan" name="jadwal"
+                    <input type="text" id="jadwalLatihan" name="jadwal" id="jadwal"
                         class="w-full mt-1 mb-4 p-2 border border-gray-300 rounded-md">
                     <label class="block text-sm font-medium text-gray-700">Foto Eskul</label>
-                    <input type="file" id="fotoEskul" name="logo"
+                    <input type="file" id="fotoEskul" name="logo" id="logo"
                         class="w-full mt-1 mb-4 p-2 border border-gray-300 rounded-md">
                     <div class="flex justify-end space-x-2">
                         <button id="btnBatalTambahInformasi" type="button"
@@ -147,11 +148,12 @@
                 <div
                     class="flex flex-col gap-2 border bg-white p-6 rounded-lg shadow-lg mt-20 md:mt-20 md:ml-48 lg:mt-24 xl:mt-12">
                     <h2 class="text-lg font-semibold mb-4" id="modalTitle">Tambah Struktur Eskul</h2>
-                    <input type="hidden" name="id_ekskul" value="{{ $ekskul->id }}"> <!-- Ubah sesuai id ekskul -->
+                    <input type="hidden" id="id_ekskul" name="id_ekskul" value="{{ $ekskul->id }}">
+                    <!-- Ubah sesuai id ekskul -->
 
                     <!-- Ketua Ekskul -->
                     <label class="border p-2 border-gray-500 rounded-lg">Nama Ketua Ekskul:
-                        <select name="ketua_ekskul">
+                        <select name="ketua_ekskul" id="ketua_ekskul">
                             <option value="" selected>Nama Anggota eskul</option>
                             @foreach ($anggotaEkskul as $anggota)
                                 <option value="{{ $anggota->name }}">{{ $anggota->name }}</option>
@@ -161,7 +163,7 @@
 
                     <!-- Wakil Ketua Ekskul -->
                     <label class="border p-2 border-gray-500 rounded-lg">Nama Wakil Ketua Ekskul:
-                        <select name="waketu_ekskul">
+                        <select name="waketu_ekskul" id="waketu_ekskul">
                             <option value="" selected>Nama Anggota eskul</option>
                             @foreach ($anggotaEkskul as $anggota)
                                 <option value="{{ $anggota->name }}">{{ $anggota->name }}</option>
@@ -171,7 +173,7 @@
 
                     <!-- Sekretaris -->
                     <label class="border p-2 border-gray-500 rounded-lg">Nama Sekretaris:
-                        <select name="sekretaris">
+                        <select name="sekretaris" id="sekretaris">
                             <option value="" selected>Nama Anggota eskul</option>
                             @foreach ($anggotaEkskul as $anggota)
                                 <option value="{{ $anggota->name }}">{{ $anggota->name }}</option>
@@ -181,7 +183,7 @@
 
                     <!-- Bendahara -->
                     <label class="border p-2 border-gray-500 rounded-lg">Nama Bendahara:
-                        <select name="bendahara">
+                        <select name="bendahara" id="bendahara">
                             <option value="" selected>Nama Anggota eskul</option>
                             @foreach ($anggotaEkskul as $anggota)
                                 <option value="{{ $anggota->name }}">{{ $anggota->name }}</option>
@@ -209,7 +211,7 @@
             const btnBatalTambahInformasi = document.getElementById("btnBatalTambahInformasi");
             const btnBatalTambahStruktur = document.getElementById("btnBatalTambahStruktur");
             const formInformasi = document.getElementById("formInformasi");
-            const formStruktur = document.getElementById("formInformasi");
+            const formStruktur = document.getElementById("formStruktur");
 
             // Fungsi untuk membuka modal
             const showModal = (modal) => modal?.classList.remove('hidden');
@@ -235,70 +237,114 @@
             });
 
             // Fungsi untuk submit form via AJAX dengan async/await
-            const submitFormInformasi = async (form, route) => {
-                form?.addEventListener("submit", async function(event) {
-                    event.preventDefault();
-                    let formData = new FormData(this);
+            // const submitFormInformasi = async (form, route) => {
+            //     form?.addEventListener("submit", async function(event) {
+            //         event.preventDefault();
+            //         let formData = new FormData(this);
 
-                    try {
-                        let response = await fetch(route, {
-                            method: "POST",
-                            body: formData,
-                            headers: {
-                                "X-CSRF-TOKEN": document.querySelector(
-                                    "meta[name='csrf-token']").content
-                            }
-                        });
+            //         try {
+            //             let response = await fetch(route, {
+            //                 method: "POST",
+            //                 body: formData,
+            //                 headers: {
+            //                     "X-CSRF-TOKEN": document.querySelector(
+            //                         "meta[name='csrf-token']").content
+            //                 }
+            //             });
 
-                        let data = await response.json();
+            //             let data = await response.json();
 
-                        if (data.success) {
-                            alert("Data berhasil disimpan!");
-                            location.reload();
-                        } else {
-                            alert("Terjadi kesalahan, coba lagi.");
-                        }
-                    } catch (error) {
-                        console.error("Error:", error);
-                        alert("Gagal menghubungi server!");
-                    }
-                });
-            };
+            //             if (data.success) {
+            //                 alert("Data berhasil disimpan!");
+            //                 location.reload();
+            //             } else {
+            //                 alert("Terjadi kesalahan, coba lagi.");
+            //             }
+            //         } catch (error) {
+            //             console.error("Error:", error);
+            //             alert("Gagal menghubungi server!");
+            //         }
+            //     });
+            // };
 
             // Fungsi untuk submit form via AJAX dengan async/await
-            const submitFormStruktur = async (form, route) => {
-                form?.addEventListener("submit", async function(event) {
-                    event.preventDefault();
-                    let formData = new FormData(this);
+            // const submitFormStruktur = async (form, route) => {
+            //     form?.addEventListener("submit", async function(event) {
+            //         event.preventDefault();
+            //         let formData = new FormData(this);
 
-                    try {
-                        let response = await fetch(route, {
-                            method: "POST",
-                            body: formData,
-                            headers: {
-                                "X-CSRF-TOKEN": document.querySelector(
-                                    "meta[name='csrf-token']").content
-                            }
-                        });
+            //         try {
+            //             let response = await fetch(route, {
+            //                 method: "POST",
+            //                 body: formData,
+            //                 headers: {
+            //                     "X-CSRF-TOKEN": document.querySelector(
+            //                         "meta[name='csrf-token']").content
+            //                 }
+            //             });
 
-                        let data = await response.json();
+            //             let data = await response.json();
 
-                        if (data.success) {
-                            alert("Data berhasil disimpan!");
-                            location.reload();
-                        } else {
-                            alert("Terjadi kesalahan, coba lagi.");
-                        }
-                    } catch (error) {
-                        console.error("Error:", error);
-                        alert("Gagal menghubungi server!");
-                    }
-                });
-            };
+            //             if (data.success) {
+            //                 alert("Data berhasil disimpan!");
+            //                 location.reload();
+            //             } else {
+            //                 alert("Terjadi kesalahan, coba lagi.");
+            //             }
+            //         } catch (error) {
+            //             console.error("Error:", error);
+            //             alert("Gagal menghubungi server!");
+            //         }
+            //     });
+            // };
 
             // Handle form submit
-            submitFormInformasi(formInformasi, "{{ route('saveDataInformasiEkskul') }}");
-            submitFormStruktur(formStruktur, "{{ route('saveDataStrukturEkskul') }}"); // Pastikan route benar
+            // submitFormInformasi(formInformasi, "{{ route('saveDataInformasiEkskul') }}");
+            // submitFormStruktur(formStruktur, "{{ route('saveDataStrukturEkskul') }}"); // Pastikan route benar
+
+
+            // batas
+            // //input form informasi
+            // const id_ekskul = document.getElementById('id_ekskul')
+            const tgl_berdiri = document.getElementById('tgl_berdiri');
+            const deskripsi = document.getElementById('deskripsi');
+            const jadwal = document.getElementById('jadwal');
+            const logo = document.getElementById('logo');
+            //input form struktur
+            const id_ekskul = document.getElementById('id_ekskul')
+            const ketua_ekskul = document.getElementById('ketua_ekskul');
+            const waketu_ekskul = document.getElementById('waketu_ekskul');
+            const sekretaris = document.getElementById('sekretaris');
+            const bendahara = document.getElementById('bendahara');
+
+
+            // Open modal for adding data informasi
+            formInformasi.addEventListener('click', () => {
+                dataForm.action = "{{ route('saveDataInformasiEkskul') }}";
+                dataForm.method = "POST";
+                id_ekskul.value = "";
+                ketua_ekskul.value = "";
+                waketu_ekskul.value = "";
+                sekretaris.value = "";
+                bendahara.value = "";
+                methodField.innerHTML = "";
+                ModalTambahInformasi.classList.remove('hidden');
+            });
+
+            // Open modal for adding data struktur
+            formStruktur.addEventListener('click', () => {
+                dataForm.action = "{{ route('saveDataInformasiEkskul') }}";
+                dataForm.method = "POST";
+                id_ekskul.value = "";
+                tgl_berdiri.value = "";
+                deskripsi.value = "";
+                jadwal.value = "";
+                logo.value = "";
+                methodField.innerHTML = "";
+                ModalTambahInformasi.classList.remove('hidden');
+            });
+
+
         });
     </script>
 @endsection
