@@ -3,13 +3,18 @@
     <section
         class="container mb-8 mt-16 px-4 sm:ml-56 sm:w-8/12 md:mt-20 md:w-6/12 md:ml-72 lg:w-6/12 lg:mx-auto lg:ml-72 xl:ml-64 xl:w-10/12">
         <h1 class="text-2xl font-serif font-bold mt-4 mb-3 xl:text-3xl">Informasi Eskul</h1>
+        @if (session('success'))
+            <div style="background-color: green; color: white; padding: 10px; margin-bottom: 10px;">
+                {{ session('success') }}
+            </div>
+        @endif
         <section class="flex flex-col gap-4 xl:flex-row xl:justify-between">
             <article
-                class="flex flex-col gap-2 py-2 px-2 border border-gray-400 shadow-md rounded-md shadow-gray-400
+                class="flex flex-col gap-2 py-2 px-2 pl-2 border border-gray-400 shadow-md rounded-md shadow-gray-400
               xl:flex-row  xl:w-full">
                 <div
-                    class="w-10/12 h-40 mx-auto my-4 border border-gray-300 bg-cover rounded-xl shadow-md
-                 shadow-gray-700 animation duration-300 md:h-48 lg:h-60 lg:my-6 xl:w-6/12 xl:ml-0 hover:scale-105">
+                    class="w-10/12 h-60 mx-auto my-4 border border-gray-300 bg-cover rounded-xl shadow-md
+                 shadow-gray-700 animation duration-300 md:h-72 lg:h-72 lg:my-6 xl:w-6/12 xl:ml-0">
                     <img src="{{ optional($informasiEkskul)->logo ? asset('storage/' . $informasiEkskul->logo) : 'ga ada' }}"
                         loading="lazy" alt="profile-eskul" class="w-full h-full object-cover rounded-xl">
                 </div>
@@ -106,7 +111,7 @@
         {{-- Modal Form Tambah Informasi --}}
         <div id="dataModalTambahInformasi"
             class="hidden fixed inset-0 overflow-y-scroll bg-black bg-opacity-50 z-0 flex justify-center items-center">
-            <form method="POST" id="dataFormInformasi" action="{{ route('saveDataInformasiEkskul') }}"
+            <form method="POST" id="formInformasi" action="{{ route('saveDataInformasiEkskul') }}"
                 enctype="multipart/form-data" class="w-11/12 mx-auto md:w-6/12 lg:w-4/12">
                 @csrf
                 <div id="methodField"></div>
@@ -135,14 +140,14 @@
         </div>
         {{-- Modal Form Tambah Struktur --}}
         <div id="dataModalTambahStruktur"
-            class=" fixed inset-0 overflow-y-scroll bg-black bg-opacity-50 z-0 flex justify-center items-center">
-            <form method="POST" id="dataFormStruktur" action="{{ route('saveDataStrukturEkskul') }}"
-                enctype="multipart/form-data">
+            class="hidden fixed inset-0 overflow-y-scroll bg-black bg-opacity-50 z-0 px-4 flex justify-center items-center">
+            <form method="POST" id="formStruktur" action="{{ route('saveDataStrukturEkskul') }}">
                 @csrf
                 <div id="methodField"></div>
-                <div class="flex flex-col gap-2 border bg-white p-6 rounded-lg shadow-lg mt-40 md:mt-36 lg:mt-32 xl:mt-12">
+                <div
+                    class="flex flex-col gap-2 border bg-white p-6 rounded-lg shadow-lg mt-20 md:mt-20 md:ml-48 lg:mt-24 xl:mt-12">
                     <h2 class="text-lg font-semibold mb-4" id="modalTitle">Tambah Struktur Eskul</h2>
-                    <input type="hidden" name="id_ekskul"> <!-- Ubah sesuai id ekskul -->
+                    <input type="hidden" name="id_ekskul" value="{{ $ekskul->id }}"> <!-- Ubah sesuai id ekskul -->
 
                     <!-- Ketua Ekskul -->
                     <label class="border p-2 border-gray-500 rounded-lg">Nama Ketua Ekskul:
@@ -194,157 +199,7 @@
             </form>
         </div>
     </section>
-    {{-- <script>
-        document.addEventListener("DOMContentLoaded", function() {
-            const btnEdit = document.getElementById("btnEdit");
-            const dataModal = document.getElementById("dataModal");
-            const btnBatal = document.getElementById("btnBatal");
-            
-            const dataForm = document.getElementById("dataForm");
-            const methodField = document.getElementById("methodField");
 
-            // Event untuk membuka modal
-            btnEdit.addEventListener("click", function() {
-                dataModal.classList.remove("hidden");
-                document.body.classList.add("overflow-hidden"); // Mencegah scroll saat modal terbuka
-
-                document.getElementById("idAnggota").value = ekskul.id;
-                document.getElementById("namaAnggota").value = ekskul.name;
-                document.getElementById("nisAnggota").value = ekskul.nis;
-                document.getElementById("noHp").value = ekskul.noHp;
-                document.getElementById("email").value = ekskul.email;
-                document.getElementById("jurusanSelect").value = ekskul.jurusan;
-
-                methodField.innerHTML = '<input type="hidden" name="_method" value="PUT">';
-            });
-
-            // Event untuk menutup modal
-            btnBatal.addEventListener("click", function(event) {
-                event.preventDefault();
-                dataModal.classList.add("hidden");
-                document.body.classList.remove("overflow-hidden");
-            });
-
-            // Event untuk menutup modal dengan klik di luar modal
-            dataModal.addEventListener("click", function(event) {
-                if (event.target === dataModal) {
-                    dataModal.classList.add("hidden");
-                    document.body.classList.remove("overflow-hidden");
-                }
-            });
-
-            // Mencegah form dikirim tanpa validasi (contoh sederhana)
-            dataForm.addEventListener("submit", function(event) {
-                const name = document.getElementById("namaAnggota").value.trim();
-                const nis = document.getElementById("nisAnggota").value.trim();
-                const email = document.getElementById("email").value.trim();
-
-                if (!name || !nis || !email) {
-                    alert("Harap isi semua kolom yang diperlukan!");
-                    event.preventDefault();
-                }
-            });
-        });
-    </script> --}}
-    {{-- <script>
-        document.addEventListener("DOMContentLoaded", function() {
-            const tambahEskulModal = document.getElementById("tambahEskulModal");
-            const strukturEskulModal = document.getElementById("strukturEskulModal");
-            const btnTambahInformasi = document.getElementById("btnTambahInformasi");
-            const btnTambahStruktur = document.getElementById("btnTambahStruktur");
-            const tambahEskulForm = document.getElementById("tambahEskulForm");
-            const ModalTambahInformasi = document.getElementById('dataModalTambahInformasi');
-            const ModalTambahStruktur = document.getElementById('dataModalTambahStruktur');
-            const btnBatalTambahInformasi = document.getElementById("btnBatalTambahInformasi");
-            const btnBatalTambahStruktur = document.getElementById("btnBatalTambahStruktur");
-
-
-            // STRUKTUR EKSKUL
-            // Event untuk membuka modal tambah informasi
-            btnTambahStruktur.addEventListener('click', () => {
-                console.log('cek');
-                ModalTambahStruktur.classList.remove('hidden');
-            });
-            // Event untuk menutup modal tambah ekskul
-            btnBatalTambahStruktur.addEventListener("click", function() {
-                console.log('cek');
-                ModalTambahStruktur.classList.add("hidden");
-            });
-            // Event untuk membuka modal tambah informasi
-            btnTambahInformasi.addEventListener('click', () => {
-                ModalTambahInformasi.classList.remove('hidden');
-            });
-
-            // Event untuk menutup modal tambah informasi
-            btnBatalTambahInformasi.addEventListener("click", function() {
-                ModalTambahInformasi.classList.add("hidden");
-            });
-
-            // // Event untuk menutup modal dengan klik di luar form
-            // ModalTambahInformasi.addEventListener("click", function(event) {
-            //     if (event.target === ModalTambahInformasi) {
-            //         ModalTambahInformasi.classList.add("hidden");
-            //     }
-            // });
-
-            // Event untuk menutup modal dengan klik di luar form
-            ModalTambahStruktur.addEventListener("click", function(event) {
-                if (event.target === ModalTambahStruktur) {
-                    ModalTambahStruktur.classList.add("hidden");
-                }
-            });
-
-            // Handle submit form tambah dengan AJAX
-            tambahEskulForm.addEventListener("submit", function(event) {
-                event.preventDefault();
-                let formData = new FormData(this);
-
-                fetch("{{ route('saveDataInformasiEkskul') }}", {
-                        method: "POST",
-                        body: formData,
-                        headers: {
-                            "X-CSRF-TOKEN": document.querySelector("meta[name='csrf-token']").content
-                        }
-                    })
-                    .then(response => response.json())
-                    .then(data => {
-                        if (data.success) {
-                            alert("Eskul berhasil ditambahkan!");
-                            location.reload();
-                        } else {
-                            alert("Terjadi kesalahan, coba lagi.");
-                        }
-                    })
-                    .catch(error => console.error("Error:", error));
-            });
-
-            // Handle submit form edit dengan AJAX
-            editEskulForm.addEventListener("submit", function(event) {
-                event.preventDefault();
-                let formData = new FormData(this);
-
-                fetch("{{ route('saveDataInformasiEkskul') }}", {
-                        method: "POST",
-                        body: formData,
-                        headers: {
-                            "X-CSRF-TOKEN": document.querySelector("meta[name='csrf-token']").content
-                        }
-                    })
-                    .then(response => response.json())
-                    .then(data => {
-                        if (data.success) {
-                            alert("Eskul berhasil ditambahkan!");
-                            location.reload();
-                        } else {
-                            alert("Terjadi kesalahan, coba lagi.");
-                        }
-                    })
-                    .catch(error => console.error("Error:", error));
-            });
-
-
-        });
-    </script> --}}
     <script>
         document.addEventListener("DOMContentLoaded", function() {
             const btnTambahInformasi = document.getElementById("btnTambahInformasi");
@@ -353,8 +208,8 @@
             const ModalTambahStruktur = document.getElementById('dataModalTambahStruktur');
             const btnBatalTambahInformasi = document.getElementById("btnBatalTambahInformasi");
             const btnBatalTambahStruktur = document.getElementById("btnBatalTambahStruktur");
-            const tambahEskulForm = document.getElementById("tambahEskulForm");
-            const editEskulForm = document.getElementById("editEskulForm"); // Pastikan memiliki di HTML
+            const formInformasi = document.getElementById("formInformasi");
+            const formStruktur = document.getElementById("formInformasi");
 
             // Fungsi untuk membuka modal
             const showModal = (modal) => modal?.classList.remove('hidden');
@@ -442,8 +297,8 @@
             };
 
             // Handle form submit
-            submitFormInformasi(tambahEskulForm, "{{ route('saveDataInformasiEkskul') }}");
-            submitFormInformasi(editEskulForm, "{{ route('saveDataInformasiEkskul') }}"); // Pastikan route benar
+            submitFormInformasi(formInformasi, "{{ route('saveDataInformasiEkskul') }}");
+            submitFormStruktur(formStruktur, "{{ route('saveDataStrukturEkskul') }}"); // Pastikan route benar
         });
     </script>
 @endsection

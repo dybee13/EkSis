@@ -247,9 +247,6 @@ class pembinaController extends Controller
     );
     
     
-    DB::beginTransaction(); // Mulai transaksi
-    
-    try {
         // Simpan file logo jika diunggah
         if ($request->hasFile('logo')) {
             $validated['logo'] = $request->file('logo')->store('images/ekstrakulikuler', 'public');
@@ -260,54 +257,26 @@ class pembinaController extends Controller
     
             // Simpan ke database
             InformasiEkskul::create($validated);
-    
-            DB::commit(); // Simpan jika semua sukses
-    
-            return response()->json([
-                'success' => true,
-                'message' => 'Informasi ekskul berhasil ditambahkan!'
-            ]);
-        } catch (\Exception $e) {
-            DB::rollback(); // Hapus perubahan jika error
-    
-            return response()->json([
-                'success' => false,
-                'message' => 'Terjadi kesalahan: ' . $e->getMessage()
-            ], 500);
+            return redirect()->back()->with('success', 'Informasi ekskul berhasil disimpan.');
         }
-    }
 
    
-    public function saveDataStrukturEkskul(Request $request) {
-    // Validasi data
-    $request->validate([
-        'id_ekskul' => 'required|exists:ekskuls,id',
-        'ketua_ekskul' => 'string',
-        'waketu_ekskul' => 'string',
-        'sekretaris' => 'string',
-        'bendahara' => 'string',
-    ]);
-
-    // Ambil ekskul pengguna
-    $userEkskul = EkskulUsers::with(['ekskul.anggotaEkskul'])->where('id_user', Auth::id())->first();
-
-    if (!$userEkskul || !$userEkskul->ekskul) {
-        return redirect()->back()->with('error', 'Ekskul tidak ditemukan.');
-    }
-
-    $ekskul = $userEkskul->ekskul;
-    $ekskulId = $ekskul->id;
-
-           $result = StrukturEkskul::create([
-                'id_ekskul' => $ekskulId,
-                'ketua_ekskul' => $request->ketua_ekskul,
-                'waketu_ekskul'  => $request->waketu_ekskul,
-                'sekretaris'  => $request->sekretaris,
-                'bendahara'  => $request->bendahara
+        public function saveDataStrukturEkskul(Request $request) {
+            $request->validate([
+                'id_ekskul' => 'exists:ekskuls,id',
+                'ketua_ekskul' => 'nullable|string',
+                'waketu_ekskul' => 'nullable|string',
+                'sekretaris' => 'nullable|string',
+                'bendahara' => 'nullable|string',
             ]);
-       dd($result);
-    return redirect()->back()->with('success', 'Struktur ekskul berhasil disimpan.');
-}
+          // Ambil hanya data yang dikirim
+        $data = $request->only(['id_ekskul', 'ketua_ekskul', 'waketu_ekskul', 'sekretaris', 'bendahara']);
+
+                $struktur = StrukturEkskul::create($data);
+                return redirect()->back()->with('success','Struktur ekskul berhasil disimpan.');
+        }
+        
+        
 
 
     public function deleteAnggota($id){

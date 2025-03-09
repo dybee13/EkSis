@@ -18,6 +18,7 @@ return new class extends Migration
             $table->string('ketua_ekskul', 50)->nullable();
             $table->string('waketu_ekskul', 50)->nullable();
             $table->string('bendahara', 50)->nullable();
+            $table->string('sekretaris', 50)->nullable();
             // $table->enum('keterangan', ['ketua_ekskul', 'waketu_ekskul', 'bendahara', 'sekretaris', 'anggota']);
             $table->timestamps();
         });
