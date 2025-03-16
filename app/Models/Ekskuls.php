@@ -45,4 +45,9 @@ class Ekskuls extends Model
         return $this->hasMany(Blogs::class, 'id_ekskul');
     }
 
+    public function jadwal()
+    {
+        return $this->hasMany(JadwalEkskul::class, 'id_ekskul');
+    }
+
 }

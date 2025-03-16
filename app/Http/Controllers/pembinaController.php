@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\AbsenEkskul;
 use App\Models\User;
 use App\Models\Ekskuls;
 use App\Models\EkskulUsers;
@@ -9,16 +10,31 @@ use Illuminate\Http\Request;
 use App\Models\AnggotaEkskul;
 use App\Models\StrukturEkskul;
 use App\Models\InformasiEkskul;
+use App\Models\JadwalEkskul;
 use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 
 class pembinaController extends Controller
 {
-    // Dashboard Pembina 
+
     public function getDashboardPembina()
     {
-        return view('pembina.pembinaDashboard', ['title' => 'Dashboard Pembina']);
+        // Ambil ID pembina yang sedang login
+        $pembina = Auth::user();
+
+        // Ambil ID ekskul yang dimiliki oleh pembina dari tabel ekskul_users
+        $idEkskulPembina = $pembina->ekskulUsers->pluck('id_ekskul');
+
+        // Ambil ekskul yang dimiliki pembina dan hitung jumlah anggota
+        $ekskuls = Ekskuls::whereIn('id', $idEkskulPembina)
+            ->withCount('anggotaEkskul') // Menghitung jumlah anggota dalam ekskul
+            ->get();
+
+        return view('pembina.pembinaDashboard', [
+            'title' => 'Dashboard Pembina',
+            'ekskuls' => $ekskuls
+        ]);
     }
 
     public function getJurusan()
@@ -48,8 +64,10 @@ class pembinaController extends Controller
         // Ambil ID ekskul yang dimiliki oleh pembina melalui tabel ekskul_users
         $idEkskulPembina = $pembina->ekskulUsers()->pluck('id_ekskul');
 
-        // Ambil semua anggota yang memiliki id_ekskul yang sesuai dengan ekskul pembina
-        $anggotaEkskul = AnggotaEkskul::whereIn('id_ekskul', $idEkskulPembina)->get();
+        // Ambil semua anggota yang memiliki id_ekskul yang sesuai dengan ekskul pembina dan urutkan berdasarkan nama anggota
+        $anggotaEkskul = AnggotaEkskul::whereIn('id_ekskul', $idEkskulPembina)
+        ->orderBy('name', 'asc') // Urutkan berdasarkan nama secara abjad
+        ->get(); // Ambil semua kolom dari tabel anggota_eksuls
 
         // Buat array untuk menyimpan ekskul per anggota
         $anggotaEkskulData = $anggotaEkskul->map(function ($anggota) use ($pembina) {
@@ -209,15 +227,43 @@ class pembinaController extends Controller
     // Data Informasi Eskul 
     public function getDataInformasiEskul(User $user, EkskulUsers $ekskulUsers)
     {
-        $userEkskul = EkskulUsers::with(['user', 'ekskul.informasiEkskul', 'ekskul.strukturEkskul', 'ekskul.anggotaEkskul'])->where('id_user', Auth::id())->first(); 
-
+        $userEkskul = EkskulUsers::with([
+            'user', 
+            'ekskul.informasiEkskul', 
+            'ekskul.strukturEkskul', 
+            'ekskul.anggotaEkskul'
+        ])->where('id_user', Auth::id())->first(); 
+    
+        if (!$userEkskul) {
+            return abort(404, 'Data ekskul tidak ditemukan');
+        }
+    
         $ekskul = $userEkskul->ekskul;
         $informasiEkskul = $ekskul->informasiEkskul;
         $anggotaEkskul = $ekskul->anggotaEkskul;
         $strukturEkskul = $ekskul->strukturEkskul;
-        // dd($anggotaEkskul);
-        return view('pembina.dataInformasiEkskul', ['title' => 'Data Informasi Eskul'], compact('ekskul', 'user', 'informasiEkskul', 'anggotaEkskul', 'strukturEkskul'));
-    }
+
+        $user = Auth::user();
+        $idEkskul = $user->ekskulUsers()->first()->id_ekskul ?? null;
+
+        $jadwal = JadwalEkskul::where('id_ekskul', $idEkskul)->get();
+    
+        // Mengambil nama pembina berdasarkan relasi EkskulUsers
+        $pembina = User::whereHas('ekskulUsers', function ($query) use ($ekskul) {
+            $query->where('id_ekskul', $ekskul->id);
+        })->where('role', 'pembina')->first(); // Ambil satu pembina
+    
+        return view('pembina.dataInformasiEkskul', [
+            'title' => 'Data Informasi Eskul',
+            'ekskul' => $ekskul,
+            'user' => $user,
+            'informasiEkskul' => $informasiEkskul,
+            'anggotaEkskul' => $anggotaEkskul,
+            'strukturEkskul' => $strukturEkskul,
+            'jadwal' => $jadwal,
+            'pembina' => $pembina // Kirim pembina ke view
+        ]);
+    }    
 
     public function saveDataInformasiEkskul(Request $request)
     {
@@ -236,7 +282,7 @@ class pembinaController extends Controller
             'id_ekskul' => 'numeric',
             'tgl_berdiri' => 'nullable|date',
             'deskripsi' => 'nullable|string',
-            'jadwal' => 'nullable|string',
+            'kategori' => 'nullable|string',
             'logo' => 'nullable|image|mimes:jpeg,png,jpg,gif',
         ]
     );
@@ -270,14 +316,55 @@ class pembinaController extends Controller
                 $struktur = StrukturEkskul::create($data);
                 return redirect()->back()->with('success','Struktur ekskul berhasil disimpan.');
         }
-        
-        
-
 
     public function deleteAnggota($id){
         $User = AnggotaEkskul::findOrFail($id);
         $User->delete();
 
         return response()->json(['message' => 'Data berhasil dihapus!']);
+    }
+
+    public function saveJadwalEkskul(Request $request)
+    {
+        $request->validate([
+            'hari' => 'required|in:senin,selasa,rabu,kamis,jumat,sabtu,minggu',
+            'jam_mulai' => 'required|date_format:H:i',
+            'jam_selesai' => 'required|date_format:H:i|after:jam_mulai',
+        ]);
+
+        $user = Auth::user();
+        $idEkskul = $user->ekskulUsers()->first()->id_ekskul ?? null;
+
+        JadwalEkskul::create([
+            'id_ekskul' => $idEkskul,
+            'hari' => $request->hari,
+            'jam_mulai' => $request->jam_mulai,
+            'jam_selesai' => $request->jam_selesai,
+        ]);
+
+        return redirect()->back()->with('success','Jadwal ekskul berhasil disimpan.');
+    }
+
+    public function rekapAbsen(Request $request)
+    {
+        $pengurus = Auth::user();
+        $idEkskul = $pengurus->ekskulUsers()->pluck('id_ekskul');
+
+        // Ambil status dari filter
+        $statusFilter = $request->input('status');
+
+        // Ambil data absen, dikelompokkan berdasarkan tanggal
+        $rekapAbsen = AbsenEkskul::whereIn('id_ekskul', $idEkskul)
+            ->when($statusFilter, function ($query, $statusFilter) {
+                return $query->where('status', $statusFilter);
+            })
+            ->with('anggota', 'ekskul')
+            ->orderBy('tanggal', 'desc')
+            ->get()
+            ->groupBy('tanggal'); // Kelompokkan berdasarkan tanggal
+
+        $title = 'Rekap Absen';
+
+        return view('pembina.rekapAbsen', compact('rekapAbsen', 'title', 'statusFilter'));
     }
 }

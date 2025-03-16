@@ -55,14 +55,19 @@
         </div>
         <div class="px-6 py-4">
         @if($detailBlog->blogImages->count() > 1)
-            <!-- Menampilkan gambar kedua jika ada -->
+            <!-- Menampilkan gambar kedua jika ada lebih dari satu gambar -->
             <img src="{{ asset('storage/blogs/' . $detailBlog->blogImages[1]->image_path) }}" 
                 alt="Gambar Kedua - {{ $detailBlog->title }}" 
                 class="w-full h-48 object-cover">
-        @else
+        @elseif($detailBlog->blogImages->count() == 1)
             <!-- Menampilkan gambar pertama jika hanya ada satu gambar -->
             <img src="{{ asset('storage/blogs/' . $detailBlog->blogImages[0]->image_path) }}" 
                 alt="Gambar Pertama - {{ $detailBlog->title }}" 
+                class="w-full h-48 object-cover">
+        @else
+            <!-- Menampilkan gambar default jika tidak ada gambar -->
+            <img src="{{ asset('storage/blogs/default.png') }}" 
+                alt="Gambar Default - {{ $detailBlog->title }}" 
                 class="w-full h-48 object-cover">
         @endif
         </div>

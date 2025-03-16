@@ -1,5 +1,6 @@
 @php
     use Illuminate\Support\Str;
+    use Carbon\Carbon;
 @endphp
 <!DOCTYPE html>
 <html lang="en">
@@ -17,7 +18,11 @@
 </head>
 
 <body>
-    @include('partials.sidebar')
+    @if (Request::is('admin/*'))
+        @include('partials.sidebar')
+    @else
+        @include('partials.navbar')
+    @endif
     <div class="container font-serif">
         @yield('container')
     </div>

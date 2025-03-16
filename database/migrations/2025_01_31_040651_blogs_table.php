@@ -17,6 +17,7 @@ return new class extends Migration
             $table->string('slug')->unique();
             $table->text('body');
             $table->enum('keterangan', ['activities', 'announcements', 'achievments']);
+            $table->boolean('is_banned')->default(false);
             $table->timestamp('published_at')->nullable();
             $table->rememberToken();
             $table->timestamps();

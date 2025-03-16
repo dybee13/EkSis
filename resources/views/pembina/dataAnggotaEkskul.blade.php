@@ -25,7 +25,7 @@
                         <tr class="bg-gray-100 border-b">
                             <th class="py-2 px-4 w-1/4 text-center text-gray-700">Nama Anggota</th>
                             <th class="py-2 px-4 w-1/4 text-center text-gray-700">NIS</th>
-                            <th class="py-2 px-4 w-1/4 text-center text-gray-700">Jabatan</th>
+                            <th class="py-2 px-4 w-1/4 text-center text-gray-700">Jurusan</th>
                             <th class="py-2 px-4 w-1/4 text-center text-gray-700">Status</th>
                             <th class="py-2 px-4 w-1/4 text-center text-gray-700">Aksi</th>
                         </tr>
@@ -35,13 +35,7 @@
                             <tr class="border-b" data-jurusan="{{ $user['anggota']->jurusan }}">
                                 <td class="py-2 px-4 text-center">{{ $user['anggota']->name }}</td>
                                 <td class="py-2 px-4 text-center">{{ $user['anggota']->nis }}</td>
-                                <td class="py-2 px-4 text-center">
-                                    @forelse ($user['ekskuls'] as $ekskul)
-                                        {{ $ekskul->nama_ekskul }}
-                                    @empty
-                                        Tidak ada ekskul
-                                    @endforelse
-                                </td>
+                                <td class="py-2 px-4 text-center">{{ $user['anggota']->jurusan }}</td>
                                 <td class="py-2 px-4 text-center text-green-600 font-semibold">Aktif</td>
                                 <td>
                                     <button id="btnDetail" class="btn btn-warning btnDetail" data-id="{{ $user['anggota']->id }}"
@@ -245,7 +239,7 @@
             // Open modal for adding data
             btnTambah.addEventListener('click', () => {
                 modalTitle.innerText = "Tambah Data";
-                dataForm.action = "/saveAnggota";
+                dataForm.action = "/admin/pembina/saveAnggota";
                 dataForm.method = "POST";
                 nama.value = "";
                 nis.value = "";
@@ -261,7 +255,7 @@
 
             // Fungsi untuk fetch jurusan dari backend dan memasukkan ke dalam select option
             function loadJurusan() {
-                fetch('/api/jurusan')
+                fetch('/admin/pembina/api/jurusan')
                     .then(response => response.json())
                     .then(data => {
                         let selectJurusan = document.getElementById("jurusanSelect");
@@ -282,7 +276,7 @@
             btnEdit.addEventListener('click', function () {
                 if (currentId) {
                     modalTitle.innerText = "Edit Data";
-                    dataForm.action = `/updateAnggota/${currentId}`;
+                    dataForm.action = `/admin/pembina/updateAnggota/${currentId}`;
                     dataForm.method = "POST"; // Laravel mendukung metode PUT/PATCH dalam form melalui input hidden
                     // Tambahkan field hidden untuk metode PUT agar Laravel mengenalinya
                     methodField.innerHTML = '<input type="hidden" name="_method" value="PUT">';
@@ -301,33 +295,48 @@
                 }
             });
 
-            // Delete Data with Confirmation
             btnHapus.addEventListener('click', () => {
                 if (currentId) {
-                    if (confirm("Apakah Anda yakin ingin menghapus data ini?")) {
-                        fetch(`/hapusAnggota/${currentId}`, {
-                                method: "DELETE",
-                                headers: {
-                                    "X-CSRF-TOKEN": document.querySelector('meta[name="csrf-token"]')
-                                        .content
-                                }
-                            })
-                            .then(response => response.json())
-                            .then(data => {
-                                alert(data.message);
-                                detailModal.classList.add('hidden');
-                                location.reload(); // Reload halaman setelah penghapusan
-                            })
-                            .catch(error => console.error("Error:", error));
-                    }
+                    Swal.fire({
+                        title: "Konfirmasi",
+                        text: "Apakah Anda yakin ingin menghapus data ini?",
+                        icon: "warning",
+                        showCancelButton: true,
+                        confirmButtonText: "Ya, Hapus!",
+                        cancelButtonText: "Batal"
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                                fetch(`/admin/pembina/hapusAnggota/${currentId}`, {
+                                    method: "DELETE",
+                                    headers: {
+                                        "X-CSRF-TOKEN": document.querySelector('meta[name="csrf-token"]')
+                                            .content
+                                    }
+                                })
+                                .then(response => response.json())
+                                .then(data => {
+                                    Swal.fire({
+                                        title: "Terhapus!",
+                                        text: "Data berhasil dihapus.",
+                                        icon: "success",
+                                        timer: 2000,
+                                        showConfirmButton: false
+                                    });
+
+                                    setTimeout(() => {
+                                        detailModal.classList.add('hidden');
+                                        location.reload(); // reload setelah sukses
+                                    }, 1500);
+                                })
+                                .catch(error => console.error("Error:", error));
+                        }
+                    });
                 }
             });
-
-
         });
 
         document.addEventListener("DOMContentLoaded", function () {
-            fetch('/api/jurusan')
+            fetch('/admin/pembina/api/jurusan')
                     .then(response => response.json())
                     .then(data => {
                         let selectJurusan = document.getElementById("jurusan");
@@ -345,9 +354,62 @@
                     .catch(error => console.error("Error fetching jurusan:", error));
         });
 
-        btnBatal.addEventListener('click', () => {
-            dataModal.classList.add('hidden');
-        });
+        dataForm.addEventListener('submit', function(event) {
+                const submitter = event.submitter;
+                if (submitter && submitter.id === 'btnSimpan') {
+                    event.preventDefault(); // hentikan form submit sementara
+
+                    let isEdit = methodField.innerHTML.includes(
+                        'PUT'); // cek apakah ini edit atau tambah data
+                    let confirmText = isEdit ? "Apakah Anda yakin ingin mengupdate data ini?" :
+                        "Apakah Anda yakin ingin menambahkan data ini?";
+                    let successText = isEdit ? "Data berhasil diperbarui!" : "Data berhasil ditambahkan!";
+
+                    Swal.fire({
+                        title: "Konfirmasi",
+                        text: confirmText,
+                        icon: "warning",
+                        showCancelButton: true,
+                        confirmButtonText: isEdit ? "Ya, Update!" : "Ya, Tambahkan!",
+                        cancelButtonText: "Batal"
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            Swal.fire({
+                                title: "Sukses!",
+                                text: successText,
+                                icon: "success",
+                                timer: 2000,
+                                showConfirmButton: false
+                            });
+
+                            setTimeout(() => {
+                                dataForm.submit(); // lanjutkan submit jika dikonfirmasi
+                            }, 1500);
+                        }
+                    });
+                }
+            });
+
+            btnBatal.addEventListener('click', (event) => {
+                event.preventDefault(); // hentikan aksi default
+
+                let isEdit = methodField.innerHTML.includes('PUT'); // cek apakah ini edit atau tambah data
+                let confirmText = isEdit ? "Anda yakin ingin membatalkan perubahan data?" :
+                    "Anda yakin ingin membatalkan penambahan data?";
+
+                Swal.fire({
+                    title: "Batalkan?",
+                    text: confirmText,
+                    icon: "warning",
+                    showCancelButton: true,
+                    confirmButtonText: "Ya, Batalkan",
+                    cancelButtonText: "Kembali"
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        dataModal.classList.add('hidden'); // tutup modal jika dibatalkan
+                    }
+                });
+            });
 
         closeDetailModal.addEventListener('click', () => {
             detailModal.classList.add('hidden');

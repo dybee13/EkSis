@@ -52,13 +52,11 @@ class authController extends Controller
 
             //login sukses
             if(Auth::user()->role == 'master'){
-                return redirect()->to('/masterDashboard')->with('success', 'Login successfully');
+                return redirect()->to('admin/master/masterDashboard')->with('success', 'Login successfully');
             }elseif(Auth::user()->role == 'pembina'){
-                return redirect()->to('/pembinaDashboard')->with('success', 'Login successfully');
+                return redirect()->to('admin/pembina/pembinaDashboard')->with('success', 'Login successfully');
             }elseif(Auth::user()->role == 'pengurus'){
-                return redirect()->to('/pengurusDashboard')->with('success', 'Login successfully');
-            }elseif(Auth::user()->role == 'user'){
-                return redirect()->to('/listEkskul')->with('success', 'Login successfully');
+                return redirect()->to('admin/pengurus/pengurusDashboard')->with('success', 'Login successfully');
             }
         }else{
             //login gagal

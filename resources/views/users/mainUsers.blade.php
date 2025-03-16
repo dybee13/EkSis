@@ -127,7 +127,7 @@
                         @else
                             <td class="px-4 py-2 text-gray-500 italic">Tidak ada gambar</td>
                         @endif
-                            <p class="bg-white p-4 rounded-lg mt-2 shadow text-center font-semibold">{{ $blog->title }}</p>
+                            <p class="bg-white p-4 rounded-lg mt-2 shadow text-center font-semibold">{{ $blog->title }} - {{ $blog->ekskul->nama_ekskul }}</p>
                         </div>
                     @endforeach
                     </div>
@@ -156,18 +156,15 @@
     <div class="bg-white flex items-center justify-center min-h-screen">
         <div class="relative w-full max-w-6xl flex flex-col items-center text-center overflow-hidden rounded-lg shadow-lg">
             <div id="slider2" class="slider w-full flex">
+                @foreach ($ekskuls as $ekskul)
                 <div class="w-full flex-shrink-0 flex flex-col items-center">
-                    <img src="./assets/images/ekstrakulikuler/badminton.jpg" class="w-full h-96 object-cover">
-                    <p class="text-center text-xl font-semibold p-4 bg-white w-full">Badminton</p>
+                @php
+                $logo = optional($ekskul->informasiEkskul)->logo ?? 'default.png';
+                @endphp
+                    <img src="{{ asset('storage/' . $logo) }}" class="w-full h-96 object-cover">
+                    <p class="text-center text-xl font-semibold p-4 bg-white w-full">{{ $ekskul->nama_ekskul }}</p>
                 </div>
-                <div class="w-full flex-shrink-0 flex flex-col items-center">
-                    <img src="./assets/images/ekstrakulikuler/nemo.jpg" class="w-full h-96 object-cover">
-                    <p class="text-center text-xl font-semibold p-4 bg-white w-full">Nemo Band</p>
-                </div>
-                <div class="w-full flex-shrink-0 flex flex-col items-center">
-                    <img src="./assets/images/ekstrakulikuler/basket.jpg" class="w-full h-96 object-cover">
-                    <p class="text-center text-xl font-semibold p-4 bg-white w-full">Basket</p>
-                </div>
+                @endforeach
             </div>
             <button id="prev2" class="absolute top-1/2 left-2 transform -translate-y-1/2 bg-blue-500 text-white p-2 rounded-full">&#10094;</button>
             <button id="next2" class="absolute top-1/2 right-2 transform -translate-y-1/2 bg-blue-500 text-white p-2 rounded-full">&#10095;</button>

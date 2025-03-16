@@ -82,9 +82,12 @@
                 <button class="editButton text-green-500 hover:text-green-700 mt-4">
                     <i class="fas fa-edit text-2xl"></i>
                 </button>
-                <button class="deleteButton text-red-500 hover:text-red-700 mt-4">
-                    <i class="fas fa-trash text-2xl"></i>
-                </button>
+                <form action="{{ route('blog.destroy', $blog->id) }}" method="POST" onsubmit="return confirm('Yakin ingin menghapus blog ini?');">
+                    @csrf
+                    @method('DELETE')
+                    <button type="submit" class="deleteButton text-red-500 hover:text-red-700 mt-4">
+                        <i class="fas fa-trash text-2xl"></i></button>
+                </form>
             </td>
         </tr>
         @endforeach

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Blogs;
 use Illuminate\Http\Request;
 use App\Models\User;
 use App\Models\Ekskuls;
@@ -10,6 +11,7 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Storage;
 
 class masterController extends Controller
 {
@@ -18,6 +20,33 @@ class masterController extends Controller
         $users = User::whereIn('role', ['pembina', 'pengurus'])->get(); // Ambil pembina dan pengurus
         return response()->json($users);
     }
+
+    public function getBlogs()
+    {
+        $blogs = Blogs::with('blogImages')
+                ->where('is_banned', false)
+                ->latest() // Mengurutkan dari yang terbaru
+                ->get();
+
+        $title = 'Data Blogs';
+        // dd($ekskuls->toArray());
+
+        return view('master.dataBlogs', compact('blogs', 'title'));
+    }
+
+    public function bannedBlogs()
+    {
+        $blogs = Blogs::with('blogImages')
+                ->where('is_banned', true)
+                ->latest() // Mengurutkan dari yang terbaru
+                ->get();
+                
+        $title = 'Banned Blogs';
+        // dd($ekskuls->toArray());
+
+        return view('master.bannedBlogs', compact('blogs', 'title'));
+    }
+
     public function index(){
         return view('master/masterDashboard', [
             'title' => 'Dashboard Master Admin',
@@ -206,6 +235,33 @@ class masterController extends Controller
         $User->delete();
 
         return response()->json(['message' => 'Data berhasil dihapus!']);
+    }
+
+    public function banBlog(Request $request, $id){
+
+        $update = Blogs::find($id);
+        $update->is_banned = true;
+        $update->save();
+        
+        return back()->with('success');
+    }
+
+    public function destroy($id)
+    {
+        // Cari blog berdasarkan ID
+        $blog = Blogs::findOrFail($id);
+
+        // Hapus semua gambar terkait di storage dan database
+        foreach ($blog->blogImages as $image) {
+            Storage::delete('public/blogs/' . $image->image_path);
+            $image->delete();
+        }
+
+        // Hapus blog dari database
+        $blog->delete();
+
+        // Redirect dengan pesan sukses
+        return redirect()->route('get.bannedBlogs')->with('success', 'Blog berhasil dihapus.');
     }
 
     public function updatePembina(Request $request, $id){

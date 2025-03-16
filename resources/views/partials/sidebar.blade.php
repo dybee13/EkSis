@@ -2,7 +2,7 @@
     <div class="px-3 py-3 lg:px-5 lg:pl-3">
         <div class="flex items-center justify-between">
             <div class="flex items-center justify-start rtl:justify-end">
-                <img src="./assets/images/ekskul.png" class="w-12 h-8" alt="">
+                <img src="{{ asset('storage/blogs/logo.png') }}" class="w-12 h-8" alt="">
                 <a href="#" class="flex ms-2 md:me-24">
                     <span class="self-center text-xl font-semibold sm:text-2xl whitespace-nowrap text-white">Sistem
                         Pencatatan Eskul Siswa Digital</span>
@@ -76,7 +76,7 @@
         <ul class="space-y-2 font-medium">
             @if (Auth::user()->role === 'master')
             <li>
-                <a href="/masterDashboard"
+                <a href="/admin/master/masterDashboard"
                     class="flex items-center p-2 rounded-lg text-white hover:bg-gray-700 group">
                     <svg class="w-5 h-5 transition duration-75 text-gray-400 group-hover:text-white"
                         aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor"
@@ -90,7 +90,7 @@
                 </a>
             </li>
             <li>
-                <a href="/masterDataEkskul"
+                <a href="/admin/master/masterDataEkskul"
                     class="flex items-center p-2 rounded-lg text-white hover:bg-gray-700 group">
                     <svg class="shrink-0 w-5 h-5 transition duration-75 text-gray-400 group-hover:text-white"
                         aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor"
@@ -102,7 +102,7 @@
                 </a>
             </li>
             <li>
-                <a href="/masterDataPembina"
+                <a href="/admin/master/masterDataPembina"
                     class="flex items-center p-2 rounded-lg text-white hover:bg-gray-700 group">
                     <svg class="shrink-0 w-5 h-5transition duration-75 text-gray-400  group-hover:text-white"
                         aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor"
@@ -114,7 +114,7 @@
                 </a>
             </li>
             <li>
-                <a href="/masterDataPengurus"
+                <a href="/admin/master/masterDataPengurus"
                     class="flex items-center p-2 rounded-lg text-white hover:bg-gray-700 group">
                     <svg class="shrink-0 w-5 h-5transition duration-75 text-gray-400  group-hover:text-white"
                         aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor"
@@ -125,9 +125,8 @@
                     <span class="flex-1 ms-3 whitespace-nowrap">Daftar Pengurus Ekskul</span>
                 </a>
             </li>
-            @elseif (Auth::user()->role === 'pembina')
             <li>
-                <a href="/dashboardPembina"
+                <a href="/admin/master/dataBlogs"
                     class="flex items-center p-2 rounded-lg text-white hover:bg-gray-700 group">
                     <svg class="shrink-0 w-5 h-5transition duration-75 text-gray-400  group-hover:text-white"
                         aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor"
@@ -135,11 +134,36 @@
                         <path
                             d="M14 2a3.963 3.963 0 0 0-1.4.267 6.439 6.439 0 0 1-1.331 6.638A4 4 0 1 0 14 2Zm1 9h-1.264A6.957 6.957 0 0 1 15 15v2a2.97 2.97 0 0 1-.184 1H19a1 1 0 0 0 1-1v-1a5.006 5.006 0 0 0-5-5ZM6.5 9a4.5 4.5 0 1 0 0-9 4.5 4.5 0 0 0 0 9ZM8 10H5a5.006 5.006 0 0 0-5 5v2a1 1 0 0 0 1 1h11a1 1 0 0 0 1-1v-2a5.006 5.006 0 0 0-5-5Z" />
                     </svg>
-                    <span class="flex-1 ms-3 whitespace-nowrap">Dashboard Pembina</span>
+                    <span class="flex-1 ms-3 whitespace-nowrap">Data Blogs</span>
                 </a>
             </li>
             <li>
-                <a href="/dataAnggotaEskul"
+                <a href="/admin/master/bannedBlogs"
+                    class="flex items-center p-2 rounded-lg text-white hover:bg-gray-700 group">
+                    <svg class="shrink-0 w-5 h-5transition duration-75 text-gray-400  group-hover:text-white"
+                        aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor"
+                        viewBox="0 0 20 18">
+                        <path
+                            d="M14 2a3.963 3.963 0 0 0-1.4.267 6.439 6.439 0 0 1-1.331 6.638A4 4 0 1 0 14 2Zm1 9h-1.264A6.957 6.957 0 0 1 15 15v2a2.97 2.97 0 0 1-.184 1H19a1 1 0 0 0 1-1v-1a5.006 5.006 0 0 0-5-5ZM6.5 9a4.5 4.5 0 1 0 0-9 4.5 4.5 0 0 0 0 9ZM8 10H5a5.006 5.006 0 0 0-5 5v2a1 1 0 0 0 1 1h11a1 1 0 0 0 1-1v-2a5.006 5.006 0 0 0-5-5Z" />
+                    </svg>
+                    <span class="flex-1 ms-3 whitespace-nowrap">Banned Blogs</span>
+                </a>
+            </li>
+            @elseif (Auth::user()->role === 'pembina')
+            <li>
+                <a href="/admin/pembina/pembinaDashboard"
+                    class="flex items-center p-2 rounded-lg text-white hover:bg-gray-700 group">
+                    <svg class="shrink-0 w-5 h-5transition duration-75 text-gray-400  group-hover:text-white"
+                        aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor"
+                        viewBox="0 0 20 18">
+                        <path
+                            d="M14 2a3.963 3.963 0 0 0-1.4.267 6.439 6.439 0 0 1-1.331 6.638A4 4 0 1 0 14 2Zm1 9h-1.264A6.957 6.957 0 0 1 15 15v2a2.97 2.97 0 0 1-.184 1H19a1 1 0 0 0 1-1v-1a5.006 5.006 0 0 0-5-5ZM6.5 9a4.5 4.5 0 1 0 0-9 4.5 4.5 0 0 0 0 9ZM8 10H5a5.006 5.006 0 0 0-5 5v2a1 1 0 0 0 1 1h11a1 1 0 0 0 1-1v-2a5.006 5.006 0 0 0-5-5Z" />
+                    </svg>
+                    <span class="flex-1 ms-3 whitespace-nowrap">Dashboard</span>
+                </a>
+            </li>
+            <li>
+                <a href="/admin/pembina/dataAnggotaEskul"
                     class="flex items-center p-2 rounded-lg text-white hover:bg-gray-700 group">
                     <svg class="shrink-0 w-5 h-5transition duration-75 text-gray-400  group-hover:text-white"
                         aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor"
@@ -151,7 +175,7 @@
                 </a>
             </li>
             <li>
-                <a href="/dataInformasiEskul"
+                <a href="/admin/pembina/dataInformasiEskul"
                     class="flex items-center p-2 rounded-lg text-white hover:bg-gray-700 group">
                     <svg class="shrink-0 w-5 h-5transition duration-75 text-gray-400  group-hover:text-white"
                         aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor"
@@ -162,9 +186,22 @@
                     <span class="flex-1 ms-3 whitespace-nowrap">Data Informasi Ekskul</span>
                 </a>
             </li>
-            @elseif (Auth::user()->role === 'pengurus')
             <li>
-                <a href="/pengurusDashboard"
+                <a href="/admin/pembina/rekapAbsen"
+                    class="flex items-center p-2 rounded-lg text-white hover:bg-gray-700 group">
+                    <svg class="shrink-0 w-5 h-5transition duration-75 text-gray-400  group-hover:text-white"
+                        aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor"
+                        viewBox="0 0 20 18">
+                        <path
+                            d="M14 2a3.963 3.963 0 0 0-1.4.267 6.439 6.439 0 0 1-1.331 6.638A4 4 0 1 0 14 2Zm1 9h-1.264A6.957 6.957 0 0 1 15 15v2a2.97 2.97 0 0 1-.184 1H19a1 1 0 0 0 1-1v-1a5.006 5.006 0 0 0-5-5ZM6.5 9a4.5 4.5 0 1 0 0-9 4.5 4.5 0 0 0 0 9ZM8 10H5a5.006 5.006 0 0 0-5 5v2a1 1 0 0 0 1 1h11a1 1 0 0 0 1-1v-2a5.006 5.006 0 0 0-5-5Z" />
+                    </svg>
+                    <span class="flex-1 ms-3 whitespace-nowrap">Rekap Absen</span>
+                </a>
+            </li>
+            @elseif (Auth::user()->role === 'pengurus')
+            
+            <li>
+                <a href="/admin/pengurus/pengurusDashboard"
                     class="flex items-center p-2 rounded-lg text-white hover:bg-gray-700 group">
                     <svg class="shrink-0 w-5 h-5transition duration-75 text-gray-400  group-hover:text-white"
                         aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor"
@@ -176,7 +213,7 @@
                 </a>
             </li>
             <li>
-                <a href="/dataBlogs"
+                <a href="/admin/pengurus/dataBlogs"
                     class="flex items-center p-2 rounded-lg text-white hover:bg-gray-700 group">
                     <svg class="shrink-0 w-5 h-5transition duration-75 text-gray-400  group-hover:text-white"
                         aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor"
@@ -185,6 +222,32 @@
                             d="M14 2a3.963 3.963 0 0 0-1.4.267 6.439 6.439 0 0 1-1.331 6.638A4 4 0 1 0 14 2Zm1 9h-1.264A6.957 6.957 0 0 1 15 15v2a2.97 2.97 0 0 1-.184 1H19a1 1 0 0 0 1-1v-1a5.006 5.006 0 0 0-5-5ZM6.5 9a4.5 4.5 0 1 0 0-9 4.5 4.5 0 0 0 0 9ZM8 10H5a5.006 5.006 0 0 0-5 5v2a1 1 0 0 0 1 1h11a1 1 0 0 0 1-1v-2a5.006 5.006 0 0 0-5-5Z" />
                     </svg>
                     <span class="flex-1 ms-3 whitespace-nowrap">Blogs</span>
+                </a>
+            </li>
+            <li>
+                <a href="{{ route('pengurus.absenAnggota') }}"
+                    class="flex items-center p-2 rounded-lg text-white group
+                        {{ $adaLatihan ? 'hover:bg-gray-700' : 'opacity-50 cursor-not-allowed' }}
+                    {{ $adaLatihan ? '' : 'disabled' }}">
+                    <svg class="shrink-0 w-5 h-5 transition duration-75 text-gray-400 group-hover:text-white"
+                        aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor"
+                        viewBox="0 0 20 18">
+                        <path
+                            d="M14 2a3.963 3.963 0 0 0-1.4.267 6.439 6.439 0 0 1-1.331 6.638A4 4 0 1 0 14 2Zm1 9h-1.264A6.957 6.957 0 0 1 15 15v2a2.97 2.97 0 0 1-.184 1H19a1 1 0 0 0 1-1v-1a5.006 5.006 0 0 0-5-5ZM6.5 9a4.5 4.5 0 1 0 0-9 4.5 4.5 0 0 0 0 9ZM8 10H5a5.006 5.006 0 0 0-5 5v2a1 1 0 0 0 1 1h11a1 1 0 0 0 1-1v-2a5.006 5.006 0 0 0-5-5Z" />
+                    </svg>
+                    <span class="flex-1 ms-3 whitespace-nowrap">Absen Anggota</span>
+                </a>
+            </li>
+            <li>
+                <a href="/admin/pengurus/rekapAbsen"
+                    class="flex items-center p-2 rounded-lg text-white hover:bg-gray-700 group">
+                    <svg class="shrink-0 w-5 h-5transition duration-75 text-gray-400  group-hover:text-white"
+                        aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor"
+                        viewBox="0 0 20 18">
+                        <path
+                            d="M14 2a3.963 3.963 0 0 0-1.4.267 6.439 6.439 0 0 1-1.331 6.638A4 4 0 1 0 14 2Zm1 9h-1.264A6.957 6.957 0 0 1 15 15v2a2.97 2.97 0 0 1-.184 1H19a1 1 0 0 0 1-1v-1a5.006 5.006 0 0 0-5-5ZM6.5 9a4.5 4.5 0 1 0 0-9 4.5 4.5 0 0 0 0 9ZM8 10H5a5.006 5.006 0 0 0-5 5v2a1 1 0 0 0 1 1h11a1 1 0 0 0 1-1v-2a5.006 5.006 0 0 0-5-5Z" />
+                    </svg>
+                    <span class="flex-1 ms-3 whitespace-nowrap">Rekap Absen</span>
                 </a>
             </li>
             @endif

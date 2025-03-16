@@ -3,7 +3,7 @@
 <nav class="bg-white border-gray-200 dark:bg-gray-900 fixed top-0 z-50 w-full md:text-lg">
     <div class="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
         <a href="#" class="flex items-center space-x-3 rtl:space-x-reverse">
-            <img src="./assets/images/ekskul.png" class="h-8" />
+            <img src="{{ asset('storage/blogs/logo.png') }}" class="h-8" />
             <span class="self-center text-2xl font-semibold whitespace-nowrap dark:text-white">Sistem Pencatatan Eskul Siswa Digital</span>
         </a>
         <div class="flex items-center md:order-2 space-x-3 md:space-x-0 rtl:space-x-reverse">
@@ -34,11 +34,15 @@
                     @if (Session::has('user'))
                         @if (Auth::user()->role === 'pengurus')
                         <li>
-                            <a href="/pengurusDashboard" class="block px-4 py-2 text-sm text-white">Dashboard</a>
+                            <a href="/admin/pengurus/pengurusDashboard" class="block px-4 py-2 text-sm text-white">Dashboard</a>
                         </li>
                         @elseif (Auth::user()->role === 'pembina')
                         <li>
-                            <a href="/pembinaDashboard" class="block px-4 py-2 text-sm text-white">Dashboard</a>
+                            <a href="/admin/pembina/pembinaDashboard" class="block px-4 py-2 text-sm text-white">Dashboard</a>
+                        </li>
+                        @elseif (Auth::user()->role === 'master')
+                        <li>
+                            <a href="/admin/master/masterDashboard" class="block px-4 py-2 text-sm text-white">Dashboard</a>
                         </li>
                         @endif
                     <li>
@@ -63,7 +67,7 @@
                     </a>
                 </li>
                 <li>
-                    <a href="listEkskul" class="flex items-center gap-2 block py-2 px-3 rounded-sm md:p-0 {{ request()->is('listEkskul') ? 'text-white bg-blue-700 md:bg-transparent md:text-blue-700 md:dark:text-blue-500' : 'text-gray-900 hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white' }}">
+                    <a href="/listEkskul" class="flex items-center gap-2 block py-2 px-3 rounded-sm md:p-0 {{ request()->is('listEkskul') ? 'text-white bg-blue-700 md:bg-transparent md:text-blue-700 md:dark:text-blue-500' : 'text-gray-900 hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white' }}">
                         <svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
                             <path fill-rule="evenodd" d="M4.5 6.75A.75.75 0 0 1 5.25 6h13.5a.75.75 0 0 1 0 1.5H5.25a.75.75 0 0 1-.75-.75ZM4.5 12a.75.75 0 0 1 .75-.75h13.5a.75.75 0 0 1 0 1.5H5.25A.75.75 0 0 1 4.5 12ZM5.25 17.25a.75.75 0 0 0 0 1.5h13.5a.75.75 0 0 0 0-1.5H5.25Z" clip-rule="evenodd" />
                         </svg>
@@ -71,7 +75,7 @@
                     </a>
                 </li>
                 <li>
-                    <a href="semuaBerita" class="flex items-center gap-2 block py-2 px-3 rounded-sm md:p-0 {{ request()->is('semuaBerita') ? 'text-white bg-blue-700 md:bg-transparent md:text-blue-700 md:dark:text-blue-500' : 'text-gray-900 hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white' }}">
+                    <a href="/semuaBerita" class="flex items-center gap-2 block py-2 px-3 rounded-sm md:p-0 {{ request()->is('semuaBerita') ? 'text-white bg-blue-700 md:bg-transparent md:text-blue-700 md:dark:text-blue-500' : 'text-gray-900 hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white' }}">
                         <svg xmlns="http://www.w3.org/2000/svg" class="w-5 items-center" viewBox="0 0 512 512">
                             <path d="M368 415.86V72a24.07 24.07 0 00-24-24H72a24.07 24.07 0 00-24 24v352a40.12 40.12 0 0040 40h328" fill="none" stroke="currentColor" stroke-linejoin="round" stroke-width="16" />
                             <path d="M416 464h0a48 48 0 01-48-48V128h72a24 24 0 0124 24v264a48 48 0 01-48 48z" fill="black" stroke="currentColor" stroke-linejoin="round" stroke-width="16" />

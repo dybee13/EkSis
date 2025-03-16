@@ -173,7 +173,7 @@
             button.addEventListener('click', () => {
                 const ekskulId = button.dataset.id;
 
-                fetch(`/ekskul/${ekskulId}/dataEdit`)
+                fetch(`/admin/master/ekskul/${ekskulId}/dataEdit`)
                     .then(response => response.json())
                     .then(data => {
                         console.log("Data diterima:", data); // Debugging
@@ -278,7 +278,7 @@
 
         // Fungsi untuk membuka modal edit
         function openEditModal(id) {
-            fetch(`/ekskul/${id}/dataEdit`)
+            fetch(`/admin/master/ekskul/${id}/dataEdit`)
                 .then(response => response.json())
                 .then(data => {
                     isEditMode = true;
@@ -290,7 +290,7 @@
                     usersSelect.innerHTML = '';
                     pengurusSelect.innerHTML = '';
 
-                    fetch('/get-users')
+                    fetch('/admin/master/get-users')
                         .then(response => response.json())
                         .then(users => {
                             // Filter user berdasarkan peran mereka
@@ -367,11 +367,11 @@
             console.log("Data yang dikirim ke backend:");
             console.log([...formData.entries()]); // Menampilkan semua data dalam FormData
 
-            let url = "/saveEkskul";
+            let url = "/admin/master/saveEkskul";
             let method = "POST"; // Default untuk tambah ekskul
 
             if (isEditMode) {
-                url = `/updateEkskul/${id}`;
+                url = `/admin/master/updateEkskul/${id}`;
                 formData.append('_method', 'PUT'); // Laravel hanya menerima PUT jika ada _method
             }
 
@@ -406,7 +406,7 @@
         //hapus data
         document.getElementById('btnHapus').addEventListener('click', function() {
             if (confirm("Apakah Anda yakin ingin menghapus ekskul ini?")) {
-                fetch(`/hapusEkskul/${currentEkskulId}`, {
+                fetch(`/master/admin/hapusEkskul/${currentEkskulId}`, {
                         method: "POST", // Laravel hanya menerima DELETE jika ada _method
                         headers: {
                             "X-CSRF-TOKEN": document.querySelector('meta[name="csrf-token"]').content,

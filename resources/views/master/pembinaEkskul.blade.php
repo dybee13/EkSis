@@ -231,7 +231,7 @@
             // Open modal for adding data
             btnTambah.addEventListener('click', () => {
                 modalTitle.innerText = "Tambah Data";
-                dataForm.action = "/savePembina";
+                dataForm.action = "/admin/master/savePembina";
                 dataForm.method = "POST";
                 namaGuru.value = "";
                 nipGuru.value = "";

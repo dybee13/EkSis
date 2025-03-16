@@ -32,7 +32,7 @@
                             <th class="">Nama Pembina :</th>
                         </tr>
                         <tr>
-                            <td class="pl-3">{{ $user->name ?? 'Belum memiliki pembina' }}</td>
+                            <td class="pl-3">{{ $pembina->name ?? 'Belum memiliki pembina' }}</td>
                         </tr>
                         <tr>
                             <th class="">Tanggal Berdiri :</th>
@@ -50,11 +50,10 @@
                             </td>
                         </tr>
                         <tr>
-                            <th class="">Jadwal Latihan :</th>
+                            <th class="">Kategori :</th>
                         </tr>
                         <tr>
-                            <td class="pl-3">
-                                {{ $informasiEkskul->jadwal ?? 'Belum memiliki jadwal' }}
+                            <td class="pl-3">{{ $informasiEkskul->kategori ?? 'Belum memiliki deskripsi' }}
                             </td>
                         </tr>
                     </table>
@@ -108,6 +107,28 @@
                 @endif
             </article>
         </section>
+
+        <section class="w-full flex">
+            <article
+                class="flex-col gap-2 py-2 px-2 pl-2 border border-gray-400 shadow-md rounded-md shadow-gray-400
+              xl:flex-row xl:w-full">
+                @foreach ($jadwal as $item)
+                    <p>Hari: {{ ucfirst($item->hari) }}</p>
+                    <p>Jam Mulai: {{ $item->jam_mulai }}</p>
+                    <p>Jam Selesai: {{ $item->jam_selesai }}</p>
+                @endforeach
+                <button id="btnTambahJadwal"
+                            class="px-4 py-2 bg-blue-500 text-white rounded">Tambah Jadwal</button>
+                    {{-- Button Ubah --}}
+                    <!-- @if ($jadwal)
+                        <button id="btnUbahJadwal"
+                            class="absolute bottom-0 right-0 px-4 py-2 bg-blue-500 text-white rounded">Ubah</button>
+                    @else
+                        <button id="btnTambahJadwal"
+                            class="absolute bottom-0 right-0 px-4 py-2 bg-blue-500 text-white rounded">Tambah Jadwal</button>
+                    @endif -->
+            </article>
+        </section>
         {{-- Modal Form Tambah Informasi --}}
         <div id="dataModalTambahInformasi"
             class="hidden fixed inset-0 overflow-y-scroll bg-black bg-opacity-50 z-0 flex justify-center items-center">
@@ -124,14 +145,62 @@
                     <label class="block text-sm font-medium text-gray-700">Deskripsi</label>
                     <textarea id="deskripsiEskul" name="deskripsi" id="deskripsi"
                         class="w-full mt-1 mb-4 p-2 border border-gray-300 rounded-md"></textarea>
-                    <label class="block text-sm font-medium text-gray-700">Jadwal Latihan</label>
-                    <input type="text" id="jadwalLatihan" name="jadwal" id="jadwal"
-                        class="w-full mt-1 mb-4 p-2 border border-gray-300 rounded-md">
+                    <!-- Keterangan -->
+                    <label class="block text-sm font-medium text-gray-700">Keterangan</label>
+                    <select id="kategori" name="kategori" class="form-select w-full p-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500 mb-4">
+                        <option selected>Pilih Keterangan</option>
+                        <option value="seni">Seni & Musik</option>
+                        <option value="olahraga">Olahraga</option>
+                        <option value="religi">Religi</option>
+                        <option value="akademik">Akademik</option>
+                        <option value="kepemimpinan">Kepemimpinan</option>
+                    </select>
                     <label class="block text-sm font-medium text-gray-700">Foto Eskul</label>
                     <input type="file" id="fotoEskul" name="logo" id="logo"
                         class="w-full mt-1 mb-4 p-2 border border-gray-300 rounded-md">
                     <div class="flex justify-end space-x-2">
                         <button id="btnBatalTambahInformasi" type="button"
+                            class="px-4 py-2 bg-red-600 text-white rounded-md hover:bg-red-700">Batal</button>
+                        <button type="submit" id="btnSimpan"
+                            class="px-4 py-2 bg-green-600 text-white rounded-md hover:bg-green-700">Simpan</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+        {{-- Modal Form Tambah Jadwal --}}
+        <div id="dataModalTambahJadwal"
+            class="hidden fixed inset-0 overflow-y-scroll bg-black bg-opacity-50 z-0 flex justify-center items-center">
+            <form method="POST" id="formJadwal" action="{{ route('saveJadwalEkskul') }}"
+                class="w-11/12 mx-auto md:w-6/12 lg:w-4/12">
+                @csrf
+                <div id="methodField"></div>
+                <div class="bg-white p-6 rounded-lg shadow-lg mt-40 md:mt-36 lg:mt-32 xl:mt-12">
+                    <h2 class="text-lg font-semibold mb-4" id="modalTitle">Tambah Jadwal Eskul</h2>
+                    <input type="number" name="id_ekskul" id="id_ekskul" value="{{ $ekskul->id }}" hidden>
+                    <div class="mb-4">
+                        <label class="block text-gray-700 font-semibold mb-2">Hari</label>
+                        <select name="hari" class="border p-2 rounded w-full">
+                            <option value="senin">Senin</option>
+                            <option value="selasa">Selasa</option>
+                            <option value="rabu">Rabu</option>
+                            <option value="kamis">Kamis</option>
+                            <option value="jumat">Jumat</option>
+                            <option value="sabtu">Sabtu</option>
+                            <option value="minggu">Minggu</option>
+                        </select>
+                    </div>
+
+                    <div class="mb-4">
+                        <label class="block text-gray-700 font-semibold mb-2">Jam Mulai</label>
+                        <input type="time" name="jam_mulai" class="border p-2 rounded w-full" required>
+                    </div>
+
+                    <div class="mb-4">
+                        <label class="block text-gray-700 font-semibold mb-2">Jam Selesai</label>
+                        <input type="time" name="jam_selesai" class="border p-2 rounded w-full" required>
+                    </div>
+                    <div class="flex justify-end space-x-2">
+                        <button id="btnBatalTambahJadwal" type="button"
                             class="px-4 py-2 bg-red-600 text-white rounded-md hover:bg-red-700">Batal</button>
                         <button type="submit" id="btnSimpan"
                             class="px-4 py-2 bg-green-600 text-white rounded-md hover:bg-green-700">Simpan</button>
@@ -208,10 +277,13 @@
             const btnTambahStruktur = document.getElementById("btnTambahStruktur");
             const ModalTambahInformasi = document.getElementById('dataModalTambahInformasi');
             const ModalTambahStruktur = document.getElementById('dataModalTambahStruktur');
+            const ModalTambahJadwal = document.getElementById('dataModalTambahJadwal');
             const btnBatalTambahInformasi = document.getElementById("btnBatalTambahInformasi");
             const btnBatalTambahStruktur = document.getElementById("btnBatalTambahStruktur");
+            const btnBatalTambahJadwal = document.getElementById("btnBatalTambahJadwal");
             const formInformasi = document.getElementById("formInformasi");
             const formStruktur = document.getElementById("formStruktur");
+            const formJadwal = document.getElementById("formJadwal");
 
             // Fungsi untuk membuka modal
             const showModal = (modal) => modal?.classList.remove('hidden');
@@ -222,10 +294,12 @@
             // Event untuk membuka modal
             btnTambahStruktur?.addEventListener('click', () => showModal(ModalTambahStruktur));
             btnTambahInformasi?.addEventListener('click', () => showModal(ModalTambahInformasi));
+            btnTambahJadwal?.addEventListener('click', () => showModal(ModalTambahJadwal));
 
             // Event untuk menutup modal
             btnBatalTambahStruktur?.addEventListener("click", () => hideModal(ModalTambahStruktur));
             btnBatalTambahInformasi?.addEventListener("click", () => hideModal(ModalTambahInformasi));
+            btnBatalTambahJadwal?.addEventListener("click", () => hideModal(ModalTambahJadwal));
 
             // Menutup modal dengan klik di luar modal
             [ModalTambahStruktur, ModalTambahInformasi].forEach(modal => {
@@ -309,6 +383,7 @@
             const tgl_berdiri = document.getElementById('tgl_berdiri');
             const deskripsi = document.getElementById('deskripsi');
             const jadwal = document.getElementById('jadwal');
+            const kategori = document.getElementById('kategori');
             const logo = document.getElementById('logo');
             //input form struktur
             const id_ekskul = document.getElementById('id_ekskul')
@@ -316,7 +391,6 @@
             const waketu_ekskul = document.getElementById('waketu_ekskul');
             const sekretaris = document.getElementById('sekretaris');
             const bendahara = document.getElementById('bendahara');
-
 
             // Open modal for adding data informasi
             formInformasi.addEventListener('click', () => {

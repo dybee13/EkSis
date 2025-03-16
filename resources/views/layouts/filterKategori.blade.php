@@ -18,8 +18,8 @@
 
 <div id="berita-section" class="col-span-full grid grid-cols-4 gap-4 mt-8 p-6">
     @foreach ($blogs as $blog)
-    <a href="/detailBlog/{{ $blog->id }}" class="bg-white shadow-lg rounded-xl overflow-hidden w-80 block">
-    <div class="bg-white shadow-lg rounded-lg overflow-hidden berita-card">
+    <a href="/detailBlog/{{ $blog->id }}" class="bg-white shadow-lg rounded-xl overflow-hidden w-80 block blog-filter">
+    <div class="bg-white shadow-lg rounded-lg overflow-hidden berita-card" data-keterangan="{{ $blog->keterangan }}">
             @if ($blog->blogImages->isNotEmpty())
                 @php
                     $thumbnail = $blog->blogImages()->where('is_thumbnail', true)->first() ?? $blog->blogImages->first();
@@ -119,5 +119,53 @@
                 });
             });
         }
+
+        document.querySelectorAll('.filter-item').forEach(item => {
+    item.addEventListener('click', function() {
+        let selectedKeterangan = this.textContent.trim().toLowerCase();
+        let rows = document.querySelectorAll('.blog-filter');
+        let adaBerita = false; // Menyimpan status apakah ada berita yang ditampilkan
+
+        // Hapus class "is-active" dari semua filter-item
+        document.querySelectorAll('.filter-item').forEach(btn => {
+            btn.classList.remove('bg-green-700', 'text-white');
+            btn.classList.add('bg-gray-200', 'text-green-700');
+        });
+
+        // Tambahkan class "is-active" pada tombol yang diklik
+        this.classList.remove('bg-gray-200', 'text-green-700');
+        this.classList.add('bg-green-700', 'text-white');
+
+        rows.forEach(row => {
+            let blogKeterangan = row.querySelector('.berita-card').getAttribute("data-keterangan").toLowerCase();
+
+            if (selectedKeterangan === "semua" || blogKeterangan === selectedKeterangan) {
+                row.style.display = "block";
+                adaBerita = true;
+            } else {
+                row.style.display = "none";
+            }
+        });
+
+        // Cek apakah ada berita yang tampil, jika tidak tampilkan pesan
+        let noNewsMessage = document.getElementById('no-news-message');
+        if (!adaBerita) {
+            if (!noNewsMessage) {
+                noNewsMessage = document.createElement('p');
+                noNewsMessage.id = 'no-news-message';
+                noNewsMessage.textContent = "Tidak ada berita";
+                noNewsMessage.classList.add("text-gray-600", "text-center", "mt-4", "font-semibold");
+                document.getElementById('berita-section').appendChild(noNewsMessage);
+            }
+        } else {
+            if (noNewsMessage) {
+                noNewsMessage.remove();
+            }
+        }
+    });
+});
+
+
+
     });
 </script>

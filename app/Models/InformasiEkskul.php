@@ -9,7 +9,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 class InformasiEkskul extends Model
 {
     protected $table = 'informasi_ekskuls';
-    protected $fillable = ['id_ekskul', 'id_struktur','tgl_berdiri', 'logo', 'jadwal', 'deskripsi']; 
+    protected $fillable = ['id_ekskul', 'id_struktur','tgl_berdiri', 'logo', 'deskripsi']; 
     use HasFactory;
     
     protected $casts = [

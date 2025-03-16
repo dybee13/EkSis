@@ -11,13 +11,12 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('informasi_ekskuls', function (Blueprint $table) {
+        Schema::create('jadwal_ekskul', function (Blueprint $table) {
             $table->id();
             $table->foreignId('id_ekskul')->constrained('ekskuls')->onDelete('cascade');
-            $table->date('tgl_berdiri')->nullable();
-            $table->text('logo')->default(null)->nullable();
-            $table->text('deskripsi')->nullable();
-            $table->enum('kategori', ['seni', 'olahraga', 'religi', 'akademik', 'kepemimpinan']);
+            $table->enum('hari', ['senin', 'selasa', 'rabu', 'kamis', 'jumat', 'sabtu', 'minggu']);
+            $table->time('jam_mulai')->nullable();
+            $table->time('jam_selesai')->nullable();
             $table->timestamps();
         });
     }
@@ -25,8 +24,10 @@ return new class extends Migration
     /**
      * Reverse the migrations.
      */
+    
     public function down(): void
     {
-        //
+        Schema::dropIfExists('jadwal_ekskul');
     }
+ 
 };

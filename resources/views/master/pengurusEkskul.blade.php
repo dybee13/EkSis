@@ -233,7 +233,7 @@
             // Open modal for adding data
             btnTambah.addEventListener('click', () => {
                 modalTitle.innerText = "Tambah Data";
-                dataForm.action = "/savePengurus";
+                dataForm.action = "/admin/master/savePengurus";
                 dataForm.method = "POST";
                 nama.value = "";
                 nis.value = "";

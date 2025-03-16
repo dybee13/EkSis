@@ -37,6 +37,11 @@ class AnggotaEkskul extends Authenticatable
         return $this->belongsTo(Ekskuls::class, 'id_ekskul');
     }
 
+    public function jadwal()
+    {
+        return $this->hasMany(JadwalEkskul::class, 'id_anggota');
+    }
+
     /**
      * The attributes that should be hidden for serialization.
      *
